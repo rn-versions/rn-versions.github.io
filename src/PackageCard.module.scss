@@ -1,0 +1,15 @@
+@import "bootstrap";
+
+.versionChart {
+  padding: 30px 40px;
+  background-color: $light;
+  min-height: 200px;
+
+  @extend .shadow-sm;
+  @extend .rounded;
+}
+
+.header {
+  margin-bottom: 30px;
+  margin-left: 95px;
+}

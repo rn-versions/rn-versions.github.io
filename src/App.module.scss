@@ -1,0 +1,15 @@
+.navbarLogo {
+  --size: 48px;
+  height: var(--size);
+  width: var(--size);
+  display: inline-block;
+  align-content: center;
+}
+
+.contentContainer {
+  margin-top: 40px;
+}
+
+.chartRow {
+  margin: 20px 0;
+}
