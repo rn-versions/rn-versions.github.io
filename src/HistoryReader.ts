@@ -1,5 +1,3 @@
-import historyFile from "./assets/download_history.json";
-
 import semver from "semver";
 
 /**
@@ -11,6 +9,9 @@ export type PackageIdentifier =
   | "react-native-macos";
 
 type HistoryDatePoint = { date: Date; versions: Record<string, number> };
+type HistoryFile = {
+  [packageName: string]: HistoryDatePoint[];
+};
 
 /**
  * Allows reading from stored download history of an npm package
@@ -20,6 +21,7 @@ export default class HistoryReader {
   private readonly datePointsSorted: HistoryDatePoint[] = [];
 
   constructor(packageName: PackageIdentifier) {
+    const historyFile: HistoryFile = require("./assets/download_history.json");
     const packageHistory = historyFile[packageName];
     for (const datePoint of packageHistory) {
       this.dateToCounts.set(new Date(datePoint.date), datePoint.versions);

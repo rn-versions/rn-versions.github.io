@@ -1,4 +1,4 @@
-name: Update Version Download History
+name: Update Version History
 on:
   workflow_dispatch:
   schedule:
@@ -22,7 +22,7 @@ jobs:
       - run: git config --global user.name "History Update Workflow"
 
       - run: git add --all
-      - run: git commit -m "Update History"
+      - run: git commit -m "Update Version History"
       - run: git push
 
       - run: yarn build
