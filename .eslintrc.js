@@ -1,5 +1,6 @@
 module.exports = {
   extends: ["react-app", "prettier"],
+  ignorePatterns: ["/build"],
   env: {
     node: true,
   },
