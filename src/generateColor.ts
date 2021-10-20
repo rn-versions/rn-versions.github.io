@@ -1,8 +1,8 @@
-import randomSeed from 'random-seed';
+import randomSeed from "random-seed";
 
 /**
  * Generates a color with random distribution, stable for a given identity
- * 
+ *
  * Derived from:
  * - http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
  * - https://github.com/devongovett/color-generator
@@ -19,15 +19,14 @@ export default function generateColor(identity: string): string {
   const h = hue * 360;
   const s = saturation * 100;
   const v = value * 100;
-  
+
   return cssColorFromHsv(h, s, v);
-};
+}
 
-
-function cssColorFromHsv(hue: number, sat: number, val: number){
+function cssColorFromHsv(hue: number, sat: number, val: number) {
   const h = hue;
-  const l = (2 - sat / 100) * val / 2;
-  const s = sat * val / (l < 50 ? l * 2 : 200 - l * 2);
+  const l = ((2 - sat / 100) * val) / 2;
+  const s = (sat * val) / (l < 50 ? l * 2 : 200 - l * 2);
 
   console.log(`hsl(${h}, ${Math.round(s)}%, ${Math.round(l)}%)`);
   return `hsl(${h}, ${Math.round(s)}%, ${Math.round(l)}%)`;

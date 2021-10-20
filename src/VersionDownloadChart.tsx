@@ -1,9 +1,18 @@
-import React from 'react';
+import React from "react";
 
-import generateColor from './generateColor';
-import {AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend} from 'recharts';
+import generateColor from "./generateColor";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 
-export type MeasurementPoint = {date: number, version: string, count: number};
+export type MeasurementPoint = { date: number; version: string; count: number };
 
 export type VersionDownloadChartProps = {
   /**
@@ -16,37 +25,47 @@ export type VersionDownloadChartProps = {
    * showing up
    */
   maxVersionsShown?: number;
-}
+};
 
-const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({datapoints, maxVersionsShown}) => {
-  const dateTimeFormat = new Intl.DateTimeFormat('en-US');
-  const filteredDataPoints = maxVersionsShown ? filterTopN(datapoints, maxVersionsShown) : datapoints;
-  const allVersionsSet = new Set(filteredDataPoints.map(p => p.version));
+const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
+  datapoints,
+  maxVersionsShown,
+}) => {
+  const dateTimeFormat = new Intl.DateTimeFormat("en-US");
+  const filteredDataPoints = maxVersionsShown
+    ? filterTopN(datapoints, maxVersionsShown)
+    : datapoints;
+  const allVersionsSet = new Set(filteredDataPoints.map((p) => p.version));
   const allVersionsArr = [...allVersionsSet];
 
-  const chartAreas = allVersionsArr.map(v => {
+  const chartAreas = allVersionsArr.map((v) => {
     const color = generateColor(v);
 
-    return(
-      <Area 
+    return (
+      <Area
         name={v}
         key={v}
-        dataKey={datapoint => datapoint.versionCounts[v]}
+        dataKey={(datapoint) => datapoint.versionCounts[v]}
         stackId="1"
         stroke={color}
-        fill={color} />
+        fill={color}
+      />
     );
   });
 
-  const data: Array<{date: number, versionCounts: Record<string, number>}> = [];
+  const data: Array<{ date: number; versionCounts: Record<string, number> }> =
+    [];
   for (const version of allVersionsArr) {
     for (const measurePoint of filteredDataPoints) {
       if (measurePoint.version === version) {
-        const datePoint = data.find(p => p.date === measurePoint.date);
+        const datePoint = data.find((p) => p.date === measurePoint.date);
         if (datePoint) {
           datePoint.versionCounts[version] = measurePoint.count;
         } else {
-          data.push({date: measurePoint.date, versionCounts: {[version]: measurePoint.count}})
+          data.push({
+            date: measurePoint.date,
+            versionCounts: { [version]: measurePoint.count },
+          });
         }
       }
     }
@@ -55,31 +74,41 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({datapoints, 
   return (
     <ResponsiveContainer width="100%" height={250}>
       <AreaChart data={data}>
-        <CartesianGrid/>
+        <CartesianGrid />
         <XAxis
           height={40}
-          dataKey="date" 
+          dataKey="date"
           type="number"
           interval="preserveStartEnd"
           tickLine={false}
           scale="time"
-          domain={['dataMin', 'dataMax']}
-          tickFormatter={unixTime => dateTimeFormat.format(new Date(unixTime))}
+          domain={["dataMin", "dataMax"]}
+          tickFormatter={(unixTime) =>
+            dateTimeFormat.format(new Date(unixTime))
+          }
         />
         <YAxis
-          label={{ value: 'Downloads/Week', angle: -90, offset: 15, position: 'insideBottomLeft'}}
+          label={{
+            value: "Downloads/Week",
+            angle: -90,
+            offset: 15,
+            position: "insideBottomLeft",
+          }}
           tickLine={false}
           type="number"
           width={90}
-          tickFormatter={count => count.toLocaleString()}
+          tickFormatter={(count) => count.toLocaleString()}
         />
         <Tooltip
-          labelFormatter={unixTime => dateTimeFormat.format(new Date(unixTime))}
+          labelFormatter={(unixTime) =>
+            dateTimeFormat.format(new Date(unixTime))
+          }
           formatter={(count, _rnVersion, entry) => {
-            const totalCount = (Object.values(entry.payload.versionCounts) as number[]) 
-              .reduce((a, b) => a + b, 0);
+            const totalCount = (
+              Object.values(entry.payload.versionCounts) as number[]
+            ).reduce((a, b) => a + b, 0);
 
-            const pct = Math.round((count as number) / totalCount * 100);
+            const pct = Math.round(((count as number) / totalCount) * 100);
             return `${count.toLocaleString()} (${pct}%)`;
           }}
         />
@@ -88,17 +117,20 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({datapoints, 
       </AreaChart>
     </ResponsiveContainer>
   );
-}
+};
 
-function filterTopN(historyPoints: MeasurementPoint[], n: number): MeasurementPoint[] {
-  const allVersions: Array<{version: string, count: number}>  = [];
+function filterTopN(
+  historyPoints: MeasurementPoint[],
+  n: number
+): MeasurementPoint[] {
+  const allVersions: Array<{ version: string; count: number }> = [];
 
   for (const point of historyPoints) {
-    const existingCount = allVersions.find(v => v.version === point.version);
+    const existingCount = allVersions.find((v) => v.version === point.version);
     if (existingCount) {
       existingCount.count += point.count;
     } else {
-      allVersions.push({version: point.version, count: point.count});
+      allVersions.push({ version: point.version, count: point.count });
     }
   }
 
@@ -109,9 +141,11 @@ function filterTopN(historyPoints: MeasurementPoint[], n: number): MeasurementPo
   const includedVersions = allVersions
     .sort((a, b) => b.count - a.count)
     .slice(0, Math.min(allVersions.length, n))
-    .map(v => v.version);
+    .map((v) => v.version);
 
-  return historyPoints.filter(point => includedVersions.includes(point.version));
+  return historyPoints.filter((point) =>
+    includedVersions.includes(point.version)
+  );
 }
 
 export default VersionDownloadChart;
