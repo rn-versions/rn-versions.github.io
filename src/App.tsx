@@ -40,6 +40,7 @@ function App() {
 
       <Container className={styles.cardContainer}>
         <PackageCard title="React Native" packageName="react-native" />
+        <PackageCard title="React Native Web" packageName="react-native-web" />
         <PackageCard
           title="React Native Windows"
           packageName="react-native-windows"

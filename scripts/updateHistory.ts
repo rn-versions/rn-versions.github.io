@@ -23,7 +23,12 @@ const minDownloadThreshold = 10;
 const maxAssetHistoryEntries = 180;
 
 /** Packages to record */
-const packages = ["react-native", "react-native-windows", "react-native-macos"];
+const packages = [
+  "react-native",
+  "react-native-web",
+  "react-native-windows",
+  "react-native-macos",
+];
 
 /** Timestamp of script start */
 const scriptRunTimestamp = new Date();
