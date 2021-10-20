@@ -28,6 +28,5 @@ function cssColorFromHsv(hue: number, sat: number, val: number) {
   const l = ((2 - sat / 100) * val) / 2;
   const s = (sat * val) / (l < 50 ? l * 2 : 200 - l * 2);
 
-  console.log(`hsl(${h}, ${Math.round(s)}%, ${Math.round(l)}%)`);
   return `hsl(${h}, ${Math.round(s)}%, ${Math.round(l)}%)`;
 }
