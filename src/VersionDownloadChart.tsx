@@ -1,6 +1,8 @@
 import React from "react";
 
 import generateColor from "./generateColor";
+import styles from "./VersionDownloadChart.styles";
+
 import {
   AreaChart,
   Area,
@@ -72,15 +74,14 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   }
 
   return (
-    <ResponsiveContainer width="100%" height={250}>
+    <ResponsiveContainer {...styles.responsiveContainer}>
       <AreaChart data={data}>
-        <CartesianGrid />
+        <CartesianGrid {...styles.grid} />
         <XAxis
-          height={40}
+          {...styles.xAxis}
           dataKey="date"
           type="number"
           interval="preserveStartEnd"
-          tickLine={false}
           scale="time"
           domain={["dataMin", "dataMax"]}
           tickFormatter={(unixTime) =>
@@ -88,18 +89,12 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           }
         />
         <YAxis
-          label={{
-            value: "Downloads/Week",
-            angle: -90,
-            offset: 15,
-            position: "insideBottomLeft",
-          }}
-          tickLine={false}
+          {...styles.yAxis}
           type="number"
-          width={90}
           tickFormatter={(count) => count.toLocaleString()}
         />
         <Tooltip
+          {...styles.tooltip}
           labelFormatter={(unixTime) =>
             dateTimeFormat.format(new Date(unixTime))
           }
@@ -112,7 +107,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
             return `${count.toLocaleString()} (${pct}%)`;
           }}
         />
-        <Legend height={36} />
+        <Legend {...styles.legend} />
         {chartAreas}
       </AreaChart>
     </ResponsiveContainer>

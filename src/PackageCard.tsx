@@ -21,8 +21,11 @@ const PackageCard: React.FC<PackageCardProps> = ({ title, packageName }) => {
   const dataPoints = createDownloadMeasurementPoints(packageName);
 
   return (
-    <div className={styles.versionChart}>
-      <h3 className={styles.header}>{title}</h3>
+    <div className={styles.packageCard}>
+      <div className={styles.header}>
+        <h3 className={styles.title}>{title}</h3>
+        <p className={styles.unit}>(Downloads/Week)</p>
+      </div>
       <VersionDownloadChart datapoints={dataPoints} maxVersionsShown={8} />
     </div>
   );

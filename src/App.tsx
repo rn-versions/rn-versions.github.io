@@ -4,33 +4,11 @@ import reactLogo from "./assets/react-logo.svg";
 import githubLogo from "./assets/github-logo.svg";
 import PackageCard from "./PackageCard";
 
-import {
-  Col,
-  Container,
-  Navbar,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-} from "react-bootstrap";
-import { PackageIdentifier } from "./HistoryReader";
-
-type PackageRowProps = {
-  title: string;
-  packageName: PackageIdentifier;
-};
-
-const PackageRow: React.FC<PackageRowProps> = ({ title, packageName }) => (
-  <Row className={styles.chartRow} key={packageName}>
-    <Col>
-      <PackageCard title={title} packageName={packageName} />
-    </Col>
-  </Row>
-);
+import { Container, Navbar, Nav, NavItem, NavLink } from "react-bootstrap";
 
 function App() {
   return (
-    <div className="App">
+    <div className={styles.app}>
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand>
@@ -60,13 +38,13 @@ function App() {
         </Container>
       </Navbar>
 
-      <Container className={styles.contentContainer}>
-        <PackageRow title="React Native" packageName="react-native" />
-        <PackageRow
+      <Container className={styles.cardContainer}>
+        <PackageCard title="React Native" packageName="react-native" />
+        <PackageCard
           title="React Native Windows"
           packageName="react-native-windows"
         />
-        <PackageRow
+        <PackageCard
           title="React Native macOS"
           packageName="react-native-macos"
         />

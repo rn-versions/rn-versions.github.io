@@ -1,5 +1,9 @@
 @import "bootstrap";
 
+.app {
+  background-color: $gray-100;
+}
+
 .navbarLogo {
   --size: 40px;
   height: var(--size);
@@ -25,10 +29,11 @@
   align-content: center;
 }
 
-.contentContainer {
-  margin-top: 40px;
-}
-
-.chartRow {
-  margin: 20px 0;
+.cardContainer {
+  margin-top: 20px;
+  gap: 20px;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

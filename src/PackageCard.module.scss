@@ -1,15 +1,26 @@
 @import "bootstrap";
 
-.versionChart {
+.packageCard {
   padding: 20px 20px;
-  background-color: $light;
+  background-color: $gray-200;
   min-height: 200px;
+  outline: 1px solid $gray-300;
+  width: 100%;
+  max-width: 1000px;
 
   @extend .shadow-sm;
   @extend .rounded;
 }
 
 .header {
-  margin-bottom: 30px;
-  margin-left: 95px;
+  text-align: center;
+}
+
+.title {
+  margin-bottom: 0;
+}
+
+.unit {
+  margin-bottom: 5;
+  @extend .fs-6;
 }
