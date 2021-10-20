@@ -16,7 +16,8 @@ jobs:
 
       - run: yarn install
 
-      - run: yarn update-history        
+      - run: yarn update-history
+        continue-on-error: true        
 
       - run: git config --global user.email "92769335+rn-versions@users.noreply.github.com"
       - run: git config --global user.name "History Update Workflow"
