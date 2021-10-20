@@ -20,7 +20,7 @@ export default class HistoryReader {
   private readonly dateToCounts: Map<Date, Record<string, number>> = new Map();
   private readonly datePointsSorted: HistoryDatePoint[] = [];
 
-  constructor(packageName: PackageIdentifier) {
+  constructor(private readonly packageName: PackageIdentifier) {
     const historyFile: HistoryFile = require("./assets/download_history.json");
     const packageHistory = historyFile[packageName];
     for (const datePoint of packageHistory) {
@@ -44,7 +44,7 @@ export default class HistoryReader {
       const combinedVersions: Record<string, number> = {};
 
       for (const [version, count] of Object.entries(datePoint.versions)) {
-        if (!isOfficialVersion(version)) {
+        if (!this.isOfficialVersion(version)) {
           continue;
         }
 
@@ -62,10 +62,19 @@ export default class HistoryReader {
       };
     });
   }
-}
 
-function isOfficialVersion(rawVersion: string): boolean {
-  return rawVersion !== "1.0.0" && semver.satisfies(rawVersion, ">= 0.63.0");
+  private isOfficialVersion(rawVersion: string): boolean {
+    switch (this.packageName) {
+      case "react-native":
+        return semver.satisfies(rawVersion, ">= 0.50.0");
+      case "react-native-windows":
+        return (
+          semver.satisfies(rawVersion, ">= 0.63.0") && rawVersion !== "1.0.0"
+        );
+      case "react-native-macos":
+        return semver.satisfies(rawVersion, ">= 0.62.0");
+    }
+  }
 }
 
 function sortedVersionCount(
