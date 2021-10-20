@@ -8,7 +8,8 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "update-history": "ts-node --transpile-only ./scripts/updateHistory.ts"
   },
   "dependencies": {
     "node-sass": "5.0.0",
@@ -32,7 +33,10 @@
     ]
   },
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/jsdom": "^16.2.13",
     "@types/node": "^12.0.0",
+    "@types/pretty": "^2.0.0",
     "@types/random-seed": "^0.3.3",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
@@ -40,8 +44,11 @@
     "@types/semver": "^7.3.8",
     "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^4.0.0",
+    "axios": "^0.23.0",
+    "axios-retry": "^3.2.3",
     "babel-eslint": "^10.0.0",
     "bootstrap": "5.1.1",
+    "chalk": "^4.1.2",
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react-app": "^6.0.0",
@@ -51,8 +58,11 @@
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.8",
+    "jsdom": "^18.0.0",
     "prettier": "^2.0.0",
+    "pretty": "^2.0.0",
     "react-scripts": "4.0.3",
+    "ts-node": "^10.3.0",
     "typescript": "^4.1.2"
   }
 }

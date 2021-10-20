@@ -4,9 +4,6 @@ module.exports = {
   env: {
     node: true,
   },
-  parserOptions: {
-    project: "./tsconfig.json",
-  },
   plugins: ["prettier"],
   rules: {
     "prettier/prettier": "error",

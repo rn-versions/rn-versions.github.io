@@ -1,4 +1,4 @@
-import historyFile from "./assets/weekly_downloads.json";
+import historyFile from "./assets/download_history.json";
 
 import semver from "semver";
 
@@ -60,5 +60,5 @@ export default class HistoryReader {
 }
 
 function isOfficialVersion(rawVersion: string): boolean {
-  return semver.satisfies(rawVersion, ">= 0.63.0");
+  return rawVersion !== "1.0.0" && semver.satisfies(rawVersion, ">= 0.63.0");
 }

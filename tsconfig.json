@@ -3,8 +3,7 @@
     "target": "es2015",
     "lib": [
       "dom",
-      "dom.iterable",
-      "esnext"
+      "dom.iterable"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -20,7 +19,13 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "module": "commonjs",
+  },
   "include": [
-    "src"
+    "src",
+    "scripts"
   ]
 }
