@@ -1,4 +1,4 @@
-name: update-history
+name: Update Version Download History
 on:
   workflow_dispatch:
   schedule:
