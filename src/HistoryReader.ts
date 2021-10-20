@@ -26,7 +26,10 @@ export default class HistoryReader {
     }
 
     this.datePointsSorted = [...this.dateToCounts.entries()]
-      .map((entry) => ({ date: entry[0], versions: entry[1] }))
+      .map((entry) => ({
+        date: entry[0],
+        versions: sortedVersionCount(entry[1]),
+      }))
       .sort((a, b) => a.date.getTime() - b.date.getTime());
   }
 
@@ -61,4 +64,18 @@ export default class HistoryReader {
 
 function isOfficialVersion(rawVersion: string): boolean {
   return rawVersion !== "1.0.0" && semver.satisfies(rawVersion, ">= 0.63.0");
+}
+
+function sortedVersionCount(
+  versionsCounts: Record<string, number>
+): Record<string, number> {
+  const versions = Object.keys(versionsCounts);
+  const sortedVersions = versions.sort(semver.compare);
+
+  const ret: Record<string, number> = {};
+  for (const v of sortedVersions) {
+    ret[v] = versionsCounts[v];
+  }
+
+  return ret;
 }
