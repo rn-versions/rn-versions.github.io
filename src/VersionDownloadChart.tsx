@@ -45,6 +45,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
     return (
       <Area
+        {...styles.area}
         name={v}
         key={v}
         dataKey={(datapoint) => datapoint.versionCounts[v]}

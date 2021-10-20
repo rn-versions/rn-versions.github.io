@@ -1,15 +1,27 @@
 @import "bootstrap";
 
 .packageCard {
+  @extend .rounded;
+  @extend .shadow-sm;
+
   padding: 20px 20px;
   background-color: $gray-200;
   min-height: 200px;
   border: 1px solid $gray-300;
   width: 100%;
   max-width: 1000px;
+}
 
-  @extend .shadow-sm;
-  @extend .rounded;
+.opacityTransition {
+  transition: opacity ease-in-out 150ms;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.visible {
+  opacity: 100%;
 }
 
 .header {
@@ -21,6 +33,6 @@
 }
 
 .unit {
-  margin-bottom: 5;
   @extend .fs-6;
+  margin-bottom: 5;
 }

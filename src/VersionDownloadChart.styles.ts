@@ -1,4 +1,5 @@
 import type {
+  AreaProps,
   CartesianGridProps,
   LegendProps,
   ResponsiveContainerProps,
@@ -10,6 +11,7 @@ import type {
 const cardBackgroundColor = "#f8f9fa";
 
 export type VersionDownloadChartStyle = {
+  area: Partial<AreaProps>;
   responsiveContainer: Partial<ResponsiveContainerProps>;
   grid: Partial<CartesianGridProps>;
   xAxis: Partial<XAxisProps>;
@@ -19,6 +21,9 @@ export type VersionDownloadChartStyle = {
 };
 
 const styles: VersionDownloadChartStyle = {
+  area: {
+    isAnimationActive: false,
+  },
   responsiveContainer: {
     width: "100%",
     height: 250,
