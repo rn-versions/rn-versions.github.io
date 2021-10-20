@@ -12,8 +12,25 @@
   <title>React Native Version Share</title>
 </head>
 
-<body style="background-color: #f8f9fa; overflow-x: hidden;">
-  <noscript>You need to enable JavaScript to run this app.</noscript>
+<!-- Styles for showing a pre-render silhouette of the app -->
+<style>
+  body {
+    background-color: #f8f9fa;
+    overflow-x: hidden;
+  }
+
+  .navbar-silhouette {
+    background-color: #212529;
+    height: 66px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+</style>
+
+<body>
+  <div class="navbar-silhouette"></div>
   <div id="root"></div>
 </body>
 
