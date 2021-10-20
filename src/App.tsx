@@ -1,9 +1,10 @@
 import React from "react";
 import styles from "./App.module.scss";
-import logo from "./assets/logo.svg";
+import reactLogo from "./assets/react-logo.svg";
+import githubLogo from "./assets/github-logo.svg";
 import PackageCard from "./PackageCard";
 
-import { Col, Container, Navbar, Row } from "react-bootstrap";
+import { Col, Container, Navbar, Nav, Row } from "react-bootstrap";
 import { PackageIdentifier } from "./HistoryReader";
 
 type PackageRowProps = {
@@ -25,9 +26,25 @@ function App() {
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand>
-            <img src={logo} alt="logo" className={styles.navbarLogo} /> React
-            Native Version Share
+            <img
+              src={reactLogo}
+              alt="React Logo"
+              className={styles.navbarLogo}
+            />{" "}
+            React Native Version Share
           </Navbar.Brand>
+          <Nav />
+          <a
+            href="https://github.com/rn-versions/rn-versions.github.io"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              src={githubLogo}
+              alt="GitHub Logo"
+              className={styles.githubLogo}
+            />
+          </a>
         </Container>
       </Navbar>
 

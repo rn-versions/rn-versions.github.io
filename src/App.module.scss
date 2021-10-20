@@ -6,6 +6,15 @@
   align-content: center;
 }
 
+.githubLogo {
+  --size: 40px;
+  height: var(--size);
+  width: var(--size);
+  filter: \invert(100%);
+  display: inline-block;
+  align-content: center;
+}
+
 .contentContainer {
   margin-top: 40px;
 }
