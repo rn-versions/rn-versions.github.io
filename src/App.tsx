@@ -4,7 +4,15 @@ import reactLogo from "./assets/react-logo.svg";
 import githubLogo from "./assets/github-logo.svg";
 import PackageCard from "./PackageCard";
 
-import { Col, Container, Navbar, Nav, Row } from "react-bootstrap";
+import {
+  Col,
+  Container,
+  Navbar,
+  Nav,
+  NavItem,
+  NavLink,
+  Row,
+} from "react-bootstrap";
 import { PackageIdentifier } from "./HistoryReader";
 
 type PackageRowProps = {
@@ -33,18 +41,22 @@ function App() {
             />{" "}
             React Native Version Share
           </Navbar.Brand>
-          <Nav />
-          <a
-            href="https://github.com/rn-versions/rn-versions.github.io"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <img
-              src={githubLogo}
-              alt="GitHub Logo"
-              className={styles.githubLogo}
-            />
-          </a>
+          <Nav>
+            <NavItem>
+              <NavLink
+                href="https://github.com/rn-versions/rn-versions.github.io"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className={styles.visitGithub}>Contribute on GitHub</span>
+                <img
+                  src={githubLogo}
+                  alt="GitHub Logo"
+                  className={styles.githubLogo}
+                />
+              </NavLink>
+            </NavItem>
+          </Nav>
         </Container>
       </Navbar>
 

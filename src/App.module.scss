@@ -1,13 +1,19 @@
 .navbarLogo {
-  --size: 48px;
+  --size: 40px;
   height: var(--size);
   width: var(--size);
   display: inline-block;
   align-content: center;
 }
 
+.visitGithub {
+  padding-right: 20px;
+  vertical-align: middle;
+  align-content: center;
+}
+
 .githubLogo {
-  --size: 40px;
+  --size: 30px;
   height: var(--size);
   width: var(--size);
   filter: \invert(100%);
