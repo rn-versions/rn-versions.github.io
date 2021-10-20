@@ -4,7 +4,7 @@ on:
   schedule:
     - cron:  '0 3 * * *' #  3AM UTC (8PM PST)
 jobs:
- build-and-deploy:
+ update-history:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,6 +15,7 @@ jobs:
           node-version: '14'
 
       - run: yarn install
+
       - run: yarn update-history        
 
       - run: git config --global user.email "92769335+rn-versions@users.noreply.github.com"
@@ -23,3 +24,10 @@ jobs:
       - run: git add --all
       - run: git commit -m "Update History"
       - run: git push
+
+      - run: yarn build
+
+      - uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: gh-pages
+          folder: build
