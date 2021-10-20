@@ -1,0 +1,25 @@
+name: update-history
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '0 3 * * *' #  3AM UTC (8PM PST)
+jobs:
+ build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+
+      - run: yarn install
+      - run: yarn update-history        
+
+      - run: git config --global user.email "92769335+rn-versions@users.noreply.github.com"
+      - run: git config --global user.name "History Update Workflow"
+
+      - run: git add --all
+      - run: git commit -m "Update History"
+      - run: git push
