@@ -4,7 +4,6 @@
   @extend .rounded;
   @extend .shadow-sm;
 
-  padding: 20px 20px;
   background-color: $gray-200;
   min-height: 200px;
   border: 1px solid $gray-300;
@@ -13,6 +12,16 @@
   flex-basis: 600px;
   min-width: 320px;
   max-width: 1000px;
+}
+
+@include media-breakpoint-up(sm) {
+  padding: 20px 20px;
+}
+
+@include media-breakpoint-down(sm) {
+  .packageCard {
+    padding: 10px 10px 30px 0;
+  }
 }
 
 .opacityTransition {
