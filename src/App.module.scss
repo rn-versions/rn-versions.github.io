@@ -32,7 +32,8 @@
 .cardContainer {
   padding: 20px 0;
   gap: 20px;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   display: flex;
   align-items: center;
   justify-content: center;
