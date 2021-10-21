@@ -5,7 +5,7 @@ import {
   PackageDescription,
 } from "./PackageDescription";
 
-type HistoryDatePoint = { date: Date; versions: Record<string, number> };
+export type HistoryDatePoint = { date: Date; versions: Record<string, number> };
 type HistoryFile = {
   [packageName: string]: HistoryDatePoint[] | undefined;
 };
@@ -35,22 +35,6 @@ export default class HistoryReader {
       .sort((a, b) => a.date.getTime() - b.date.getTime());
   }
 
-  getPatchDatePoints(): HistoryDatePoint[] {
-    return this.datePointsSorted.map((datePoint) => {
-      const versions: Record<string, number> = {};
-      for (const [version, count] of Object.entries(datePoint.versions)) {
-        if (this.packageDescripton.defaultFilter(version)) {
-          versions[version] = count;
-        }
-      }
-
-      return {
-        date: datePoint.date,
-        versions,
-      };
-    });
-  }
-
   getMajorDatePoints(): HistoryDatePoint[] {
     return this.datePointsSorted.map((datePoint) => {
       const accum: Record<string, number> = {};
@@ -63,6 +47,44 @@ export default class HistoryReader {
       return {
         date: datePoint.date,
         versions: accum,
+      };
+    });
+  }
+
+  getPatchDatePoints(): HistoryDatePoint[] {
+    return this.datePointsSorted.map((datePoint) => {
+      const versions: Record<string, number> = {};
+      for (const [version, count] of Object.entries(datePoint.versions)) {
+        if (
+          this.packageDescripton.defaultFilter(version) &&
+          !semver.prerelease(version)
+        ) {
+          versions[version] = count;
+        }
+      }
+
+      return {
+        date: datePoint.date,
+        versions,
+      };
+    });
+  }
+
+  getPrereleaseDataPoints(): HistoryDatePoint[] {
+    return this.datePointsSorted.map((datePoint) => {
+      const versions: Record<string, number> = {};
+      for (const [version, count] of Object.entries(datePoint.versions)) {
+        if (
+          this.packageDescripton.defaultFilter(version) &&
+          semver.prerelease(version)
+        ) {
+          versions[version] = count;
+        }
+      }
+
+      return {
+        date: datePoint.date,
+        versions,
       };
     });
   }

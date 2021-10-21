@@ -13,8 +13,10 @@ import {
   Button,
 } from "react-bootstrap";
 
+type VersionFilter = "major" | "patch" | "prerelease";
+
 function App() {
-  const [showPatch, setshowPatch] = useState<boolean>(false);
+  const [versionFilter, setVersionFilter] = useState<VersionFilter>("major");
 
   return (
     <div className={styles.app}>
@@ -37,18 +39,26 @@ function App() {
                   <Button
                     className={styles.navToggleButton}
                     variant="outline-secondary"
-                    active={!showPatch}
-                    onClick={() => setshowPatch(false)}
+                    active={versionFilter === "major"}
+                    onClick={() => setVersionFilter("major")}
                   >
-                    Major versions
+                    Major
                   </Button>
                   <Button
                     className={styles.navToggleButton}
                     variant="outline-secondary"
-                    active={showPatch}
-                    onClick={() => setshowPatch(true)}
+                    active={versionFilter === "patch"}
+                    onClick={() => setVersionFilter("patch")}
                   >
-                    Patch versions
+                    Patch
+                  </Button>
+                  <Button
+                    className={styles.navToggleButton}
+                    variant="outline-secondary"
+                    active={versionFilter === "prerelease"}
+                    onClick={() => setVersionFilter("prerelease")}
+                  >
+                    Prerelease
                   </Button>
                 </ButtonGroup>
               </Nav.Item>
@@ -81,27 +91,27 @@ function App() {
       <Container className={styles.cardContainer}>
         <PackageCard
           identifier={"react-native"}
-          showPatchVersions={showPatch}
+          versionFilter={versionFilter}
         />
         <PackageCard
           identifier={"@types/react-native"}
-          showPatchVersions={showPatch}
+          versionFilter={versionFilter}
         />
         <PackageCard
           identifier={"react-native-web"}
-          showPatchVersions={showPatch}
+          versionFilter={versionFilter}
         />
         <PackageCard
           identifier={"react-native-windows"}
-          showPatchVersions={showPatch}
+          versionFilter={versionFilter}
         />
         <PackageCard
           identifier={"react-native-macos"}
-          showPatchVersions={showPatch}
+          versionFilter={versionFilter}
         />
         <PackageCard
           identifier={"react-native-reanimated"}
-          showPatchVersions={showPatch}
+          versionFilter={versionFilter}
         />
       </Container>
     </div>

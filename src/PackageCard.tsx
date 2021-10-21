@@ -8,27 +8,36 @@ import { PackageIdentifier, packages } from "./PackageDescription";
 
 export type PackageCardProps = {
   identifier: PackageIdentifier;
-  showPatchVersions?: boolean;
+  versionFilter?: "major" | "patch" | "prerelease";
 };
 
 const MemoVersionDownloadChart: React.FC<PackageCardProps> = React.memo(
-  ({ identifier, showPatchVersions }) => {
-    if (showPatchVersions) {
-      return (
-        <VersionDownloadChart
-          identifier={identifier}
-          maxVersionsShown={5}
-          onlyMajorVersions={false}
-        />
-      );
-    } else {
-      return (
-        <VersionDownloadChart
-          identifier={identifier}
-          maxVersionsShown={8}
-          onlyMajorVersions={true}
-        />
-      );
+  ({ identifier, versionFilter }) => {
+    switch (versionFilter || "major") {
+      case "major":
+        return (
+          <VersionDownloadChart
+            identifier={identifier}
+            maxVersionsShown={8}
+            versionFilter={versionFilter}
+          />
+        );
+      case "patch":
+        return (
+          <VersionDownloadChart
+            identifier={identifier}
+            maxVersionsShown={5}
+            versionFilter={versionFilter}
+          />
+        );
+      case "prerelease":
+        return (
+          <VersionDownloadChart
+            identifier={identifier}
+            versionFilter={versionFilter}
+            maxVersionsShown={4}
+          />
+        );
     }
   }
 );
@@ -37,7 +46,7 @@ type RenderPhase = "initial" | "charts-rendering" | "charts-visible";
 
 const PackageCard: React.FC<PackageCardProps> = ({
   identifier,
-  showPatchVersions,
+  versionFilter,
 }) => {
   const [renderPhase, setRenderPhase] = useState<RenderPhase>("initial");
 
@@ -75,7 +84,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
         <div className={`${styles.opacityTransition} ${chartVisibilityClass}`}>
           <MemoVersionDownloadChart
             identifier={identifier}
-            showPatchVersions={showPatchVersions}
+            versionFilter={versionFilter}
           />
         </div>
       ) : (

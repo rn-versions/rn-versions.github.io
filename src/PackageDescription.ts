@@ -33,30 +33,43 @@ export const packages = {
   },
   "react-native": {
     friendlyName: "React Native",
-    defaultFilter: (version: string) => semver.satisfies(version, ">= 0.50.0"),
+    defaultFilter: (version: string) =>
+      semver.satisfies(version, ">= 0.50.0 || < 0.0.0", {
+        includePrerelease: true,
+      }),
     partitionFunction: paritionByMinor,
   },
   "react-native-macos": {
     friendlyName: "React Native macOS",
-    defaultFilter: (version: string) => semver.satisfies(version, ">= 0.62.0"),
+    defaultFilter: (version: string) =>
+      semver.satisfies(version, ">= 0.62.0 || < 0.0.0", {
+        includePrerelease: true,
+      }),
     partitionFunction: paritionByMinor,
   },
   "react-native-reanimated": {
     packageName: "react-native-reanimated",
     friendlyName: "React Native Reanimated",
-    defaultFilter: (version: string) => semver.satisfies(version, ">= 2.0.0"),
+    defaultFilter: (version: string) =>
+      semver.satisfies(version, ">= 2.0.0", {
+        includePrerelease: true,
+      }),
     partitionFunction: paritionByMinor,
   },
   "react-native-web": {
     friendlyName: "React Native Web",
     defaultFilter: (version: string) =>
-      semver.satisfies(version, ">= 0.11.0") && version !== "1.0.0",
+      semver.satisfies(version, ">= 0.11.0 || < 0.0.0", {
+        includePrerelease: true,
+      }) && version !== "1.0.0",
     partitionFunction: paritionByMinor,
   },
   "react-native-windows": {
     friendlyName: "React Native Windows",
     defaultFilter: (version: string) =>
-      semver.satisfies(version, ">= 0.63.0") && version !== "1.0.0",
+      semver.satisfies(version, ">= 0.63.0 || < 0.0.0", {
+        includePrerelease: true,
+      }) && version !== "1.0.0",
     partitionFunction: paritionByMinor,
   },
 };

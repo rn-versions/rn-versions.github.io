@@ -13,7 +13,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import HistoryReader from "./HistoryReader";
+import HistoryReader, { HistoryDatePoint } from "./HistoryReader";
 import { PackageIdentifier } from "./PackageDescription";
 
 export type MeasurementPoint = { date: number; version: string; count: number };
@@ -31,19 +31,31 @@ export type VersionDownloadChartProps = {
   maxVersionsShown?: number;
 
   /**
-   * Whether to show just maor versions. Defaults to true.
+   * Whether to show the legend (defaults to true)
    */
-  onlyMajorVersions?: boolean;
+  showLegend?: boolean;
+
+  /**
+   * Whether to show the tooltip (defaults to true)
+   */
+  showTooltip?: boolean;
+
+  /**
+   * Which versions to show in the graph. Defaults to only major versions
+   */
+  versionFilter?: "major" | "patch" | "prerelease";
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   identifier,
   maxVersionsShown,
-  onlyMajorVersions,
+  versionFilter,
+  showLegend,
+  showTooltip,
 }) => {
   const datapoints = createDownloadMeasurementPoints(
     identifier,
-    onlyMajorVersions
+    versionFilter || "major"
   );
   const dateTimeFormat = new Intl.DateTimeFormat("en-US");
   const filteredDataPoints = maxVersionsShown
@@ -89,7 +101,6 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   return (
     <ResponsiveContainer {...styles.responsiveContainer}>
       <AreaChart data={data}>
-        <CartesianGrid {...styles.grid} />
         <XAxis
           {...styles.xAxis}
           dataKey="date"
@@ -106,21 +117,28 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           type="number"
           tickFormatter={(count) => count.toLocaleString()}
         />
-        <Tooltip
-          {...styles.tooltip}
-          labelFormatter={(unixTime) =>
-            dateTimeFormat.format(new Date(unixTime))
-          }
-          formatter={(count, _rnVersion, entry) => {
-            const totalCount = (
-              Object.values(entry.payload.versionCounts) as number[]
-            ).reduce((a, b) => a + b, 0);
 
-            const pct = Math.round(((count as number) / totalCount) * 100);
-            return `${count.toLocaleString()} (${pct}%)`;
-          }}
-        />
-        <Legend {...styles.legend} />
+        {datapoints.length !== 0 && <CartesianGrid {...styles.grid} />}
+
+        {showTooltip !== false && (
+          <Tooltip
+            {...styles.tooltip}
+            labelFormatter={(unixTime) =>
+              dateTimeFormat.format(new Date(unixTime))
+            }
+            formatter={(count, _rnVersion, entry) => {
+              const totalCount = (
+                Object.values(entry.payload.versionCounts) as number[]
+              ).reduce((a, b) => a + b, 0);
+
+              const pct = Math.round(((count as number) / totalCount) * 100);
+              return `${count.toLocaleString()} (${pct}%)`;
+            }}
+          />
+        )}
+
+        {showLegend !== false && <Legend {...styles.legend} />}
+
         {chartAreas}
       </AreaChart>
     </ResponsiveContainer>
@@ -132,14 +150,22 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
  */
 function createDownloadMeasurementPoints(
   identifier: PackageIdentifier,
-  onlyMajorVersions: boolean | undefined
+  versionFilter: "major" | "patch" | "prerelease"
 ): MeasurementPoint[] {
   const historyReader = new HistoryReader(identifier);
 
-  const historyPoints =
-    onlyMajorVersions === false
-      ? historyReader.getPatchDatePoints()
-      : historyReader.getMajorDatePoints();
+  let historyPoints: HistoryDatePoint[] = [];
+  switch (versionFilter) {
+    case "major":
+      historyPoints = historyReader.getMajorDatePoints();
+      break;
+    case "patch":
+      historyPoints = historyReader.getPatchDatePoints();
+      break;
+    case "prerelease":
+      historyPoints = historyReader.getPrereleaseDataPoints();
+      break;
+  }
 
   const dataPoints: MeasurementPoint[] = [];
 
