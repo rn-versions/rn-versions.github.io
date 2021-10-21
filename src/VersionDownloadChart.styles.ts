@@ -37,7 +37,7 @@ const styles: VersionDownloadChartStyle = {
     tickMargin: 10,
   },
   yAxis: {
-    width: 72,
+    width: 80,
     tickLine: false,
     tickMargin: 10,
     tickSize: 0,
