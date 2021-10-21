@@ -11,7 +11,7 @@ export type PackageIdentifier =
 
 type HistoryDatePoint = { date: Date; versions: Record<string, number> };
 type HistoryFile = {
-  [packageName: string]: HistoryDatePoint[];
+  [packageName: string]: HistoryDatePoint[] | undefined;
 };
 
 /**
@@ -24,7 +24,7 @@ export default class HistoryReader {
   constructor(private readonly packageName: PackageIdentifier) {
     const historyFile: HistoryFile = require("./assets/download_history.json");
     const packageHistory = historyFile[packageName];
-    for (const datePoint of packageHistory) {
+    for (const datePoint of packageHistory || []) {
       this.dateToCounts.set(new Date(datePoint.date), datePoint.versions);
     }
 
