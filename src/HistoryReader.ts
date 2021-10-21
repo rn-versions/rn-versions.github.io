@@ -5,6 +5,7 @@ import semver from "semver";
  */
 export type PackageIdentifier =
   | "react-native"
+  | "react-native-web"
   | "react-native-windows"
   | "react-native-macos";
 
@@ -67,6 +68,10 @@ export default class HistoryReader {
     switch (this.packageName) {
       case "react-native":
         return semver.satisfies(rawVersion, ">= 0.50.0");
+      case "react-native-web":
+        return (
+          semver.satisfies(rawVersion, ">= 0.11.0") && rawVersion !== "1.0.0"
+        );
       case "react-native-windows":
         return (
           semver.satisfies(rawVersion, ">= 0.63.0") && rawVersion !== "1.0.0"
