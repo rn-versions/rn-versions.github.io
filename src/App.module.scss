@@ -5,20 +5,40 @@
   min-height: 100vh;
 }
 
+.navbarBranc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-right: 20px;
+}
+
+.navbarContainer {
+  gap: 10px;
+}
+
+.noGrow {
+  flex-grow: 0 !important;
+}
+
 .navbarLogo {
   --size: 40px;
   height: var(--size);
   width: var(--size);
   display: inline-block;
-  align-content: center;
+}
+
+.leftNav {
+  flex-grow: 1;
+}
+
+.navToggleButton {
+  @extend .btn-sm;
 }
 
 .visitGithub {
   padding-right: 20px;
   vertical-align: middle;
   align-content: center;
-  display: none;
-  @extend .d-md-inline-block;
 }
 
 .githubLogo {

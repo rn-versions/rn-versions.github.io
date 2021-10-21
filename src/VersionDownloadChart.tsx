@@ -13,26 +13,38 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import HistoryReader from "./HistoryReader";
+import { PackageIdentifier } from "./PackageDescription";
 
 export type MeasurementPoint = { date: number; version: string; count: number };
 
 export type VersionDownloadChartProps = {
   /**
-   * All point in time measurements of a download count of a given version
+   * Which package to show data for
    */
-  datapoints: MeasurementPoint[];
+  identifier: PackageIdentifier;
 
   /**
    * Number of versions shown at once, with the most popular versions always
    * showing up
    */
   maxVersionsShown?: number;
+
+  /**
+   * Whether to show just maor versions. Defaults to true.
+   */
+  onlyMajorVersions?: boolean;
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
-  datapoints,
+  identifier,
   maxVersionsShown,
+  onlyMajorVersions,
 }) => {
+  const datapoints = createDownloadMeasurementPoints(
+    identifier,
+    onlyMajorVersions
+  );
   const dateTimeFormat = new Intl.DateTimeFormat("en-US");
   const filteredDataPoints = maxVersionsShown
     ? filterTopN(datapoints, maxVersionsShown)
@@ -114,6 +126,31 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     </ResponsiveContainer>
   );
 };
+
+/**
+ * Create the point representation of downloads to show
+ */
+function createDownloadMeasurementPoints(
+  identifier: PackageIdentifier,
+  onlyMajorVersions: boolean | undefined
+): MeasurementPoint[] {
+  const historyReader = new HistoryReader(identifier);
+
+  const historyPoints =
+    onlyMajorVersions === false
+      ? historyReader.getPatchDatePoints()
+      : historyReader.getMajorDatePoints();
+
+  const dataPoints: MeasurementPoint[] = [];
+
+  for (const datePoint of historyPoints) {
+    for (const [version, count] of Object.entries(datePoint.versions)) {
+      dataPoints.push({ date: datePoint.date.getTime(), version, count });
+    }
+  }
+
+  return dataPoints;
+}
 
 function filterTopN(
   historyPoints: MeasurementPoint[],

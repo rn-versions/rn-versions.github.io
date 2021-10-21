@@ -35,11 +35,23 @@ export default class HistoryReader {
       .sort((a, b) => a.date.getTime() - b.date.getTime());
   }
 
-  getRawDatePoints(): HistoryDatePoint[] {
-    return [...this.datePointsSorted];
+  getPatchDatePoints(): HistoryDatePoint[] {
+    return this.datePointsSorted.map((datePoint) => {
+      const versions: Record<string, number> = {};
+      for (const [version, count] of Object.entries(datePoint.versions)) {
+        if (this.packageDescripton.defaultFilter(version)) {
+          versions[version] = count;
+        }
+      }
+
+      return {
+        date: datePoint.date,
+        versions,
+      };
+    });
   }
 
-  getSimplifiedDatePoints(): HistoryDatePoint[] {
+  getMajorDatePoints(): HistoryDatePoint[] {
     return this.datePointsSorted.map((datePoint) => {
       const accum: Record<string, number> = {};
       for (const [version, count] of Object.entries(datePoint.versions)) {
