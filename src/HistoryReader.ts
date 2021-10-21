@@ -1,13 +1,5 @@
 import semver from "semver";
-
-/**
- * Supported packages to render
- */
-export type PackageIdentifier =
-  | "react-native"
-  | "react-native-web"
-  | "react-native-windows"
-  | "react-native-macos";
+import { packages, PackageIdentifier } from "./PackageDescription";
 
 type HistoryDatePoint = { date: Date; versions: Record<string, number> };
 type HistoryFile = {
@@ -21,9 +13,9 @@ export default class HistoryReader {
   private readonly dateToCounts: Map<Date, Record<string, number>> = new Map();
   private readonly datePointsSorted: HistoryDatePoint[] = [];
 
-  constructor(private readonly packageName: PackageIdentifier) {
+  constructor(private readonly packageIdentifier: PackageIdentifier) {
     const historyFile: HistoryFile = require("./assets/download_history.json");
-    const packageHistory = historyFile[packageName];
+    const packageHistory = historyFile[packageIdentifier];
     for (const datePoint of packageHistory || []) {
       this.dateToCounts.set(new Date(datePoint.date), datePoint.versions);
     }
@@ -40,12 +32,12 @@ export default class HistoryReader {
     return [...this.datePointsSorted];
   }
 
-  getMajorVersionDatePoints(): HistoryDatePoint[] {
+  getSimplifiedDatePoints(): HistoryDatePoint[] {
     return this.datePointsSorted.map((datePoint) => {
       const combinedVersions: Record<string, number> = {};
 
       for (const [version, count] of Object.entries(datePoint.versions)) {
-        if (!this.isOfficialVersion(version)) {
+        if (!packages[this.packageIdentifier].defaultFilter(version)) {
           continue;
         }
 
@@ -62,23 +54,6 @@ export default class HistoryReader {
         versions: combinedVersions,
       };
     });
-  }
-
-  private isOfficialVersion(rawVersion: string): boolean {
-    switch (this.packageName) {
-      case "react-native":
-        return semver.satisfies(rawVersion, ">= 0.50.0");
-      case "react-native-web":
-        return (
-          semver.satisfies(rawVersion, ">= 0.11.0") && rawVersion !== "1.0.0"
-        );
-      case "react-native-windows":
-        return (
-          semver.satisfies(rawVersion, ">= 0.63.0") && rawVersion !== "1.0.0"
-        );
-      case "react-native-macos":
-        return semver.satisfies(rawVersion, ">= 0.62.0");
-    }
   }
 }
 

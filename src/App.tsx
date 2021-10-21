@@ -5,7 +5,6 @@ import githubLogo from "./assets/github-logo.svg";
 import PackageCard from "./PackageCard";
 
 import { Container, Navbar, Nav, NavItem, NavLink } from "react-bootstrap";
-
 function App() {
   return (
     <div className={styles.app}>
@@ -39,16 +38,12 @@ function App() {
       </Navbar>
 
       <Container className={styles.cardContainer}>
-        <PackageCard title="React Native" packageName="react-native" />
-        <PackageCard title="React Native Web" packageName="react-native-web" />
-        <PackageCard
-          title="React Native Windows"
-          packageName="react-native-windows"
-        />
-        <PackageCard
-          title="React Native macOS"
-          packageName="react-native-macos"
-        />
+        <PackageCard identifier={"react-native"} />
+        <PackageCard identifier={"@types/react-native"} />
+        <PackageCard identifier={"react-native-web"} />
+        <PackageCard identifier={"react-native-windows"} />
+        <PackageCard identifier={"react-native-macos"} />
+        <PackageCard identifier={"react-native-reanimated"} />
       </Container>
     </div>
   );

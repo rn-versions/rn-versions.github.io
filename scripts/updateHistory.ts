@@ -1,5 +1,5 @@
 import axios from "axios";
-import axiosRetry from "axios-retry";
+import axiosRetry, { isNetworkOrIdempotentRequestError } from "axios-retry";
 import chalk from "chalk";
 import path from "path";
 import pretty from "pretty";
@@ -7,6 +7,8 @@ import semver from "semver";
 
 import { promises as fs } from "fs";
 import { JSDOM } from "jsdom";
+
+import { packages } from "../src/PackageDescription";
 
 /** Representation of History File JSON */
 type HistoryFile = {
@@ -23,12 +25,7 @@ const minDownloadThreshold = 10;
 const maxAssetHistoryEntries = 180;
 
 /** Packages to record */
-const packages = [
-  "react-native",
-  "react-native-web",
-  "react-native-windows",
-  "react-native-macos",
-];
+const packageNames = Object.keys(packages);
 
 /** Timestamp of script start */
 const scriptRunTimestamp = new Date();
@@ -39,7 +36,7 @@ const scriptRunTimestamp = new Date();
 (async () => {
   const packageCounts: Record<string, Record<string, number>> = {};
 
-  for (const packageName of packages) {
+  for (const packageName of packageNames) {
     console.log(`Downloading npmjs page for ${packageName}...`);
 
     let pageHtml: string;
@@ -77,7 +74,10 @@ const scriptRunTimestamp = new Date();
 async function downloadPackagePage(packageName: string): Promise<string> {
   axiosRetry(axios, {
     retries: 5,
+    // Expontential backoff if rate limited or network flakiness
     retryDelay: axiosRetry.exponentialDelay,
+    retryCondition: (res) =>
+      isNetworkOrIdempotentRequestError(res) || res.response?.status === 429,
   });
 
   const page = await axios.get<string>(
