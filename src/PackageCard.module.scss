@@ -15,7 +15,9 @@
 }
 
 @include media-breakpoint-up(sm) {
-  padding: 20px 20px;
+  .packageCard {
+    padding: 15px 15px 15px 5px;
+  }
 }
 
 @include media-breakpoint-down(sm) {
