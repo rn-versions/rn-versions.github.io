@@ -19,11 +19,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "ts-node": {
-    "transpileOnly": true,
-    "files": true,
-    "module": "commonjs",
-  },
   "include": [
     "src",
     "scripts"

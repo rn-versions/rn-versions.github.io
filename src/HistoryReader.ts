@@ -1,5 +1,9 @@
 import semver from "semver";
-import { packages, PackageIdentifier } from "./PackageDescription";
+import {
+  packages,
+  PackageIdentifier,
+  PackageDescription,
+} from "./PackageDescription";
 
 type HistoryDatePoint = { date: Date; versions: Record<string, number> };
 type HistoryFile = {
@@ -10,10 +14,13 @@ type HistoryFile = {
  * Allows reading from stored download history of an npm package
  */
 export default class HistoryReader {
+  private readonly packageDescripton: PackageDescription;
   private readonly dateToCounts: Map<Date, Record<string, number>> = new Map();
   private readonly datePointsSorted: HistoryDatePoint[] = [];
 
   constructor(private readonly packageIdentifier: PackageIdentifier) {
+    this.packageDescripton = packages[packageIdentifier];
+
     const historyFile: HistoryFile = require("./assets/download_history.json");
     const packageHistory = historyFile[packageIdentifier];
     for (const datePoint of packageHistory || []) {
@@ -34,24 +41,16 @@ export default class HistoryReader {
 
   getSimplifiedDatePoints(): HistoryDatePoint[] {
     return this.datePointsSorted.map((datePoint) => {
-      const combinedVersions: Record<string, number> = {};
-
+      const accum: Record<string, number> = {};
       for (const [version, count] of Object.entries(datePoint.versions)) {
-        if (!packages[this.packageIdentifier].defaultFilter(version)) {
-          continue;
+        if (this.packageDescripton.defaultFilter(version)) {
+          this.packageDescripton.partitionFunction(accum, { version, count });
         }
-
-        const mjaorMinor = `${semver.major(version)}.${semver.minor(version)}`;
-        if (!combinedVersions[mjaorMinor]) {
-          combinedVersions[mjaorMinor] = 0;
-        }
-
-        combinedVersions[mjaorMinor] += count;
       }
 
       return {
         date: datePoint.date,
-        versions: combinedVersions,
+        versions: accum,
       };
     });
   }

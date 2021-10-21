@@ -1,7 +1,7 @@
 import randomSeed from "random-seed";
 
 /**
- * Generates a color with random distribution, stable for a given identity
+ * Generates a color with random distribution, stable for a given semver version
  *
  * Derived from:
  * - http://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/
