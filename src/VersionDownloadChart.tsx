@@ -98,6 +98,28 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     }
   }
 
+  if (datapoints.length === 0) {
+    return (
+      <div
+        style={{
+          height: styles.responsiveContainer.height,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
+        <h4
+          style={{
+            color: "#888",
+          }}
+        >
+          No data available
+        </h4>
+      </div>
+    );
+  }
+
   return (
     <ResponsiveContainer {...styles.responsiveContainer}>
       <AreaChart data={data}>
@@ -117,8 +139,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           type="number"
           tickFormatter={(count) => count.toLocaleString()}
         />
-
-        {datapoints.length !== 0 && <CartesianGrid {...styles.grid} />}
+        <CartesianGrid {...styles.grid} />
 
         {showTooltip !== false && (
           <Tooltip

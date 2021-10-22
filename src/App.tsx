@@ -98,10 +98,6 @@ function App() {
           versionFilter={versionFilter}
         />
         <PackageCard
-          identifier={"react-native-web"}
-          versionFilter={versionFilter}
-        />
-        <PackageCard
           identifier={"react-native-windows"}
           versionFilter={versionFilter}
         />
@@ -110,7 +106,7 @@ function App() {
           versionFilter={versionFilter}
         />
         <PackageCard
-          identifier={"react-native-reanimated"}
+          identifier={"react-native-web"}
           versionFilter={versionFilter}
         />
       </Container>
