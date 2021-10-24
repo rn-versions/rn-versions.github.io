@@ -69,34 +69,33 @@ const scriptRunTimestamp = new Date();
   await generateWebpageAssets();
 })();
 
+axiosRetry(axios, {
+  retries: 10,
+  // Expontential backoff if rate limited or network flakiness. Respect npmjs retry-after header.
+  retryDelay: (retryCount, error) => {
+    if (
+      error.response?.status === 429 &&
+      error.response.headers["retry-after"]
+    ) {
+      return parseInt(error.response.headers["retry-after"], 10) * 1000;
+    }
+
+    return axiosRetry.exponentialDelay(retryCount);
+  },
+  retryCondition: (error) =>
+    isNetworkOrIdempotentRequestError(error) || error.response?.status === 429,
+});
+
+const rateLimitedClient = rateLimit(axios.create(), {
+  maxRequests: 2,
+  perMilliseconds: 1000,
+  maxRPS: 2,
+});
+
 /**
  * Downloads the html for the versions page of the NPM package
  */
 async function downloadPackagePage(packageName: string): Promise<string> {
-  axiosRetry(axios, {
-    retries: 10,
-    // Expontential backoff if rate limited or network flakiness. Respect npmjs retry-after header.
-    retryDelay: (retryCount, error) => {
-      if (
-        error.response?.status === 429 &&
-        error.response.headers["retry-after"]
-      ) {
-        return parseInt(error.response.headers["retry-after"], 10) * 1000;
-      }
-
-      return axiosRetry.exponentialDelay(retryCount);
-    },
-    retryCondition: (error) =>
-      isNetworkOrIdempotentRequestError(error) ||
-      error.response?.status === 429,
-  });
-
-  const rateLimitedClient = rateLimit(axios.create(), {
-    maxRequests: 2,
-    perMilliseconds: 1000,
-    maxRPS: 2,
-  });
-
   const page = await rateLimitedClient.get<string>(
     `https://www.npmjs.com/package/${packageName}?activeTab=versions`,
     {
