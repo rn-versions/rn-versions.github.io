@@ -26,7 +26,7 @@ const MemoVersionDownloadChart: React.FC<PackageCardProps> = React.memo(
         return (
           <VersionDownloadChart
             identifier={identifier}
-            maxVersionsShown={5}
+            maxVersionsShown={8}
             versionFilter={versionFilter}
           />
         );
@@ -35,7 +35,7 @@ const MemoVersionDownloadChart: React.FC<PackageCardProps> = React.memo(
           <VersionDownloadChart
             identifier={identifier}
             versionFilter={versionFilter}
-            maxVersionsShown={4}
+            maxVersionsShown={6}
           />
         );
     }
