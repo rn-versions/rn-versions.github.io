@@ -1,5 +1,12 @@
 import axios from "axios";
-import axiosRetry, { isNetworkOrIdempotentRequestError } from "axios-retry";
+import rateLimit, {
+  RateLimitedAxiosInstance,
+  rateLimitOptions as RateLimitOptions,
+} from "axios-rate-limit";
+import axiosRetry, {
+  isNetworkOrIdempotentRequestError,
+  IAxiosRetryConfig,
+} from "axios-retry";
 import chalk from "chalk";
 import path from "path";
 import pretty from "pretty";
@@ -29,6 +36,9 @@ const packageNames = Object.keys(packages);
 
 /** Timestamp of script start */
 const scriptRunTimestamp = new Date();
+
+/** Global HTTP Client **/
+const axiosInstance = createAxiosInstance();
 
 /**
  * Main function
@@ -69,18 +79,43 @@ const scriptRunTimestamp = new Date();
 })();
 
 /**
+ * Creates rate-limited HTTP client to use for fetching pages from npmjs
+ */
+function createAxiosInstance(): RateLimitedAxiosInstance {
+  const axiosRetryConfig: IAxiosRetryConfig = {
+    retries: 10,
+    // Expontential backoff if rate limited or network flakiness. Respect npmjs retry-after header.
+    retryDelay: (retryCount, error) => {
+      if (
+        error.response?.status === 429 &&
+        error.response.headers["retry-after"]
+      ) {
+        return parseInt(error.response.headers["retry-after"], 10) * 1000;
+      }
+
+      return axiosRetry.exponentialDelay(retryCount);
+    },
+    retryCondition: (error) =>
+      isNetworkOrIdempotentRequestError(error) ||
+      error.response?.status === 429,
+  };
+
+  const axiosRateLimitOptions: RateLimitOptions = {
+    maxRequests: 2,
+    perMilliseconds: 1000,
+    maxRPS: 2,
+  };
+
+  const axiosClient = axios.create();
+  axiosRetry(axiosClient, axiosRetryConfig);
+  return rateLimit(axiosClient, axiosRateLimitOptions);
+}
+
+/**
  * Downloads the html for the versions page of the NPM package
  */
 async function downloadPackagePage(packageName: string): Promise<string> {
-  axiosRetry(axios, {
-    retries: 5,
-    // Expontential backoff if rate limited or network flakiness
-    retryDelay: axiosRetry.exponentialDelay,
-    retryCondition: (res) =>
-      isNetworkOrIdempotentRequestError(res) || res.response?.status === 429,
-  });
-
-  const page = await axios.get<string>(
+  const page = await axiosInstance.get<string>(
     `https://www.npmjs.com/package/${packageName}?activeTab=versions`,
     {
       headers: {
