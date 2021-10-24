@@ -37,6 +37,9 @@ const packageNames = Object.keys(packages);
 /** Timestamp of script start */
 const scriptRunTimestamp = new Date();
 
+/** Global HTTP Client **/
+const axiosInstance = createAxiosInstance();
+
 /**
  * Main function
  */
@@ -107,8 +110,6 @@ function createAxiosInstance(): RateLimitedAxiosInstance {
   axiosRetry(axiosClient, axiosRetryConfig);
   return rateLimit(axiosClient, axiosRateLimitOptions);
 }
-
-const axiosInstance = createAxiosInstance();
 
 /**
  * Downloads the html for the versions page of the NPM package
