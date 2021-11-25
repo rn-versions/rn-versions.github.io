@@ -12,8 +12,17 @@ import {
   ButtonGroup,
   Button,
 } from "react-bootstrap";
+import { PackageIdentifier } from "./PackageDescription";
 
 type VersionFilter = "major" | "patch" | "prerelease";
+
+const packages: PackageIdentifier[] = [
+  "react-native",
+  "@types/react-native",
+  "react-native-windows",
+  "react-native-macos",
+  "react-native-web",
+];
 
 function App() {
   const [versionFilter, setVersionFilter] = useState<VersionFilter>("major");
@@ -22,7 +31,7 @@ function App() {
     <div className={styles.app}>
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container className={styles.navbarContainer}>
-          <Navbar.Brand className={styles.navbarBranc}>
+          <Navbar.Brand className={styles.navbarBrand}>
             <Navbar.Toggle />
             <img
               src={reactLogo}
@@ -89,26 +98,13 @@ function App() {
       </Navbar>
 
       <Container className={styles.cardContainer}>
-        <PackageCard
-          identifier={"react-native"}
-          versionFilter={versionFilter}
-        />
-        <PackageCard
-          identifier={"@types/react-native"}
-          versionFilter={versionFilter}
-        />
-        <PackageCard
-          identifier={"react-native-windows"}
-          versionFilter={versionFilter}
-        />
-        <PackageCard
-          identifier={"react-native-macos"}
-          versionFilter={versionFilter}
-        />
-        <PackageCard
-          identifier={"react-native-web"}
-          versionFilter={versionFilter}
-        />
+        {packages.map((pkg) => (
+          <PackageCard
+            identifier={pkg}
+            versionFilter={versionFilter}
+            key={pkg}
+          />
+        ))}
       </Container>
     </div>
   );

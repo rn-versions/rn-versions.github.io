@@ -36,7 +36,16 @@ type RenderPhase = "initial" | "charts-rendering" | "charts-visible";
 
 const PackageCard: React.FC<PackageCardProps> = (props) => {
   const [renderPhase, setRenderPhase] = useState<RenderPhase>("initial");
+  const [lastVersionFilter, setLastVersionFilter] = useState<
+    VersionFilter | undefined
+  >(props.versionFilter);
   const [showAsPercentage, setShowAsPercentage] = useState<boolean>(false);
+
+  // Reset show-as-percentage if version filter changes
+  if (props.versionFilter !== lastVersionFilter) {
+    setShowAsPercentage(false);
+    setLastVersionFilter(props.versionFilter);
+  }
 
   useEffect(() => {
     switch (renderPhase) {
