@@ -7,7 +7,7 @@ export type ParitionFunction = (
 ) => void;
 
 /** Groups raw versions who share a minor version */
-const paritionByMinor: ParitionFunction = (accum, { version, count }) => {
+const partitionByMinor: ParitionFunction = (accum, { version, count }) => {
   const simpleVersion = `${semver.major(version)}.${semver.minor(version)}`;
 
   const accumCount = accum[simpleVersion] || 0;
@@ -25,52 +25,38 @@ export type PackageDescription = {
   partitionFunction: ParitionFunction;
 };
 
+const isNightly = (v: string) => semver.lt(v, "0.0.0");
+const minVersion = (v: string, min: string) =>
+  semver.gte(v, `${min}.0`, {
+    includePrerelease: true,
+  });
+
 export const packages = {
   "@types/react-native": {
     friendlyName: "DefinitelyTyped Typings",
-    defaultFilter: (version: string) => semver.satisfies(version, ">= 0.50.0"),
-    partitionFunction: paritionByMinor,
+    defaultFilter: (v: string) => minVersion(v, "0.58"),
+    partitionFunction: partitionByMinor,
   },
   "react-native": {
     friendlyName: "React Native",
-    defaultFilter: (version: string) =>
-      semver.satisfies(version, ">= 0.50.0 || < 0.0.0", {
-        includePrerelease: true,
-      }),
-    partitionFunction: paritionByMinor,
+    defaultFilter: (v: string) => minVersion(v, "0.50") || isNightly(v),
+    partitionFunction: partitionByMinor,
   },
   "react-native-macos": {
     friendlyName: "React Native macOS",
-    defaultFilter: (version: string) =>
-      semver.satisfies(version, ">= 0.62.0 || < 0.0.0", {
-        includePrerelease: true,
-      }),
-    partitionFunction: paritionByMinor,
-  },
-  "react-native-reanimated": {
-    packageName: "react-native-reanimated",
-    friendlyName: "React Native Reanimated",
-    defaultFilter: (version: string) =>
-      semver.satisfies(version, ">= 2.0.0", {
-        includePrerelease: true,
-      }),
-    partitionFunction: paritionByMinor,
+    defaultFilter: (v: string) => minVersion(v, "0.62") || isNightly(v),
+    partitionFunction: partitionByMinor,
   },
   "react-native-web": {
     friendlyName: "React Native Web",
-    defaultFilter: (version: string) =>
-      semver.satisfies(version, ">= 0.11.0 || < 0.0.0", {
-        includePrerelease: true,
-      }) && version !== "1.0.0",
-    partitionFunction: paritionByMinor,
+    defaultFilter: (v: string) => minVersion(v, "0.11") || isNightly(v),
+    partitionFunction: partitionByMinor,
   },
   "react-native-windows": {
     friendlyName: "React Native Windows",
-    defaultFilter: (version: string) =>
-      semver.satisfies(version, ">= 0.63.0 || < 0.0.0", {
-        includePrerelease: true,
-      }) && version !== "1.0.0",
-    partitionFunction: paritionByMinor,
+    defaultFilter: (v: string) =>
+      minVersion(v, "0.63") || (isNightly(v) && v !== "1.0.0"),
+    partitionFunction: partitionByMinor,
   },
 };
 

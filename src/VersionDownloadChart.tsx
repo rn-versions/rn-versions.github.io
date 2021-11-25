@@ -199,7 +199,7 @@ function createDownloadMeasurementPoints(
   identifier: PackageIdentifier,
   versionFilter: "major" | "patch" | "prerelease"
 ): MeasurementPoint[] {
-  const historyReader = new HistoryReader(identifier);
+  const historyReader = HistoryReader.get(identifier);
 
   let historyPoints: HistoryDatePoint[] = [];
   switch (versionFilter) {

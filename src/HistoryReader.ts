@@ -14,12 +14,19 @@ type HistoryFile = {
  * Allows reading from stored download history of an npm package
  */
 export default class HistoryReader {
-  private readonly packageDescripton: PackageDescription;
+  private readonly packageDescription: PackageDescription;
   private readonly dateToCounts: Map<Date, Record<string, number>> = new Map();
   private readonly datePointsSorted: HistoryDatePoint[] = [];
 
-  constructor(private readonly packageIdentifier: PackageIdentifier) {
-    this.packageDescripton = packages[packageIdentifier];
+  private majorDatePoints: HistoryDatePoint[] | null = null;
+  private patchDatePoints: HistoryDatePoint[] | null = null;
+  private prereleaseDatePoints: HistoryDatePoint[] | null = null;
+
+  private static instances: Partial<Record<PackageIdentifier, HistoryReader>> =
+    {};
+
+  private constructor(packageIdentifier: PackageIdentifier) {
+    this.packageDescription = packages[packageIdentifier];
 
     const historyFile: HistoryFile = require("./assets/download_history.json");
     const packageHistory = historyFile[packageIdentifier];
@@ -35,12 +42,25 @@ export default class HistoryReader {
       .sort((a, b) => a.date.getTime() - b.date.getTime());
   }
 
+  static get(packageIdentifier: PackageIdentifier): HistoryReader {
+    if (!HistoryReader.instances[packageIdentifier]) {
+      HistoryReader.instances[packageIdentifier] = new HistoryReader(
+        packageIdentifier
+      );
+    }
+    return HistoryReader.instances[packageIdentifier]!;
+  }
+
   getMajorDatePoints(): HistoryDatePoint[] {
-    return this.datePointsSorted.map((datePoint) => {
+    if (this.majorDatePoints) {
+      return this.majorDatePoints;
+    }
+
+    this.majorDatePoints = this.datePointsSorted.map((datePoint) => {
       const accum: Record<string, number> = {};
       for (const [version, count] of Object.entries(datePoint.versions)) {
-        if (this.packageDescripton.defaultFilter(version)) {
-          this.packageDescripton.partitionFunction(accum, { version, count });
+        if (this.packageDescription.defaultFilter(version)) {
+          this.packageDescription.partitionFunction(accum, { version, count });
         }
       }
 
@@ -49,14 +69,20 @@ export default class HistoryReader {
         versions: accum,
       };
     });
+
+    return this.majorDatePoints;
   }
 
   getPatchDatePoints(): HistoryDatePoint[] {
-    return this.datePointsSorted.map((datePoint) => {
+    if (this.patchDatePoints) {
+      return this.patchDatePoints;
+    }
+
+    this.patchDatePoints = this.datePointsSorted.map((datePoint) => {
       const versions: Record<string, number> = {};
       for (const [version, count] of Object.entries(datePoint.versions)) {
         if (
-          this.packageDescripton.defaultFilter(version) &&
+          this.packageDescription.defaultFilter(version) &&
           !semver.prerelease(version)
         ) {
           versions[version] = count;
@@ -68,14 +94,20 @@ export default class HistoryReader {
         versions,
       };
     });
+
+    return this.patchDatePoints;
   }
 
   getPrereleaseDataPoints(): HistoryDatePoint[] {
-    return this.datePointsSorted.map((datePoint) => {
+    if (this.prereleaseDatePoints) {
+      return this.prereleaseDatePoints;
+    }
+
+    this.prereleaseDatePoints = this.datePointsSorted.map((datePoint) => {
       const versions: Record<string, number> = {};
       for (const [version, count] of Object.entries(datePoint.versions)) {
         if (
-          this.packageDescripton.defaultFilter(version) &&
+          this.packageDescription.defaultFilter(version) &&
           semver.prerelease(version)
         ) {
           versions[version] = count;
@@ -87,6 +119,8 @@ export default class HistoryReader {
         versions,
       };
     });
+
+    return this.prereleaseDatePoints;
   }
 }
 
