@@ -18,6 +18,10 @@ import { PackageIdentifier } from "./PackageDescription";
 
 export type MeasurementPoint = { date: number; version: string; count: number };
 
+export type VersionFilter = "major" | "patch" | "prerelease";
+
+export type MeasurementTransform = "totalDownloads" | "percentage";
+
 export type VersionDownloadChartProps = {
   /**
    * Which package to show data for
@@ -43,12 +47,12 @@ export type VersionDownloadChartProps = {
   /**
    * Which versions to show in the graph. Defaults to only major versions
    */
-  versionFilter?: "major" | "patch" | "prerelease";
+  versionFilter?: VersionFilter;
 
   /**
    * Allows transforming raw measurements to a different unit
    */
-  measurementTransform?: "totalDownloads" | "percentage";
+  measurementTransform?: MeasurementTransform;
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({

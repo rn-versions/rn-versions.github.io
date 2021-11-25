@@ -2,47 +2,37 @@ import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import styles from "./PackageCard.module.scss";
 
-import VersionDownloadChart from "./VersionDownloadChart";
+import VersionDownloadChart, {
+  MeasurementTransform,
+  VersionFilter,
+} from "./VersionDownloadChart";
 import chartStyles from "./VersionDownloadChart.styles";
 
 import { PackageIdentifier, packages } from "./PackageDescription";
 
 export type PackageCardProps = {
   identifier: PackageIdentifier;
-  versionFilter?: "major" | "patch" | "prerelease";
+  versionFilter?: VersionFilter;
 };
 
-type MemDownloadChartProps = {
-  identifier: PackageIdentifier;
-  versionFilter: "major" | "patch" | "prerelease";
-  showAsPercentage: boolean;
+type CardChartProps = PackageCardProps & {
+  measurementTransform: MeasurementTransform;
 };
 
-const MemDownloadChart: React.FC<MemDownloadChartProps> = React.memo(
-  ({ identifier, versionFilter, showAsPercentage }) => {
-    const commonProps = {
-      identifier,
-      versionFilter,
-      measurementTransform: showAsPercentage ? "percentage" : "totalDownloads",
-    } as const;
-
-    switch (versionFilter) {
-      case "major":
-        return <VersionDownloadChart {...commonProps} maxVersionsShown={8} />;
-      case "patch":
-        return <VersionDownloadChart {...commonProps} maxVersionsShown={8} />;
-      case "prerelease":
-        return <VersionDownloadChart {...commonProps} maxVersionsShown={4} />;
-    }
+const CardChart: React.FC<CardChartProps> = React.memo((props) => {
+  switch (props.versionFilter || "major") {
+    case "major":
+      return <VersionDownloadChart {...props} maxVersionsShown={8} />;
+    case "patch":
+      return <VersionDownloadChart {...props} maxVersionsShown={8} />;
+    case "prerelease":
+      return <VersionDownloadChart {...props} maxVersionsShown={4} />;
   }
-);
+});
 
 type RenderPhase = "initial" | "charts-rendering" | "charts-visible";
 
-const PackageCard: React.FC<PackageCardProps> = ({
-  identifier,
-  versionFilter,
-}) => {
+const PackageCard: React.FC<PackageCardProps> = (props) => {
   const [renderPhase, setRenderPhase] = useState<RenderPhase>("initial");
   const [showAsPercentage, setShowAsPercentage] = useState<boolean>(false);
 
@@ -65,7 +55,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
   const chartVisibilityClass =
     renderPhase === "charts-visible" ? "visible" : "hidden";
 
-  const packageDesc = packages[identifier];
+  const packageDesc = packages[props.identifier];
 
   return (
     <div
@@ -88,10 +78,11 @@ const PackageCard: React.FC<PackageCardProps> = ({
 
       {renderPhase === "charts-visible" ? (
         <div className={`${styles.opacityTransition} ${chartVisibilityClass}`}>
-          <MemDownloadChart
-            identifier={identifier}
-            versionFilter={versionFilter || "major"}
-            showAsPercentage={showAsPercentage}
+          <CardChart
+            {...props}
+            measurementTransform={
+              showAsPercentage ? "percentage" : "totalDownloads"
+            }
           />
         </div>
       ) : (
