@@ -15,12 +15,14 @@ export type PackageCardProps = {
   versionFilter?: VersionFilter;
 };
 
-type CardChartProps = PackageCardProps & {
+type CardChartProps = {
+  identifier: PackageIdentifier;
+  versionFilter: VersionFilter;
   measurementTransform: MeasurementTransform;
 };
 
 const CardChart: React.FC<CardChartProps> = React.memo((props) => {
-  switch (props.versionFilter || "major") {
+  switch (props.versionFilter) {
     case "major":
       return <VersionDownloadChart {...props} maxVersionsShown={8} />;
     case "patch":
@@ -79,7 +81,8 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
       {renderPhase === "charts-visible" ? (
         <div className={`${styles.opacityTransition} ${chartVisibilityClass}`}>
           <CardChart
-            {...props}
+            identifier={props.identifier}
+            versionFilter={props.versionFilter || "major"}
             measurementTransform={
               showAsPercentage ? "percentage" : "totalDownloads"
             }
