@@ -18,6 +18,10 @@ import { PackageIdentifier } from "./PackageDescription";
 
 export type MeasurementPoint = { date: number; version: string; count: number };
 
+export type VersionFilter = "major" | "patch" | "prerelease";
+
+export type MeasurementTransform = "totalDownloads" | "percentage";
+
 export type VersionDownloadChartProps = {
   /**
    * Which package to show data for
@@ -43,7 +47,12 @@ export type VersionDownloadChartProps = {
   /**
    * Which versions to show in the graph. Defaults to only major versions
    */
-  versionFilter?: "major" | "patch" | "prerelease";
+  versionFilter?: VersionFilter;
+
+  /**
+   * Allows transforming raw measurements to a different unit
+   */
+  measurementTransform?: MeasurementTransform;
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
@@ -52,16 +61,25 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   versionFilter,
   showLegend,
   showTooltip,
+  measurementTransform,
 }) => {
-  const datapoints = createDownloadMeasurementPoints(
+  const rawDatapoints = createDownloadMeasurementPoints(
     identifier,
     versionFilter || "major"
   );
+
+  const topRawDataPoints = maxVersionsShown
+    ? filterTopN(rawDatapoints, maxVersionsShown)
+    : rawDatapoints;
+
+  const datapoints =
+    measurementTransform === "percentage"
+      ? transformToPercentage(topRawDataPoints)
+      : topRawDataPoints;
+
   const dateTimeFormat = new Intl.DateTimeFormat("en-US");
-  const filteredDataPoints = maxVersionsShown
-    ? filterTopN(datapoints, maxVersionsShown)
-    : datapoints;
-  const allVersionsSet = new Set(filteredDataPoints.map((p) => p.version));
+
+  const allVersionsSet = new Set(datapoints.map((p) => p.version));
   const allVersionsArr = [...allVersionsSet];
 
   const chartAreas = allVersionsArr.map((v) => {
@@ -83,7 +101,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   const data: Array<{ date: number; versionCounts: Record<string, number> }> =
     [];
   for (const version of allVersionsArr) {
-    for (const measurePoint of filteredDataPoints) {
+    for (const measurePoint of datapoints) {
       if (measurePoint.version === version) {
         const datePoint = data.find((p) => p.date === measurePoint.date);
         if (datePoint) {
@@ -137,7 +155,15 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
         <YAxis
           {...styles.yAxis}
           type="number"
-          tickFormatter={(count) => count.toLocaleString()}
+          {...(measurementTransform === "percentage"
+            ? {
+                domain: [0, 1],
+                tickFormatter: (count) => `${Math.round(count * 100)}%`,
+              }
+            : {
+                domain: ["auto", "auto"],
+                tickFormatter: (count) => count.toLocaleString(),
+              })}
         />
         <CartesianGrid {...styles.grid} />
 
@@ -173,7 +199,7 @@ function createDownloadMeasurementPoints(
   identifier: PackageIdentifier,
   versionFilter: "major" | "patch" | "prerelease"
 ): MeasurementPoint[] {
-  const historyReader = new HistoryReader(identifier);
+  const historyReader = HistoryReader.get(identifier);
 
   let historyPoints: HistoryDatePoint[] = [];
   switch (versionFilter) {
@@ -197,6 +223,19 @@ function createDownloadMeasurementPoints(
   }
 
   return dataPoints;
+}
+
+function transformToPercentage(points: MeasurementPoint[]): MeasurementPoint[] {
+  const totalCountByDate: Record<string, number | undefined> = {};
+  for (const point of points) {
+    const prevTotal = totalCountByDate[point.date] ?? 0;
+    totalCountByDate[point.date] = prevTotal + point.count;
+  }
+
+  return points.map((point) => ({
+    ...point,
+    count: point.count / totalCountByDate[point.date]!,
+  }));
 }
 
 function filterTopN(

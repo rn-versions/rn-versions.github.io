@@ -5,7 +5,7 @@
   min-height: 100vh;
 }
 
-.navbarBranc {
+.navbarBrand {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,10 +31,6 @@
   flex-grow: 1;
 }
 
-.navToggleButton {
-  @extend .btn-sm;
-}
-
 .visitGithub {
   padding-right: 20px;
   vertical-align: middle;
@@ -51,12 +47,16 @@
 }
 
 .cardContainer {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 32px;
+  padding-bottom: 32px;
   gap: 20px;
   flex-direction: row;
   flex-wrap: wrap;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+
+  // recharts toolbars may transiently overflow the content area during
+  // animation.
+  overflow: hidden;
 }

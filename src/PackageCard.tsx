@@ -1,54 +1,51 @@
 import React, { useEffect, useState } from "react";
+import { Form } from "react-bootstrap";
 import styles from "./PackageCard.module.scss";
 
-import VersionDownloadChart from "./VersionDownloadChart";
+import VersionDownloadChart, {
+  MeasurementTransform,
+  VersionFilter,
+} from "./VersionDownloadChart";
 import chartStyles from "./VersionDownloadChart.styles";
 
 import { PackageIdentifier, packages } from "./PackageDescription";
 
 export type PackageCardProps = {
   identifier: PackageIdentifier;
-  versionFilter?: "major" | "patch" | "prerelease";
+  versionFilter?: VersionFilter;
 };
 
-const MemoVersionDownloadChart: React.FC<PackageCardProps> = React.memo(
-  ({ identifier, versionFilter }) => {
-    switch (versionFilter || "major") {
-      case "major":
-        return (
-          <VersionDownloadChart
-            identifier={identifier}
-            maxVersionsShown={8}
-            versionFilter={versionFilter}
-          />
-        );
-      case "patch":
-        return (
-          <VersionDownloadChart
-            identifier={identifier}
-            maxVersionsShown={8}
-            versionFilter={versionFilter}
-          />
-        );
-      case "prerelease":
-        return (
-          <VersionDownloadChart
-            identifier={identifier}
-            versionFilter={versionFilter}
-            maxVersionsShown={4}
-          />
-        );
-    }
+type CardChartProps = {
+  identifier: PackageIdentifier;
+  versionFilter: VersionFilter;
+  measurementTransform: MeasurementTransform;
+};
+
+const CardChart: React.FC<CardChartProps> = React.memo((props) => {
+  switch (props.versionFilter) {
+    case "major":
+      return <VersionDownloadChart {...props} maxVersionsShown={8} />;
+    case "patch":
+      return <VersionDownloadChart {...props} maxVersionsShown={8} />;
+    case "prerelease":
+      return <VersionDownloadChart {...props} maxVersionsShown={4} />;
   }
-);
+});
 
 type RenderPhase = "initial" | "charts-rendering" | "charts-visible";
 
-const PackageCard: React.FC<PackageCardProps> = ({
-  identifier,
-  versionFilter,
-}) => {
+const PackageCard: React.FC<PackageCardProps> = (props) => {
   const [renderPhase, setRenderPhase] = useState<RenderPhase>("initial");
+  const [lastVersionFilter, setLastVersionFilter] = useState<
+    VersionFilter | undefined
+  >(props.versionFilter);
+  const [showAsPercentage, setShowAsPercentage] = useState<boolean>(false);
+
+  // Reset show-as-percentage if version filter changes
+  if (props.versionFilter !== lastVersionFilter) {
+    setShowAsPercentage(false);
+    setLastVersionFilter(props.versionFilter);
+  }
 
   useEffect(() => {
     switch (renderPhase) {
@@ -69,22 +66,37 @@ const PackageCard: React.FC<PackageCardProps> = ({
   const chartVisibilityClass =
     renderPhase === "charts-visible" ? "visible" : "hidden";
 
-  const packageDesc = packages[identifier];
+  const packageDesc = packages[props.identifier];
 
   return (
     <div
       className={`${styles.packageCard} ${styles.opacityTransition} ${cardVisibilityClass}`}
     >
       <div className={styles.header}>
-        <h3 className={styles.title}>{packageDesc.friendlyName}</h3>
-        <p className={styles.unit}>(Downloads/Week)</p>
+        <div className={styles.headerLeft} />
+        <div className={styles.headerText}>
+          <h3 className={styles.title}>{packageDesc.friendlyName}</h3>
+          <p className={styles.unit}>(Downloads/Week)</p>
+        </div>
+        <div className={styles.headerControls}>
+          <Form.Switch
+            label="%"
+            checked={showAsPercentage}
+            onChange={() => setShowAsPercentage(!showAsPercentage)}
+          />
+        </div>
       </div>
 
       {renderPhase === "charts-visible" ? (
-        <div className={`${styles.opacityTransition} ${chartVisibilityClass}`}>
-          <MemoVersionDownloadChart
-            identifier={identifier}
-            versionFilter={versionFilter}
+        <div
+          className={`${styles.chartContainer} ${styles.opacityTransition} ${chartVisibilityClass}`}
+        >
+          <CardChart
+            identifier={props.identifier}
+            versionFilter={props.versionFilter || "major"}
+            measurementTransform={
+              showAsPercentage ? "percentage" : "totalDownloads"
+            }
           />
         </div>
       ) : (
