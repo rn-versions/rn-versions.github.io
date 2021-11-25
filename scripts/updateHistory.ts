@@ -155,7 +155,7 @@ function extractDownloadCounts(dom: JSDOM): Record<string, number> {
         throw new Error("Page structure has changed (no count found)");
       }
 
-      const cleanedText = countElement.textContent!.replace(/[^\d]/, "");
+      const cleanedText = countElement.textContent!.replace(/[^\d]/g, "");
       const count = parseInt(cleanedText, 10);
       if (count > minDownloadThreshold) {
         downloadsCounts[version] = count;

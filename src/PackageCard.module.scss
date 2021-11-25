@@ -10,6 +10,10 @@
 
   flex-grow: 1;
   flex-basis: 600px;
+
+  display: flex;
+  flex-direction: column;
+
   min-width: 320px;
   max-width: 850px;
 }
@@ -39,7 +43,25 @@
 }
 
 .header {
+  display: flex;
+  flex-direction: row;
+}
+
+.headerLeft {
+  flex-grow: 1;
+  flex-basis: 64px;
+}
+
+.headerText {
+  flex-grow: 3;
   text-align: center;
+}
+
+.headerControls {
+  flex-grow: 1;
+  flex-basis: 64px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .title {

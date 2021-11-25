@@ -44,6 +44,11 @@ export type VersionDownloadChartProps = {
    * Which versions to show in the graph. Defaults to only major versions
    */
   versionFilter?: "major" | "patch" | "prerelease";
+
+  /**
+   * Allows transforming raw measurements to a different unit
+   */
+  measurementTransform?: "totalDownloads" | "percentage";
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
@@ -52,11 +57,17 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   versionFilter,
   showLegend,
   showTooltip,
+  measurementTransform,
 }) => {
-  const datapoints = createDownloadMeasurementPoints(
+  const rawDatapoints = createDownloadMeasurementPoints(
     identifier,
     versionFilter || "major"
   );
+  const datapoints =
+    measurementTransform === "percentage"
+      ? transformToPercentage(rawDatapoints)
+      : rawDatapoints;
+
   const dateTimeFormat = new Intl.DateTimeFormat("en-US");
   const filteredDataPoints = maxVersionsShown
     ? filterTopN(datapoints, maxVersionsShown)
@@ -137,7 +148,15 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
         <YAxis
           {...styles.yAxis}
           type="number"
-          tickFormatter={(count) => count.toLocaleString()}
+          {...(measurementTransform === "percentage"
+            ? {
+                domain: [0, 1],
+                tickFormatter: (count) => `${Math.round(count * 100)}%`,
+              }
+            : {
+                domain: ["auto", "auto"],
+                tickFormatter: (count) => count.toLocaleString(),
+              })}
         />
         <CartesianGrid {...styles.grid} />
 
@@ -197,6 +216,19 @@ function createDownloadMeasurementPoints(
   }
 
   return dataPoints;
+}
+
+function transformToPercentage(points: MeasurementPoint[]): MeasurementPoint[] {
+  const totalCountByDate: Record<string, number | undefined> = {};
+  for (const point of points) {
+    const prevTotal = totalCountByDate[point.date] ?? 0;
+    totalCountByDate[point.date] = prevTotal + point.count;
+  }
+
+  return points.map((point) => ({
+    ...point,
+    count: point.count / totalCountByDate[point.date]!,
+  }));
 }
 
 function filterTopN(

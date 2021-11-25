@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Form } from "react-bootstrap";
 import styles from "./PackageCard.module.scss";
 
 import VersionDownloadChart from "./VersionDownloadChart";
@@ -11,15 +12,24 @@ export type PackageCardProps = {
   versionFilter?: "major" | "patch" | "prerelease";
 };
 
-const MemoVersionDownloadChart: React.FC<PackageCardProps> = React.memo(
-  ({ identifier, versionFilter }) => {
-    switch (versionFilter || "major") {
+type MemDownloadChartProps = {
+  identifier: PackageIdentifier;
+  versionFilter: "major" | "patch" | "prerelease";
+  showAsPercentage: boolean;
+};
+
+const MemDownloadChart: React.FC<MemDownloadChartProps> = React.memo(
+  ({ identifier, versionFilter, showAsPercentage }) => {
+    switch (versionFilter) {
       case "major":
         return (
           <VersionDownloadChart
             identifier={identifier}
             maxVersionsShown={8}
             versionFilter={versionFilter}
+            {...(showAsPercentage && {
+              measurementTransform: "percentage",
+            })}
           />
         );
       case "patch":
@@ -34,8 +44,8 @@ const MemoVersionDownloadChart: React.FC<PackageCardProps> = React.memo(
         return (
           <VersionDownloadChart
             identifier={identifier}
-            versionFilter={versionFilter}
             maxVersionsShown={4}
+            versionFilter={versionFilter}
           />
         );
     }
@@ -49,6 +59,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
   versionFilter,
 }) => {
   const [renderPhase, setRenderPhase] = useState<RenderPhase>("initial");
+  const [showAsPercentage, setShowAsPercentage] = useState<boolean>(false);
 
   useEffect(() => {
     switch (renderPhase) {
@@ -76,15 +87,26 @@ const PackageCard: React.FC<PackageCardProps> = ({
       className={`${styles.packageCard} ${styles.opacityTransition} ${cardVisibilityClass}`}
     >
       <div className={styles.header}>
-        <h3 className={styles.title}>{packageDesc.friendlyName}</h3>
-        <p className={styles.unit}>(Downloads/Week)</p>
+        <div className={styles.headerLeft} />
+        <div className={styles.headerText}>
+          <h3 className={styles.title}>{packageDesc.friendlyName}</h3>
+          <p className={styles.unit}>(Downloads/Week)</p>
+        </div>
+        <div className={styles.headerControls}>
+          <Form.Switch
+            label="%"
+            checked={showAsPercentage}
+            onChange={() => setShowAsPercentage(!showAsPercentage)}
+          />
+        </div>
       </div>
 
       {renderPhase === "charts-visible" ? (
         <div className={`${styles.opacityTransition} ${chartVisibilityClass}`}>
-          <MemoVersionDownloadChart
+          <MemDownloadChart
             identifier={identifier}
-            versionFilter={versionFilter}
+            versionFilter={versionFilter || "major"}
+            showAsPercentage={showAsPercentage}
           />
         </div>
       ) : (
