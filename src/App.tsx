@@ -46,7 +46,7 @@ function App() {
               <Nav.Item>
                 <ButtonGroup className={styles.versionFilterToggle}>
                   <Button
-                    className={styles.navToggleButton}
+                    size="sm"
                     variant="outline-secondary"
                     active={versionFilter === "major"}
                     onClick={() => setVersionFilter("major")}
@@ -54,7 +54,7 @@ function App() {
                     Major
                   </Button>
                   <Button
-                    className={styles.navToggleButton}
+                    size="sm"
                     variant="outline-secondary"
                     active={versionFilter === "patch"}
                     onClick={() => setVersionFilter("patch")}
@@ -62,7 +62,7 @@ function App() {
                     Patch
                   </Button>
                   <Button
-                    className={styles.navToggleButton}
+                    size="sm"
                     variant="outline-secondary"
                     active={versionFilter === "prerelease"}
                     onClick={() => setVersionFilter("prerelease")}

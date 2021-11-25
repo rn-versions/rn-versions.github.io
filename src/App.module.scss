@@ -5,7 +5,7 @@
   min-height: 100vh;
 }
 
-.navbarBranc {
+.navbarBrand {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,10 +29,6 @@
 
 .leftNav {
   flex-grow: 1;
-}
-
-.navToggleButton {
-  @extend .btn-sm;
 }
 
 .visitGithub {
