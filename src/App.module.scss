@@ -51,8 +51,8 @@
 }
 
 .cardContainer {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 32px;
+  padding-bottom: 32px;
   gap: 20px;
   flex-direction: row;
   flex-wrap: wrap;
@@ -60,6 +60,7 @@
   align-items: center;
   justify-content: space-evenly;
 
-  // Needed to avoid recharts tooltips overflowing the measured content area
+  // recharts toolbars may transiently overflow the content area during
+  // animation.
   overflow: hidden;
 }
