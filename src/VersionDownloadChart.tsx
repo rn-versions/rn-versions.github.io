@@ -63,16 +63,19 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     identifier,
     versionFilter || "major"
   );
+
+  const topRawDataPoints = maxVersionsShown
+    ? filterTopN(rawDatapoints, maxVersionsShown)
+    : rawDatapoints;
+
   const datapoints =
     measurementTransform === "percentage"
-      ? transformToPercentage(rawDatapoints)
-      : rawDatapoints;
+      ? transformToPercentage(topRawDataPoints)
+      : topRawDataPoints;
 
   const dateTimeFormat = new Intl.DateTimeFormat("en-US");
-  const filteredDataPoints = maxVersionsShown
-    ? filterTopN(datapoints, maxVersionsShown)
-    : datapoints;
-  const allVersionsSet = new Set(filteredDataPoints.map((p) => p.version));
+
+  const allVersionsSet = new Set(datapoints.map((p) => p.version));
   const allVersionsArr = [...allVersionsSet];
 
   const chartAreas = allVersionsArr.map((v) => {
@@ -94,7 +97,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   const data: Array<{ date: number; versionCounts: Record<string, number> }> =
     [];
   for (const version of allVersionsArr) {
-    for (const measurePoint of filteredDataPoints) {
+    for (const measurePoint of datapoints) {
       if (measurePoint.version === version) {
         const datePoint = data.find((p) => p.date === measurePoint.date);
         if (datePoint) {

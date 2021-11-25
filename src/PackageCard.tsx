@@ -20,34 +20,19 @@ type MemDownloadChartProps = {
 
 const MemDownloadChart: React.FC<MemDownloadChartProps> = React.memo(
   ({ identifier, versionFilter, showAsPercentage }) => {
+    const commonProps = {
+      identifier,
+      versionFilter,
+      measurementTransform: showAsPercentage ? "percentage" : "totalDownloads",
+    } as const;
+
     switch (versionFilter) {
       case "major":
-        return (
-          <VersionDownloadChart
-            identifier={identifier}
-            maxVersionsShown={8}
-            versionFilter={versionFilter}
-            {...(showAsPercentage && {
-              measurementTransform: "percentage",
-            })}
-          />
-        );
+        return <VersionDownloadChart {...commonProps} maxVersionsShown={8} />;
       case "patch":
-        return (
-          <VersionDownloadChart
-            identifier={identifier}
-            maxVersionsShown={8}
-            versionFilter={versionFilter}
-          />
-        );
+        return <VersionDownloadChart {...commonProps} maxVersionsShown={8} />;
       case "prerelease":
-        return (
-          <VersionDownloadChart
-            identifier={identifier}
-            maxVersionsShown={4}
-            versionFilter={versionFilter}
-          />
-        );
+        return <VersionDownloadChart {...commonProps} maxVersionsShown={4} />;
     }
   }
 );
