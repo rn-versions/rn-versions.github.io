@@ -88,7 +88,9 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
       </div>
 
       {renderPhase === "charts-visible" ? (
-        <div className={`${styles.opacityTransition} ${chartVisibilityClass}`}>
+        <div
+          className={`${styles.chartContainer} ${styles.opacityTransition} ${chartVisibilityClass}`}
+        >
           <CardChart
             identifier={props.identifier}
             versionFilter={props.versionFilter || "major"}

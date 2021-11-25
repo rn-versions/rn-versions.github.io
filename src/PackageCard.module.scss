@@ -7,6 +7,7 @@
   background-color: $gray-200;
   min-height: 200px;
   border: 1px solid $gray-300;
+  overflow: hidden;
 
   flex-grow: 1;
   flex-basis: 600px;
@@ -18,15 +19,23 @@
   max-width: 850px;
 }
 
-@include media-breakpoint-up(sm) {
+@include media-breakpoint-up(md) {
   .packageCard {
-    padding: 15px 15px 15px 5px;
+    padding: 16px 12px 32px 12px;
+  }
+
+  .chartContainer {
+    margin-left: -10px;
   }
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(md) {
   .packageCard {
-    padding: 10px 10px 30px 0;
+    padding: 10px 10px 48px 10px;
+  }
+
+  .chartContainer {
+    margin-left: -10px;
   }
 }
 

@@ -59,4 +59,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+
+  // Needed to avoid recharts tooltips overflowing the measured content area
+  overflow: hidden;
 }
