@@ -35,7 +35,7 @@ type AssetHistoryPoint = { date: number; version: string; count: number };
 const minDownloadThreshold = 10;
 
 /** Maximum datepoints per package to keep in webpage assets */
-const maxAssetHistoryEntries = 180;
+const maxAssetHistoryEntries = 60;
 
 /** Packages to record */
 const packageNames = Object.keys(packages);
