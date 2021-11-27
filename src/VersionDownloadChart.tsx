@@ -82,8 +82,10 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   const allVersionsSet = new Set(datapoints.map((p) => p.version));
   const allVersionsArr = [...allVersionsSet];
 
-  const chartAreas = allVersionsArr.map((v) => {
-    const color = generateColor(v);
+  let latAvoidToken: number | undefined = undefined;
+  const chartAreas = allVersionsArr.map((v, i) => {
+    const { color, avoidToken } = generateColor(v, latAvoidToken);
+    latAvoidToken = avoidToken;
 
     return (
       <Area
