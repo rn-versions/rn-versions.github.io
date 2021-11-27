@@ -1,6 +1,6 @@
 import React from "react";
 
-import generateColor from "./generateColor";
+import generateColor, { AvoidToken } from "./generateColor";
 import styles from "./VersionDownloadChart.styles";
 
 import {
@@ -82,7 +82,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   const allVersionsSet = new Set(datapoints.map((p) => p.version));
   const allVersionsArr = [...allVersionsSet];
 
-  let latAvoidToken: number | undefined = undefined;
+  let latAvoidToken: AvoidToken | undefined = undefined;
   const chartAreas = allVersionsArr.map((v, i) => {
     const { color, avoidToken } = generateColor(v, latAvoidToken);
     latAvoidToken = avoidToken;
