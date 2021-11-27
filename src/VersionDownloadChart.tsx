@@ -67,7 +67,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   );
 
   const topRawDataPoints = maxVersionsShown
-    ? filterTopN(rawDatapoints, maxVersionsShown, 30 /*windowInDays*/)
+    ? filterTopN(rawDatapoints, maxVersionsShown, 20 /*windowInDays*/)
     : rawDatapoints;
 
   const datapoints =

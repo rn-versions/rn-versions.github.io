@@ -18,14 +18,14 @@ export default function generateColor(
   version: string,
   avoidToken?: AvoidToken
 ): { color: string; avoidToken: AvoidToken } {
-  const adjacentHueThreshold = 0.2;
+  const adjacentHueThreshold = 0.3;
   const allHueThreshold = 0.05;
 
   const goldenRatio = 0.618033988749895;
 
   const randomGenerator = randomSeed.create(version);
   let hue: number;
-  let triesRemaining = Math.ceil(1 / allHueThreshold);
+  let triesRemaining = 100;
 
   do {
     hue = randomGenerator.random();
@@ -34,10 +34,10 @@ export default function generateColor(
   } while (
     avoidToken &&
     --triesRemaining > 0 &&
-    (Math.abs(hue - avoidToken.adjacentHue) <= adjacentHueThreshold ||
-      !avoidToken.allHues.every(
+    (hueDifference(hue, avoidToken.adjacentHue) < adjacentHueThreshold ||
+      avoidToken.allHues.find(
         // eslint-disable-next-line no-loop-func
-        (otherHue) => Math.abs(hue - otherHue) > allHueThreshold
+        (otherHue) => hueDifference(hue, otherHue) < allHueThreshold
       ))
   );
 
@@ -63,4 +63,8 @@ function cssColorFromHsv(hue: number, sat: number, val: number) {
   const s = (sat * val) / (l < 50 ? l * 2 : 200 - l * 2);
 
   return `hsl(${h}, ${Math.round(s)}%, ${Math.round(l)}%)`;
+}
+
+function hueDifference(hue1: number, hue2: number) {
+  return Math.abs(((hue1 - hue2 + 0.5) % 1.0) - 0.5);
 }
