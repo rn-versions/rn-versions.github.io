@@ -34,17 +34,17 @@ const minVersion = (v: string, min: string) =>
 export const packages = {
   "@types/react-native": {
     friendlyName: "DefinitelyTyped Typings",
-    defaultFilter: (v: string) => minVersion(v, "0.58"),
+    defaultFilter: (v: string) => minVersion(v, "0.63"),
     partitionFunction: partitionByMinor,
   },
   "react-native": {
     friendlyName: "React Native",
-    defaultFilter: (v: string) => minVersion(v, "0.50") || isNightly(v),
+    defaultFilter: (v: string) => minVersion(v, "0.63") || isNightly(v),
     partitionFunction: partitionByMinor,
   },
   "react-native-macos": {
     friendlyName: "React Native macOS",
-    defaultFilter: (v: string) => minVersion(v, "0.62") || isNightly(v),
+    defaultFilter: (v: string) => minVersion(v, "0.63") || isNightly(v),
     partitionFunction: partitionByMinor,
   },
   "react-native-web": {
