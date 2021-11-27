@@ -141,9 +141,12 @@ function compareHistoryPoint(p1: HistoryPoint, p2: HistoryPoint): -1 | 0 | 1 {
     return -1;
   }
 
-  const versionComparison = semver.compare(p1.version, p2.version);
-  if (versionComparison !== 0) {
-    return versionComparison;
+  // Some 0.0.0-xxx releases are not in sorted order
+  if (isComparableRnVersion(p1.version) && isComparableRnVersion(p2.version)) {
+    const versionComparison = semver.compare(p1.version, p2.version);
+    if (versionComparison !== 0) {
+      return versionComparison;
+    }
   }
 
   return Math.max(-1, Math.min(1, p1.date - p2.date)) as -1 | 0 | 1;
@@ -157,4 +160,13 @@ function mapToMajor(version: string) {
   } else {
     return `${versionParts.major}.0`;
   }
+}
+
+function isComparableRnVersion(version: string): boolean {
+  if (!semver.lt(version, "0.0.0")) {
+    return true;
+  }
+
+  const pre = semver.prerelease(version)?.[0] as string;
+  return pre.split("-").length === 3 || pre === "canary";
 }

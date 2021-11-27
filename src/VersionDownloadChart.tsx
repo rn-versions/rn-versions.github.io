@@ -67,7 +67,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   );
 
   const topRawDataPoints = maxVersionsShown
-    ? filterTopN(rawDatapoints, maxVersionsShown)
+    ? filterTopN(rawDatapoints, maxVersionsShown, 20 /*windowInDays*/)
     : rawDatapoints;
 
   const datapoints =
@@ -230,30 +230,81 @@ function transformToPercentage(points: HistoryPoint[]): HistoryPoint[] {
   }));
 }
 
-function filterTopN(historyPoints: HistoryPoint[], n: number): HistoryPoint[] {
-  const allVersions: Array<{ version: string; count: number }> = [];
+function filterTopN(
+  historyPoints: HistoryPoint[],
+  n: number,
+  windowInDays: number
+): HistoryPoint[] {
+  let latestDate: number = 0;
+  for (const point of historyPoints) {
+    latestDate = Math.max(latestDate, point.date);
+  }
+
+  const earliestAllowableDate = latestDate - windowInDays * 24 * 60 * 60 * 1000;
+  const versionsInWindow: Array<{ version: string; count: number }> = [];
 
   for (const point of historyPoints) {
-    const existingCount = allVersions.find((v) => v.version === point.version);
-    if (existingCount) {
-      existingCount.count += point.count;
-    } else {
-      allVersions.push({ version: point.version, count: point.count });
+    if (point.date >= earliestAllowableDate) {
+      const existingCount = versionsInWindow.find(
+        (v) => v.version === point.version
+      );
+      const newCount = point.date < earliestAllowableDate ? 0 : point.count;
+
+      if (existingCount) {
+        existingCount.count += newCount;
+      } else {
+        versionsInWindow.push({ version: point.version, count: newCount });
+      }
     }
   }
 
-  if (allVersions.length <= n) {
-    return [...historyPoints];
-  }
-
-  const includedVersions = allVersions
-    .sort((a, b) => b.count - a.count)
-    .slice(0, Math.min(allVersions.length, n))
+  const topVersions = versionsInWindow
+    .sort((a, b) => a.count - b.count)
+    .slice(-n)
     .map((v) => v.version);
 
-  return historyPoints.filter((point) =>
-    includedVersions.includes(point.version)
-  );
+  const topVersionsInOrder: string[] = [];
+  for (const point of historyPoints) {
+    if (
+      topVersions.includes(point.version) &&
+      !topVersionsInOrder.includes(point.version)
+    ) {
+      topVersionsInOrder.push(point.version);
+    }
+  }
+
+  const filteredPoints: HistoryPoint[] = [];
+  for (const point of historyPoints) {
+    if (topVersions.includes(point.version)) {
+      filteredPoints.push(point);
+    }
+  }
+
+  const pointsByDate: Map<
+    number,
+    { version: string; count: number }[] | undefined
+  > = new Map();
+  for (const point of filteredPoints) {
+    const last = pointsByDate.get(point.date) ?? [];
+    pointsByDate.set(point.date, [...last, point]);
+  }
+
+  const datesAscending = [...pointsByDate.keys()].sort();
+  const pointsWithZero: HistoryPoint[] = [];
+
+  for (const date of datesAscending) {
+    for (const point of pointsByDate.get(date)!) {
+      pointsWithZero.push({ ...point, date });
+    }
+
+    for (const topVersion of topVersionsInOrder) {
+      if (!pointsByDate.get(date)!.find((p) => p.version === topVersion)) {
+        pointsWithZero.push({ date, version: topVersion, count: 0 });
+      }
+    }
+  }
+
+  return pointsWithZero;
 }
 
 export default VersionDownloadChart;
