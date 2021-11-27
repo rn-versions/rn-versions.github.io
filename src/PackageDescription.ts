@@ -55,7 +55,7 @@ export const packages = {
   "react-native-windows": {
     friendlyName: "React Native Windows",
     defaultFilter: (v: string) =>
-      minVersion(v, "0.63") || (isNightly(v) && v !== "1.0.0"),
+      (minVersion(v, "0.63") || isNightly(v)) && v !== "1.0.0",
     partitionFunction: partitionByMinor,
   },
 };

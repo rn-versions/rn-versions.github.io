@@ -29,7 +29,7 @@ function App() {
 
   return (
     <div className={styles.app}>
-      <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
         <Container className={styles.navbarContainer}>
           <Navbar.Brand className={styles.navbarBrand}>
             <Navbar.Toggle />
