@@ -1,45 +1,48 @@
 import semver from "semver";
 import {
-  packages,
-  PackageIdentifier,
   PackageDescription,
+  PackageIdentifier,
+  packages,
 } from "./PackageDescription";
 
-export type HistoryDatePoint = { date: Date; versions: Record<string, number> };
+type HistoryFileDatePoint = { date: Date; versions: Record<string, number> };
 type HistoryFile = {
-  [packageName: string]: HistoryDatePoint[] | undefined;
+  [packageName: string]: HistoryFileDatePoint[] | undefined;
 };
+
+export type HistoryPoint = { date: number; version: string; count: number };
 
 /**
  * Allows reading from stored download history of an npm package
  */
 export default class HistoryReader {
   private readonly packageDescription: PackageDescription;
-  private readonly dateToCounts: Map<Date, Record<string, number>> = new Map();
-  private readonly datePointsSorted: HistoryDatePoint[] = [];
+  private readonly datePointsSorted: HistoryPoint[];
 
-  private majorDatePoints: HistoryDatePoint[] | null = null;
-  private patchDatePoints: HistoryDatePoint[] | null = null;
-  private prereleaseDatePoints: HistoryDatePoint[] | null = null;
+  private majorDatePoints: HistoryPoint[] | null = null;
+  private patchDatePoints: HistoryPoint[] | null = null;
+  private prereleaseDatePoints: HistoryPoint[] | null = null;
 
   private static instances: Partial<Record<PackageIdentifier, HistoryReader>> =
     {};
 
   private constructor(packageIdentifier: PackageIdentifier) {
-    this.packageDescription = packages[packageIdentifier];
-
     const historyFile: HistoryFile = require("./assets/download_history.json");
-    const packageHistory = historyFile[packageIdentifier];
-    for (const datePoint of packageHistory || []) {
-      this.dateToCounts.set(new Date(datePoint.date), datePoint.versions);
+    const packageHistory = historyFile[packageIdentifier] || [];
+    const datePoints: HistoryPoint[] = [];
+
+    for (const fileDatePoint of packageHistory) {
+      for (const [version, count] of Object.entries(fileDatePoint.versions)) {
+        datePoints.push({
+          date: new Date(fileDatePoint.date).getTime(),
+          version,
+          count,
+        });
+      }
     }
 
-    this.datePointsSorted = [...this.dateToCounts.entries()]
-      .map((entry) => ({
-        date: entry[0],
-        versions: sortedVersionCount(entry[1]),
-      }))
-      .sort((a, b) => a.date.getTime() - b.date.getTime());
+    this.packageDescription = packages[packageIdentifier];
+    this.datePointsSorted = datePoints.sort(compareHistoryPoint);
   }
 
   static get(packageIdentifier: PackageIdentifier): HistoryReader {
@@ -51,89 +54,107 @@ export default class HistoryReader {
     return HistoryReader.instances[packageIdentifier]!;
   }
 
-  getMajorDatePoints(): HistoryDatePoint[] {
-    if (this.majorDatePoints) {
-      return this.majorDatePoints;
+  getMajorDatePoints(): HistoryPoint[] {
+    if (!this.majorDatePoints) {
+      this.majorDatePoints = this.accumulateDatePoints({
+        versionMapper: mapToMajor,
+      });
     }
-
-    this.majorDatePoints = this.datePointsSorted.map((datePoint) => {
-      const accum: Record<string, number> = {};
-      for (const [version, count] of Object.entries(datePoint.versions)) {
-        if (this.packageDescription.defaultFilter(version)) {
-          this.packageDescription.partitionFunction(accum, { version, count });
-        }
-      }
-
-      return {
-        date: datePoint.date,
-        versions: accum,
-      };
-    });
-
     return this.majorDatePoints;
   }
 
-  getPatchDatePoints(): HistoryDatePoint[] {
-    if (this.patchDatePoints) {
-      return this.patchDatePoints;
+  getPatchDatePoints(): HistoryPoint[] {
+    if (!this.patchDatePoints) {
+      this.patchDatePoints = this.accumulateDatePoints();
     }
-
-    this.patchDatePoints = this.datePointsSorted.map((datePoint) => {
-      const versions: Record<string, number> = {};
-      for (const [version, count] of Object.entries(datePoint.versions)) {
-        if (
-          this.packageDescription.defaultFilter(version) &&
-          !semver.prerelease(version)
-        ) {
-          versions[version] = count;
-        }
-      }
-
-      return {
-        date: datePoint.date,
-        versions,
-      };
-    });
-
     return this.patchDatePoints;
   }
 
-  getPrereleaseDataPoints(): HistoryDatePoint[] {
-    if (this.prereleaseDatePoints) {
-      return this.prereleaseDatePoints;
+  getPrereleaseDataPoints(): HistoryPoint[] {
+    if (!this.prereleaseDatePoints) {
+      this.prereleaseDatePoints = this.accumulateDatePoints({
+        extraFilter: (point) => !!semver.prerelease(point.version),
+      });
+    }
+    return this.prereleaseDatePoints;
+  }
+
+  private accumulateDatePoints(opts?: {
+    versionMapper?: (v: string) => string;
+    extraFilter?: (point: HistoryPoint) => boolean;
+  }): HistoryPoint[] {
+    let points = this.datePointsSorted.filter((point) =>
+      this.packageDescription.versionFilter(point.version)
+    );
+
+    if (opts?.extraFilter) {
+      points = points.filter(opts.extraFilter);
     }
 
-    this.prereleaseDatePoints = this.datePointsSorted.map((datePoint) => {
-      const versions: Record<string, number> = {};
-      for (const [version, count] of Object.entries(datePoint.versions)) {
-        if (
-          this.packageDescription.defaultFilter(version) &&
-          semver.prerelease(version)
-        ) {
-          versions[version] = count;
+    if (opts?.versionMapper) {
+      const pointsByMappedVersion: Record<
+        string,
+        Array<{ date: number; count: number }> | undefined
+      > = {};
+
+      for (const point of points) {
+        const mappedVersion = opts.versionMapper(point.version);
+
+        const versionPoints = pointsByMappedVersion[mappedVersion] ?? [];
+        pointsByMappedVersion[mappedVersion] = versionPoints;
+
+        const versionDatePoint = versionPoints.find(
+          (p) => point.date === p.date
+        );
+
+        if (versionDatePoint) {
+          versionDatePoint.count += point.count;
+        } else {
+          versionPoints.push({ date: point.date, count: point.count });
         }
       }
 
-      return {
-        date: datePoint.date,
-        versions,
-      };
-    });
+      points = [];
+      for (const [version, pointsByVersion] of Object.entries(
+        pointsByMappedVersion
+      )) {
+        const pointsByVersionByDate = pointsByVersion!.sort(
+          (p1, p2) => p1.date - p2.date
+        );
+        points.push(...pointsByVersionByDate.map((p) => ({ ...p, version })));
+      }
+    }
 
-    return this.prereleaseDatePoints;
+    return points;
   }
 }
 
-function sortedVersionCount(
-  versionsCounts: Record<string, number>
-): Record<string, number> {
-  const versions = Object.keys(versionsCounts);
-  const sortedVersions = versions.sort(semver.compare);
+function compareHistoryPoint(p1: HistoryPoint, p2: HistoryPoint): -1 | 0 | 1 {
+  const firstIsCanary = semver.lt(p1.version, "0.0.0");
+  const secondIsCanary = semver.lt(p2.version, "0.0.0");
 
-  const ret: Record<string, number> = {};
-  for (const v of sortedVersions) {
-    ret[v] = versionsCounts[v];
+  if (firstIsCanary && !secondIsCanary) {
+    return 1;
   }
 
-  return ret;
+  if (!firstIsCanary && secondIsCanary) {
+    return -1;
+  }
+
+  const versionComparison = semver.compare(p1.version, p2.version);
+  if (versionComparison !== 0) {
+    return versionComparison;
+  }
+
+  return Math.max(-1, Math.min(1, p1.date - p2.date)) as -1 | 0 | 1;
+}
+
+function mapToMajor(version: string) {
+  const versionParts = semver.parse(version)!;
+
+  if (versionParts.major === 0) {
+    return `0.${versionParts.minor}`;
+  } else {
+    return `${versionParts.major}.0`;
+  }
 }
