@@ -25,12 +25,15 @@ export default function generateColor(
 
   const randomGenerator = randomSeed.create(version);
   let hue: number;
+  let triesRemaining = Math.ceil(1 / allHueThreshold);
+
   do {
     hue = randomGenerator.random();
     hue += goldenRatio;
     hue %= 1;
   } while (
     avoidToken &&
+    --triesRemaining > 0 &&
     (Math.abs(hue - avoidToken.adjacentHue) <= adjacentHueThreshold ||
       !avoidToken.allHues.every(
         // eslint-disable-next-line no-loop-func
