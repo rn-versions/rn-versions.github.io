@@ -26,7 +26,7 @@ const CardChart: React.FC<CardChartProps> = React.memo((props) => {
     case "major":
       return <VersionDownloadChart {...props} maxVersionsShown={8} />;
     case "patch":
-      return <VersionDownloadChart {...props} maxVersionsShown={6} />;
+      return <VersionDownloadChart {...props} maxVersionsShown={10} />;
     case "prerelease":
       return <VersionDownloadChart {...props} maxVersionsShown={4} />;
   }
