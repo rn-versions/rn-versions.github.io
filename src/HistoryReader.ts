@@ -79,9 +79,19 @@ export default class HistoryReader {
     versionMapper?: (v: string) => string;
     extraFilter?: (point: HistoryPoint) => boolean;
   }): HistoryPoint[] {
-    let points = this.datePointsSorted.filter((point) =>
-      this.packageDescription.versionFilter(point.version)
-    );
+    let points: HistoryPoint[];
+
+    if (opts?.extraFilter) {
+      points = this.datePointsSorted.filter(
+        (point) =>
+          opts.extraFilter!(point) &&
+          this.packageDescription.versionFilter(point.version)
+      );
+    } else {
+      points = this.datePointsSorted.filter((point) =>
+        this.packageDescription.versionFilter(point.version)
+      );
+    }
 
     if (opts?.versionMapper) {
       const pointsByMappedVersion: Record<
@@ -90,10 +100,6 @@ export default class HistoryReader {
       > = {};
 
       for (const point of points) {
-        if (opts.extraFilter && !opts.extraFilter(point)) {
-          continue;
-        }
-
         const mappedVersion = opts.versionMapper(point.version);
 
         const versionPoints = pointsByMappedVersion[mappedVersion] ?? [];
