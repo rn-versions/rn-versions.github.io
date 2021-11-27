@@ -5,9 +5,8 @@ import {
   packages,
 } from "./PackageDescription";
 
-type HistoryFileDatePoint = { date: Date; versions: Record<string, number> };
 type HistoryFile = {
-  [packageName: string]: HistoryFileDatePoint[] | undefined;
+  [packageName: string]: HistoryPoint[] | undefined;
 };
 
 export type HistoryPoint = { date: number; version: string; count: number };
@@ -28,21 +27,8 @@ export default class HistoryReader {
 
   private constructor(packageIdentifier: PackageIdentifier) {
     const historyFile: HistoryFile = require("./assets/download_history.json");
-    const packageHistory = historyFile[packageIdentifier] || [];
-    const datePoints: HistoryPoint[] = [];
-
-    for (const fileDatePoint of packageHistory) {
-      for (const [version, count] of Object.entries(fileDatePoint.versions)) {
-        datePoints.push({
-          date: new Date(fileDatePoint.date).getTime(),
-          version,
-          count,
-        });
-      }
-    }
-
     this.packageDescription = packages[packageIdentifier];
-    this.datePointsSorted = datePoints.sort(compareHistoryPoint);
+    this.datePointsSorted = historyFile[packageIdentifier] ?? [];
   }
 
   static get(packageIdentifier: PackageIdentifier): HistoryReader {
@@ -57,10 +43,20 @@ export default class HistoryReader {
   getMajorDatePoints(): HistoryPoint[] {
     if (!this.majorDatePoints) {
       this.majorDatePoints = this.accumulateDatePoints({
-        versionMapper: mapToMajor,
+        versionMapper: this.mapToMajor,
       });
     }
     return this.majorDatePoints;
+  }
+
+  private mapToMajor(version: string) {
+    const versionParts = semver.parse(version)!;
+
+    if (versionParts.major === 0) {
+      return `0.${versionParts.minor}`;
+    } else {
+      return `${versionParts.major}.0`;
+    }
   }
 
   getPatchDatePoints(): HistoryPoint[] {
@@ -87,10 +83,6 @@ export default class HistoryReader {
       this.packageDescription.versionFilter(point.version)
     );
 
-    if (opts?.extraFilter) {
-      points = points.filter(opts.extraFilter);
-    }
-
     if (opts?.versionMapper) {
       const pointsByMappedVersion: Record<
         string,
@@ -98,6 +90,10 @@ export default class HistoryReader {
       > = {};
 
       for (const point of points) {
+        if (opts.extraFilter && !opts.extraFilter(point)) {
+          continue;
+        }
+
         const mappedVersion = opts.versionMapper(point.version);
 
         const versionPoints = pointsByMappedVersion[mappedVersion] ?? [];
@@ -127,45 +123,4 @@ export default class HistoryReader {
 
     return points;
   }
-}
-
-function compareHistoryPoint(p1: HistoryPoint, p2: HistoryPoint): -1 | 0 | 1 {
-  const firstIsCanary = semver.lt(p1.version, "0.0.0");
-  const secondIsCanary = semver.lt(p2.version, "0.0.0");
-
-  if (firstIsCanary && !secondIsCanary) {
-    return 1;
-  }
-
-  if (!firstIsCanary && secondIsCanary) {
-    return -1;
-  }
-
-  // Some 0.0.0-xxx releases are not in sorted order
-  if (
-    (!firstIsCanary || isCanaryComparable(p1.version)) &&
-    (!secondIsCanary || isCanaryComparable(p2.version))
-  ) {
-    const versionComparison = semver.compare(p1.version, p2.version);
-    if (versionComparison !== 0) {
-      return versionComparison;
-    }
-  }
-
-  return Math.max(-1, Math.min(1, p1.date - p2.date)) as -1 | 0 | 1;
-}
-
-function mapToMajor(version: string) {
-  const versionParts = semver.parse(version)!;
-
-  if (versionParts.major === 0) {
-    return `0.${versionParts.minor}`;
-  } else {
-    return `${versionParts.major}.0`;
-  }
-}
-
-function isCanaryComparable(version: string): boolean {
-  const pre = semver.prerelease(version)?.[0] as string;
-  return pre.split("-").length === 3 || pre === "canary";
 }

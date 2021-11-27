@@ -25,6 +25,12 @@ type HistoryFile = {
   }>;
 };
 
+/** Representation of packed asset file */
+type AssetHistoryFile = {
+  [packageName: string]: AssetHistoryPoint[] | undefined;
+};
+type AssetHistoryPoint = { date: number; version: string; count: number };
+
 /** Minimum number of downloads for a version to be recored */
 const minDownloadThreshold = 10;
 
@@ -208,10 +214,23 @@ async function recordVersionCounts(
  */
 async function generateWebpageAssets() {
   const fullHistory: HistoryFile = require(fullHistoryPath());
-  const trimmedHistory: HistoryFile = {};
+  const assetFile: AssetHistoryFile = {};
 
   for (const [packageName, counts] of Object.entries(fullHistory)) {
-    trimmedHistory[packageName] = counts.slice(-maxAssetHistoryEntries);
+    const trimmedHistory = counts.slice(-maxAssetHistoryEntries);
+    const datePoints: AssetHistoryPoint[] = [];
+
+    for (const fileDatePoint of trimmedHistory) {
+      for (const [version, count] of Object.entries(fileDatePoint.versions)) {
+        datePoints.push({
+          date: new Date(fileDatePoint.date).getTime(),
+          version,
+          count,
+        });
+      }
+    }
+
+    assetFile[packageName] = datePoints.sort(compareAssetHistoryPoint);
   }
 
   const historyAssetPath = path.join(
@@ -219,7 +238,41 @@ async function generateWebpageAssets() {
     "..",
     "src/assets/download_history.json"
   );
-  await fs.writeFile(historyAssetPath, JSON.stringify(trimmedHistory, null, 2));
+  await fs.writeFile(historyAssetPath, JSON.stringify(assetFile, null, 2));
+}
+
+function compareAssetHistoryPoint(
+  p1: AssetHistoryPoint,
+  p2: AssetHistoryPoint
+): -1 | 0 | 1 {
+  const firstIsCanary = semver.lt(p1.version, "0.0.0");
+  const secondIsCanary = semver.lt(p2.version, "0.0.0");
+
+  if (firstIsCanary && !secondIsCanary) {
+    return 1;
+  }
+
+  if (!firstIsCanary && secondIsCanary) {
+    return -1;
+  }
+
+  // Some 0.0.0-xxx releases are not in sorted order
+  if (
+    (!firstIsCanary || isCanaryComparable(p1.version)) &&
+    (!secondIsCanary || isCanaryComparable(p2.version))
+  ) {
+    const versionComparison = semver.compare(p1.version, p2.version);
+    if (versionComparison !== 0) {
+      return versionComparison;
+    }
+  }
+
+  return Math.max(-1, Math.min(1, p1.date - p2.date)) as -1 | 0 | 1;
+}
+
+function isCanaryComparable(version: string): boolean {
+  const pre = semver.prerelease(version)?.[0] as string;
+  return pre.split("-").length === 3 || pre === "canary";
 }
 
 /**
