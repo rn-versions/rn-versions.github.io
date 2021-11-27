@@ -15,6 +15,7 @@ import {
 } from "recharts";
 import HistoryReader, { HistoryPoint } from "./HistoryReader";
 import { PackageIdentifier } from "./PackageDescription";
+import FadeIn from "./FadeIn";
 
 export type VersionFilter = "major" | "patch" | "prerelease";
 
@@ -139,61 +140,63 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   }
 
   return (
-    <ResponsiveContainer {...styles.responsiveContainer}>
-      <AreaChart data={data}>
-        <XAxis
-          {...styles.xAxis}
-          dataKey="date"
-          type="number"
-          interval="preserveStartEnd"
-          scale="time"
-          domain={["dataMin", "dataMax"]}
-          tickFormatter={(unixTime) =>
-            dateTimeFormat.format(new Date(unixTime))
-          }
-        />
-        <YAxis
-          {...styles.yAxis}
-          type="number"
-          {...(measurementTransform === "percentage"
-            ? {
-                domain: [0, 1],
-                tickFormatter: (count) => `${Math.round(count * 100)}%`,
-              }
-            : {
-                domain: ["auto", "auto"],
-                tickFormatter: (count) => count.toLocaleString(),
-              })}
-        />
-        <CartesianGrid {...styles.grid} />
-
-        {showTooltip !== false && (
-          <Tooltip
-            {...styles.tooltip}
-            labelFormatter={(unixTime) =>
+    <FadeIn duration="fast">
+      <ResponsiveContainer {...styles.responsiveContainer}>
+        <AreaChart data={data}>
+          <XAxis
+            {...styles.xAxis}
+            dataKey="date"
+            type="number"
+            interval="preserveStartEnd"
+            scale="time"
+            domain={["dataMin", "dataMax"]}
+            tickFormatter={(unixTime) =>
               dateTimeFormat.format(new Date(unixTime))
             }
-            formatter={(count, _rnVersion, entry) => {
-              const totalCount = (
-                Object.values(entry.payload.versionCounts) as number[]
-              ).reduce((a, b) => a + b, 0);
-
-              const pct = ((count as number) / totalCount) * 100;
-
-              if (measurementTransform === "percentage") {
-                return `${Math.round(pct * 100) / 100}%`;
-              } else {
-                return `${count.toLocaleString()} (${Math.round(pct)}%)`;
-              }
-            }}
           />
-        )}
+          <YAxis
+            {...styles.yAxis}
+            type="number"
+            {...(measurementTransform === "percentage"
+              ? {
+                  domain: [0, 1],
+                  tickFormatter: (count) => `${Math.round(count * 100)}%`,
+                }
+              : {
+                  domain: ["auto", "auto"],
+                  tickFormatter: (count) => count.toLocaleString(),
+                })}
+          />
+          <CartesianGrid {...styles.grid} />
 
-        {showLegend !== false && <Legend {...styles.legend} />}
+          {showTooltip !== false && (
+            <Tooltip
+              {...styles.tooltip}
+              labelFormatter={(unixTime) =>
+                dateTimeFormat.format(new Date(unixTime))
+              }
+              formatter={(count, _rnVersion, entry) => {
+                const totalCount = (
+                  Object.values(entry.payload.versionCounts) as number[]
+                ).reduce((a, b) => a + b, 0);
 
-        {chartAreas}
-      </AreaChart>
-    </ResponsiveContainer>
+                const pct = ((count as number) / totalCount) * 100;
+
+                if (measurementTransform === "percentage") {
+                  return `${Math.round(pct * 100) / 100}%`;
+                } else {
+                  return `${count.toLocaleString()} (${Math.round(pct)}%)`;
+                }
+              }}
+            />
+          )}
+
+          {showLegend !== false && <Legend {...styles.legend} />}
+
+          {chartAreas}
+        </AreaChart>
+      </ResponsiveContainer>
+    </FadeIn>
   );
 };
 

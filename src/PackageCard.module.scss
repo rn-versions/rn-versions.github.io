@@ -38,18 +38,6 @@
   }
 }
 
-.opacityTransition {
-  transition: opacity ease-in-out 150ms;
-}
-
-.hidden {
-  opacity: 0;
-}
-
-.visible {
-  opacity: 1.0;
-}
-
 .header {
   display: flex;
   flex-direction: row;

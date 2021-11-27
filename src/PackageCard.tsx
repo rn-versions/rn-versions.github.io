@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useState } from "react";
 import { Form } from "react-bootstrap";
 import styles from "./PackageCard.module.scss";
-
-import VersionDownloadChart, {
-  MeasurementTransform,
-  VersionFilter,
-} from "./VersionDownloadChart";
 import chartStyles from "./VersionDownloadChart.styles";
 
 import { PackageIdentifier, packages } from "./PackageDescription";
+
+import type {
+  MeasurementTransform,
+  VersionFilter,
+} from "./VersionDownloadChart";
+import FadeIn from "./FadeIn";
+
+const VersionDownloadChart = React.lazy(() => import("./VersionDownloadChart"));
 
 export type PackageCardProps = {
   identifier: PackageIdentifier;
@@ -21,21 +24,32 @@ type CardChartProps = {
   measurementTransform: MeasurementTransform;
 };
 
-const CardChart: React.FC<CardChartProps> = React.memo((props) => {
-  switch (props.versionFilter) {
-    case "major":
-      return <VersionDownloadChart {...props} maxVersionsShown={8} />;
-    case "patch":
-      return <VersionDownloadChart {...props} maxVersionsShown={10} />;
-    case "prerelease":
-      return <VersionDownloadChart {...props} maxVersionsShown={4} />;
+const CardChart: React.FC<CardChartProps> = React.memo(
+  ({ identifier, versionFilter, measurementTransform }) => {
+    const maxVersionsShown = maxVersions(versionFilter);
+    return (
+      <VersionDownloadChart
+        identifier={identifier}
+        versionFilter={versionFilter}
+        measurementTransform={measurementTransform}
+        maxVersionsShown={maxVersionsShown}
+      />
+    );
   }
-});
+);
 
-type RenderPhase = "initial" | "charts-rendering" | "charts-visible";
+function maxVersions(versionFilter: VersionFilter) {
+  switch (versionFilter) {
+    case "major":
+      return 8;
+    case "patch":
+      return 9;
+    case "prerelease":
+      return 4;
+  }
+}
 
 const PackageCard: React.FC<PackageCardProps> = (props) => {
-  const [renderPhase, setRenderPhase] = useState<RenderPhase>("initial");
   const [lastVersionFilter, setLastVersionFilter] = useState<
     VersionFilter | undefined
   >(props.versionFilter);
@@ -47,31 +61,10 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
     setLastVersionFilter(props.versionFilter);
   }
 
-  useEffect(() => {
-    switch (renderPhase) {
-      case "initial":
-        setRenderPhase("charts-rendering");
-        break;
-      case "charts-rendering":
-        setRenderPhase("charts-visible");
-        break;
-      case "charts-visible":
-        break;
-    }
-  }, [renderPhase]);
-
-  const cardVisibilityClass =
-    renderPhase === "initial" ? styles.hidden : styles.visible;
-
-  const chartVisibilityClass =
-    renderPhase === "charts-visible" ? "visible" : "hidden";
-
   const packageDesc = packages[props.identifier];
 
   return (
-    <div
-      className={`${styles.packageCard} ${styles.opacityTransition} ${cardVisibilityClass}`}
-    >
+    <FadeIn duration="slow" className={styles.packageCard}>
       <div className={styles.header}>
         <div className={styles.headerLeft} />
         <div className={styles.headerText}>
@@ -87,10 +80,12 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
         </div>
       </div>
 
-      {renderPhase === "charts-visible" ? (
-        <div
-          className={`${styles.chartContainer} ${styles.opacityTransition} ${chartVisibilityClass}`}
-        >
+      <Suspense
+        fallback={
+          <div style={{ height: chartStyles.responsiveContainer.height }} />
+        }
+      >
+        <div className={styles.chartContainer}>
           <CardChart
             identifier={props.identifier}
             versionFilter={props.versionFilter || "major"}
@@ -99,10 +94,8 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
             }
           />
         </div>
-      ) : (
-        <div style={{ height: chartStyles.responsiveContainer.height }}></div>
-      )}
-    </div>
+      </Suspense>
+    </FadeIn>
   );
 };
 
