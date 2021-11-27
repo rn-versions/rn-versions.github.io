@@ -67,7 +67,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   );
 
   const topRawDataPoints = maxVersionsShown
-    ? filterTopN(rawDatapoints, maxVersionsShown, 20 /*windowInDays*/)
+    ? filterTopN(rawDatapoints, maxVersionsShown, 30 /*windowInDays*/)
     : rawDatapoints;
 
   const datapoints =
@@ -293,12 +293,13 @@ function filterTopN(
   const pointsWithZero: HistoryPoint[] = [];
 
   for (const date of datesAscending) {
-    for (const point of pointsByDate.get(date)!) {
-      pointsWithZero.push({ ...point, date });
-    }
-
     for (const topVersion of topVersionsInOrder) {
-      if (!pointsByDate.get(date)!.find((p) => p.version === topVersion)) {
+      const existingPoint = pointsByDate
+        .get(date)!
+        .find((p) => p.version === topVersion);
+      if (existingPoint) {
+        pointsWithZero.push({ date, ...existingPoint });
+      } else {
         pointsWithZero.push({ date, version: topVersion, count: 0 });
       }
     }
