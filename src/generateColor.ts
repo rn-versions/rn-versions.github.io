@@ -33,6 +33,7 @@ export default function generateColor(
     avoidToken &&
     (Math.abs(hue - avoidToken.adjacentHue) <= adjacentHueThreshold ||
       !avoidToken.allHues.every(
+        // eslint-disable-next-line no-loop-func
         (otherHue) => Math.abs(hue - otherHue) > allHueThreshold
       ))
   );
