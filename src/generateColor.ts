@@ -18,7 +18,7 @@ export default function generateColor(
   version: string,
   avoidToken?: AvoidToken
 ): { color: string; avoidToken: AvoidToken } {
-  const adjacentHueThreshold = 0.1;
+  const adjacentHueThreshold = 0.2;
   const allHueThreshold = 0.05;
 
   const goldenRatio = 0.618033988749895;
