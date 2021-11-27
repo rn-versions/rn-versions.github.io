@@ -142,7 +142,10 @@ function compareHistoryPoint(p1: HistoryPoint, p2: HistoryPoint): -1 | 0 | 1 {
   }
 
   // Some 0.0.0-xxx releases are not in sorted order
-  if (isComparableRnVersion(p1.version) && isComparableRnVersion(p2.version)) {
+  if (
+    (!firstIsCanary || isCanaryComparable(p1.version)) &&
+    (!secondIsCanary || isCanaryComparable(p2.version))
+  ) {
     const versionComparison = semver.compare(p1.version, p2.version);
     if (versionComparison !== 0) {
       return versionComparison;
@@ -162,11 +165,7 @@ function mapToMajor(version: string) {
   }
 }
 
-function isComparableRnVersion(version: string): boolean {
-  if (!semver.lt(version, "0.0.0")) {
-    return true;
-  }
-
+function isCanaryComparable(version: string): boolean {
   const pre = semver.prerelease(version)?.[0] as string;
   return pre.split("-").length === 3 || pre === "canary";
 }
