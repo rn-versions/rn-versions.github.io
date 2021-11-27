@@ -13,10 +13,8 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import HistoryReader, { HistoryDatePoint } from "./HistoryReader";
+import HistoryReader, { HistoryPoint } from "./HistoryReader";
 import { PackageIdentifier } from "./PackageDescription";
-
-export type MeasurementPoint = { date: number; version: string; count: number };
 
 export type VersionFilter = "major" | "patch" | "prerelease";
 
@@ -63,7 +61,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   showTooltip,
   measurementTransform,
 }) => {
-  const rawDatapoints = createDownloadMeasurementPoints(
+  const rawDatapoints = createDownloadHistoryPoints(
     identifier,
     versionFilter || "major"
   );
@@ -200,38 +198,25 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 /**
  * Create the point representation of downloads to show
  */
-function createDownloadMeasurementPoints(
+function createDownloadHistoryPoints(
   identifier: PackageIdentifier,
   versionFilter: "major" | "patch" | "prerelease"
-): MeasurementPoint[] {
+): HistoryPoint[] {
   const historyReader = HistoryReader.get(identifier);
 
-  let historyPoints: HistoryDatePoint[] = [];
   switch (versionFilter) {
     case "major":
-      historyPoints = historyReader.getMajorDatePoints();
-      break;
+      return historyReader.getMajorDatePoints();
     case "patch":
-      historyPoints = historyReader.getPatchDatePoints();
-      break;
+      return historyReader.getPatchDatePoints();
     case "prerelease":
-      historyPoints = historyReader.getPrereleaseDataPoints();
-      break;
+      return historyReader.getPrereleaseDataPoints();
   }
-
-  const dataPoints: MeasurementPoint[] = [];
-
-  for (const datePoint of historyPoints) {
-    for (const [version, count] of Object.entries(datePoint.versions)) {
-      dataPoints.push({ date: datePoint.date.getTime(), version, count });
-    }
-  }
-
-  return dataPoints;
 }
 
-function transformToPercentage(points: MeasurementPoint[]): MeasurementPoint[] {
-  const totalCountByDate: Record<string, number | undefined> = {};
+function transformToPercentage(points: HistoryPoint[]): HistoryPoint[] {
+  const totalCountByDate: Record<number, number | undefined> = {};
+
   for (const point of points) {
     const prevTotal = totalCountByDate[point.date] ?? 0;
     totalCountByDate[point.date] = prevTotal + point.count;
@@ -243,10 +228,7 @@ function transformToPercentage(points: MeasurementPoint[]): MeasurementPoint[] {
   }));
 }
 
-function filterTopN(
-  historyPoints: MeasurementPoint[],
-  n: number
-): MeasurementPoint[] {
+function filterTopN(historyPoints: HistoryPoint[], n: number): HistoryPoint[] {
   const allVersions: Array<{ version: string; count: number }> = [];
 
   for (const point of historyPoints) {
