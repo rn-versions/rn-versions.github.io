@@ -178,8 +178,13 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
                 Object.values(entry.payload.versionCounts) as number[]
               ).reduce((a, b) => a + b, 0);
 
-              const pct = Math.round(((count as number) / totalCount) * 100);
-              return `${count.toLocaleString()} (${pct}%)`;
+              const pct = ((count as number) / totalCount) * 100;
+
+              if (measurementTransform === "percentage") {
+                return `${Math.round(pct * 100) / 100}%`;
+              } else {
+                return `${count.toLocaleString()} (${Math.round(pct)}%)`;
+              }
             }}
           />
         )}
