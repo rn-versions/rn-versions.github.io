@@ -217,7 +217,7 @@ async function generateWebpageAssets() {
   const assetFile: AssetHistoryFile = {};
 
   for (const [packageName, counts] of Object.entries(fullHistory)) {
-    const trimmedHistory = counts.slice(-maxAssetHistoryEntries);
+    const trimmedHistory = counts.slice(0, maxAssetHistoryEntries);
     const datePoints: AssetHistoryPoint[] = [];
 
     for (const fileDatePoint of trimmedHistory) {
