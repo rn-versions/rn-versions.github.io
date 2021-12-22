@@ -5,10 +5,7 @@ import {
   packages,
 } from "./PackageDescription";
 
-type HistoryFile = {
-  [packageName: string]: HistoryPoint[] | undefined;
-};
-
+type HistoryFile = { points: HistoryPoint[] };
 export type HistoryPoint = { date: number; version: string; count: number };
 
 /**
@@ -16,7 +13,7 @@ export type HistoryPoint = { date: number; version: string; count: number };
  */
 export default class HistoryReader {
   private readonly packageDescription: PackageDescription;
-  private readonly datePointsSorted: HistoryPoint[];
+  private readonly historyPoints: HistoryPoint[];
 
   private majorDatePoints: HistoryPoint[] | null = null;
   private patchDatePoints: HistoryPoint[] | null = null;
@@ -25,19 +22,47 @@ export default class HistoryReader {
   private static instances: Partial<Record<PackageIdentifier, HistoryReader>> =
     {};
 
-  private constructor(packageIdentifier: PackageIdentifier) {
-    const historyFile: HistoryFile = require("./assets/download_history.json");
+  private constructor(
+    packageIdentifier: PackageIdentifier,
+    historyPoints: HistoryPoint[]
+  ) {
     this.packageDescription = packages[packageIdentifier];
-    this.datePointsSorted = historyFile[packageIdentifier] ?? [];
+    this.historyPoints = historyPoints;
   }
 
-  static get(packageIdentifier: PackageIdentifier): HistoryReader {
+  static async get(
+    packageIdentifier: PackageIdentifier
+  ): Promise<HistoryReader> {
     if (!HistoryReader.instances[packageIdentifier]) {
-      HistoryReader.instances[packageIdentifier] = new HistoryReader(
+      const historyFile = await HistoryReader.loadHistoryFile(
         packageIdentifier
+      );
+
+      //throw new Error(Array.isArray(historyFile).toString());
+
+      HistoryReader.instances[packageIdentifier] = new HistoryReader(
+        packageIdentifier,
+        historyFile.points
       );
     }
     return HistoryReader.instances[packageIdentifier]!;
+  }
+
+  private static async loadHistoryFile(
+    packageIdentifier: PackageIdentifier
+  ): Promise<HistoryFile> {
+    switch (packageIdentifier) {
+      case "@types/react-native":
+        return await import("./generated_assets/@types_react-native.json");
+      case "react-native":
+        return await import("./generated_assets/react-native.json");
+      case "react-native-macos":
+        return await import("./generated_assets/react-native-macos.json");
+      case "react-native-web":
+        return await import("./generated_assets/react-native-web.json");
+      case "react-native-windows":
+        return await import("./generated_assets/react-native-windows.json");
+    }
   }
 
   getMajorDatePoints(): HistoryPoint[] {
@@ -75,6 +100,19 @@ export default class HistoryReader {
     return this.prereleaseDatePoints;
   }
 
+  getDatePoints(
+    versionFilter: "major" | "patch" | "prerelease"
+  ): HistoryPoint[] {
+    switch (versionFilter) {
+      case "major":
+        return this.getMajorDatePoints();
+      case "patch":
+        return this.getPatchDatePoints();
+      case "prerelease":
+        return this.getPrereleaseDataPoints();
+    }
+  }
+
   private accumulateDatePoints(opts?: {
     versionMapper?: (v: string) => string;
     extraFilter?: (point: HistoryPoint) => boolean;
@@ -82,13 +120,13 @@ export default class HistoryReader {
     let points: HistoryPoint[];
 
     if (opts?.extraFilter) {
-      points = this.datePointsSorted.filter(
+      points = this.historyPoints.filter(
         (point) =>
           opts.extraFilter!(point) &&
           this.packageDescription.versionFilter(point.version)
       );
     } else {
-      points = this.datePointsSorted.filter((point) =>
+      points = this.historyPoints.filter((point) =>
         this.packageDescription.versionFilter(point.version)
       );
     }

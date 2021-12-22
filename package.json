@@ -9,7 +9,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "update-history": "ts-node --transpile-only ./scripts/updateHistory.ts"
+    "update-history": "ts-node --transpile-only ./scripts/updateHistory.ts",
+    "generate-assets": "ts-node --transpile-only ./scripts/generateAssets.ts"
   },
   "dependencies": {
     "node-sass": "5.0.0",

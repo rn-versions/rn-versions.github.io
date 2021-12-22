@@ -13,19 +13,15 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import HistoryReader, { HistoryPoint } from "./HistoryReader";
-import { PackageIdentifier } from "./PackageDescription";
-import FadeIn from "./FadeIn";
-
-export type VersionFilter = "major" | "patch" | "prerelease";
+import type { HistoryPoint } from "./HistoryReader";
 
 export type MeasurementTransform = "totalDownloads" | "percentage";
 
 export type VersionDownloadChartProps = {
   /**
-   * Which package to show data for
+   * Points to render
    */
-  identifier: PackageIdentifier;
+  historyPoints: HistoryPoint[];
 
   /**
    * Number of versions shown at once, with the most popular versions always
@@ -44,32 +40,21 @@ export type VersionDownloadChartProps = {
   showTooltip?: boolean;
 
   /**
-   * Which versions to show in the graph. Defaults to only major versions
-   */
-  versionFilter?: VersionFilter;
-
-  /**
    * Allows transforming raw measurements to a different unit
    */
   measurementTransform?: MeasurementTransform;
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
-  identifier,
+  historyPoints,
   maxVersionsShown,
-  versionFilter,
   showLegend,
   showTooltip,
   measurementTransform,
 }) => {
-  const rawDatapoints = createDownloadHistoryPoints(
-    identifier,
-    versionFilter || "major"
-  );
-
   const topRawDataPoints = maxVersionsShown
-    ? filterTopN(rawDatapoints, maxVersionsShown, 20 /*windowInDays*/)
-    : rawDatapoints;
+    ? filterTopN(historyPoints, maxVersionsShown, 20 /*windowInDays*/)
+    : historyPoints;
 
   const datapoints =
     measurementTransform === "percentage"
@@ -140,84 +125,63 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   }
 
   return (
-    <FadeIn duration="fast">
-      <ResponsiveContainer {...styles.responsiveContainer}>
-        <AreaChart data={data}>
-          <XAxis
-            {...styles.xAxis}
-            dataKey="date"
-            type="number"
-            interval="preserveStartEnd"
-            scale="time"
-            domain={["dataMin", "dataMax"]}
-            tickFormatter={(unixTime) =>
+    <ResponsiveContainer {...styles.responsiveContainer}>
+      <AreaChart data={data}>
+        <XAxis
+          {...styles.xAxis}
+          dataKey="date"
+          type="number"
+          interval="preserveStartEnd"
+          scale="time"
+          domain={["dataMin", "dataMax"]}
+          tickFormatter={(unixTime) =>
+            dateTimeFormat.format(new Date(unixTime))
+          }
+        />
+        <YAxis
+          {...styles.yAxis}
+          type="number"
+          {...(measurementTransform === "percentage"
+            ? {
+                domain: [0, 1],
+                tickFormatter: (count) => `${Math.round(count * 100)}%`,
+              }
+            : {
+                domain: ["auto", "auto"],
+                tickFormatter: (count) => count.toLocaleString(),
+              })}
+        />
+        <CartesianGrid {...styles.grid} />
+
+        {showTooltip !== false && (
+          <Tooltip
+            {...styles.tooltip}
+            labelFormatter={(unixTime) =>
               dateTimeFormat.format(new Date(unixTime))
             }
-          />
-          <YAxis
-            {...styles.yAxis}
-            type="number"
-            {...(measurementTransform === "percentage"
-              ? {
-                  domain: [0, 1],
-                  tickFormatter: (count) => `${Math.round(count * 100)}%`,
-                }
-              : {
-                  domain: ["auto", "auto"],
-                  tickFormatter: (count) => count.toLocaleString(),
-                })}
-          />
-          <CartesianGrid {...styles.grid} />
+            formatter={(count, _rnVersion, entry) => {
+              const totalCount = (
+                Object.values(entry.payload.versionCounts) as number[]
+              ).reduce((a, b) => a + b, 0);
 
-          {showTooltip !== false && (
-            <Tooltip
-              {...styles.tooltip}
-              labelFormatter={(unixTime) =>
-                dateTimeFormat.format(new Date(unixTime))
+              const pct = ((count as number) / totalCount) * 100;
+
+              if (measurementTransform === "percentage") {
+                return `${Math.round(pct * 100) / 100}%`;
+              } else {
+                return `${count.toLocaleString()} (${Math.round(pct)}%)`;
               }
-              formatter={(count, _rnVersion, entry) => {
-                const totalCount = (
-                  Object.values(entry.payload.versionCounts) as number[]
-                ).reduce((a, b) => a + b, 0);
+            }}
+          />
+        )}
 
-                const pct = ((count as number) / totalCount) * 100;
+        {showLegend !== false && <Legend {...styles.legend} />}
 
-                if (measurementTransform === "percentage") {
-                  return `${Math.round(pct * 100) / 100}%`;
-                } else {
-                  return `${count.toLocaleString()} (${Math.round(pct)}%)`;
-                }
-              }}
-            />
-          )}
-
-          {showLegend !== false && <Legend {...styles.legend} />}
-
-          {chartAreas}
-        </AreaChart>
-      </ResponsiveContainer>
-    </FadeIn>
+        {chartAreas}
+      </AreaChart>
+    </ResponsiveContainer>
   );
 };
-
-/**
- * Create the point representation of downloads to show
- */
-function createDownloadHistoryPoints(
-  identifier: PackageIdentifier,
-  versionFilter: "major" | "patch" | "prerelease"
-): HistoryPoint[] {
-  const historyReader = HistoryReader.get(identifier);
-
-  switch (versionFilter) {
-    case "major":
-      return historyReader.getMajorDatePoints();
-    case "patch":
-      return historyReader.getPatchDatePoints();
-    case "prerelease":
-      return historyReader.getPrereleaseDataPoints();
-  }
-}
 
 function transformToPercentage(points: HistoryPoint[]): HistoryPoint[] {
   const totalCountByDate: Record<number, number | undefined> = {};
