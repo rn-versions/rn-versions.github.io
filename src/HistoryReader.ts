@@ -38,8 +38,6 @@ export default class HistoryReader {
         packageIdentifier
       );
 
-      //throw new Error(Array.isArray(historyFile).toString());
-
       HistoryReader.instances[packageIdentifier] = new HistoryReader(
         packageIdentifier,
         historyFile.points
