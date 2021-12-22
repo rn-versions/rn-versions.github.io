@@ -21,6 +21,8 @@ export type VersionFilter = "major" | "patch" | "prerelease";
 
 export type MeasurementTransform = "totalDownloads" | "percentage";
 
+export type VersionLabeler = (version: string) => string;
+
 export type VersionDownloadChartProps = {
   /**
    * Which package to show data for
@@ -52,6 +54,11 @@ export type VersionDownloadChartProps = {
    * Allows transforming raw measurements to a different unit
    */
   measurementTransform?: MeasurementTransform;
+
+  /**
+   * Allows relabeling versions
+   */
+  versionLabeler?: VersionLabeler;
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
@@ -61,6 +68,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   showLegend,
   showTooltip,
   measurementTransform,
+  versionLabeler,
 }) => {
   const rawDatapoints = createDownloadHistoryPoints(
     identifier,
@@ -89,7 +97,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     return (
       <Area
         {...styles.area}
-        name={v}
+        name={versionLabeler ? versionLabeler(v) : v}
         key={v}
         dataKey={(datapoint) => datapoint.versionCounts[v]}
         stackId="1"

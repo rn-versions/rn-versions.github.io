@@ -8,6 +8,7 @@ import { PackageIdentifier, packages } from "./PackageDescription";
 import type {
   MeasurementTransform,
   VersionFilter,
+  VersionLabeler,
 } from "./VersionDownloadChart";
 import FadeIn from "./FadeIn";
 
@@ -22,10 +23,11 @@ type CardChartProps = {
   identifier: PackageIdentifier;
   versionFilter: VersionFilter;
   measurementTransform: MeasurementTransform;
+  versionLabeler?: VersionLabeler;
 };
 
 const CardChart: React.FC<CardChartProps> = React.memo(
-  ({ identifier, versionFilter, measurementTransform }) => {
+  ({ identifier, versionFilter, measurementTransform, versionLabeler }) => {
     const maxVersionsShown = maxVersions(versionFilter);
     return (
       <VersionDownloadChart
@@ -33,6 +35,7 @@ const CardChart: React.FC<CardChartProps> = React.memo(
         versionFilter={versionFilter}
         measurementTransform={measurementTransform}
         maxVersionsShown={maxVersionsShown}
+        versionLabeler={versionLabeler}
       />
     );
   }
@@ -45,7 +48,7 @@ function maxVersions(versionFilter: VersionFilter) {
     case "patch":
       return 9;
     case "prerelease":
-      return 4;
+      return 7;
   }
 }
 
@@ -92,6 +95,7 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
             measurementTransform={
               showAsPercentage ? "percentage" : "totalDownloads"
             }
+            versionLabeler={packageDesc.versionLabeler}
           />
         </div>
       </Suspense>
