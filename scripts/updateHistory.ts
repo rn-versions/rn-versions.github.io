@@ -25,17 +25,8 @@ type HistoryFile = {
   }>;
 };
 
-/** Representation of packed asset file */
-type AssetHistoryFile = {
-  [packageName: string]: AssetHistoryPoint[] | undefined;
-};
-type AssetHistoryPoint = { date: number; version: string; count: number };
-
 /** Minimum number of downloads for a version to be recored */
 const minDownloadThreshold = 10;
-
-/** Maximum datepoints per package to keep in webpage assets */
-const maxAssetHistoryEntries = 60;
 
 /** Packages to record */
 const packageNames = Object.keys(packages);
@@ -81,7 +72,7 @@ const axiosInstance = createAxiosInstance();
   }
 
   await recordVersionCounts(packageCounts);
-  await generateWebpageAssets();
+  require("./generateAssets");
 })();
 
 /**
@@ -207,72 +198,6 @@ async function recordVersionCounts(
   }
 
   await fs.writeFile(fullHistoryPath(), JSON.stringify(fullHistory, null, 2));
-}
-
-/**
- * Generate reduced JSON to power the webpage graph
- */
-async function generateWebpageAssets() {
-  const fullHistory: HistoryFile = require(fullHistoryPath());
-  const assetFile: AssetHistoryFile = {};
-
-  for (const [packageName, counts] of Object.entries(fullHistory)) {
-    const trimmedHistory = counts.slice(0, maxAssetHistoryEntries);
-    const datePoints: AssetHistoryPoint[] = [];
-
-    for (const fileDatePoint of trimmedHistory) {
-      for (const [version, count] of Object.entries(fileDatePoint.versions)) {
-        datePoints.push({
-          date: new Date(fileDatePoint.date).getTime(),
-          version,
-          count,
-        });
-      }
-    }
-
-    assetFile[packageName] = datePoints.sort(compareAssetHistoryPoint);
-  }
-
-  const historyAssetPath = path.join(
-    __dirname,
-    "..",
-    "src/assets/download_history.json"
-  );
-  await fs.writeFile(historyAssetPath, JSON.stringify(assetFile, null, 2));
-}
-
-function compareAssetHistoryPoint(
-  p1: AssetHistoryPoint,
-  p2: AssetHistoryPoint
-): -1 | 0 | 1 {
-  const firstIsCanary = semver.lt(p1.version, "0.0.0");
-  const secondIsCanary = semver.lt(p2.version, "0.0.0");
-
-  if (firstIsCanary && !secondIsCanary) {
-    return 1;
-  }
-
-  if (!firstIsCanary && secondIsCanary) {
-    return -1;
-  }
-
-  // Some 0.0.0-xxx releases are not in sorted order
-  if (
-    (!firstIsCanary || isCanaryComparable(p1.version)) &&
-    (!secondIsCanary || isCanaryComparable(p2.version))
-  ) {
-    const versionComparison = semver.compare(p1.version, p2.version);
-    if (versionComparison !== 0) {
-      return versionComparison;
-    }
-  }
-
-  return Math.max(-1, Math.min(1, p1.date - p2.date)) as -1 | 0 | 1;
-}
-
-function isCanaryComparable(version: string): boolean {
-  const pre = semver.prerelease(version)?.[0] as string;
-  return pre.split("-").length === 3 || pre === "canary";
 }
 
 /**

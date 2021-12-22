@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./App.module.scss";
 import reactLogo from "./assets/react-logo.svg";
 import githubLogo from "./assets/github-logo.svg";
-import PackageCard from "./PackageCard";
+import PackageCard, { VersionFilter } from "./PackageCard";
 
 import {
   Container,
@@ -13,8 +13,6 @@ import {
   Button,
 } from "react-bootstrap";
 import { PackageIdentifier } from "./PackageDescription";
-
-type VersionFilter = "major" | "patch" | "prerelease";
 
 const packages: PackageIdentifier[] = [
   "react-native",

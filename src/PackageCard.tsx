@@ -1,42 +1,19 @@
-import React, { Suspense, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import styles from "./PackageCard.module.scss";
 import chartStyles from "./VersionDownloadChart.styles";
 
 import { PackageIdentifier, packages } from "./PackageDescription";
 
-import type {
-  MeasurementTransform,
-  VersionFilter,
-} from "./VersionDownloadChart";
-import FadeIn from "./FadeIn";
-
-const VersionDownloadChart = React.lazy(() => import("./VersionDownloadChart"));
+import VersionDownloadChart from "./VersionDownloadChart";
+import HistoryReader from "./HistoryReader";
+import EaseVisiblity from "./EaseVisibility";
+export type VersionFilter = "major" | "patch" | "prerelease";
 
 export type PackageCardProps = {
   identifier: PackageIdentifier;
-  versionFilter?: VersionFilter;
-};
-
-type CardChartProps = {
-  identifier: PackageIdentifier;
   versionFilter: VersionFilter;
-  measurementTransform: MeasurementTransform;
 };
-
-const CardChart: React.FC<CardChartProps> = React.memo(
-  ({ identifier, versionFilter, measurementTransform }) => {
-    const maxVersionsShown = maxVersions(versionFilter);
-    return (
-      <VersionDownloadChart
-        identifier={identifier}
-        versionFilter={versionFilter}
-        measurementTransform={measurementTransform}
-        maxVersionsShown={maxVersionsShown}
-      />
-    );
-  }
-);
 
 function maxVersions(versionFilter: VersionFilter) {
   switch (versionFilter) {
@@ -54,6 +31,18 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
     VersionFilter | undefined
   >(props.versionFilter);
   const [showAsPercentage, setShowAsPercentage] = useState<boolean>(false);
+  const [historyReader, setHistoryReader] = useState<HistoryReader | null>(
+    null
+  );
+
+  useEffect(() => {
+    (async () => {
+      const reader = await HistoryReader.get(props.identifier);
+      setHistoryReader(reader);
+    })();
+  }, [historyReader, props.identifier]);
+
+  const historyPoints = historyReader?.getDatePoints(props.versionFilter);
 
   // Reset show-as-percentage if version filter changes
   if (props.versionFilter !== lastVersionFilter) {
@@ -64,7 +53,11 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
   const packageDesc = packages[props.identifier];
 
   return (
-    <FadeIn duration="slow" className={styles.packageCard}>
+    <EaseVisiblity
+      visible={!!historyPoints}
+      duration="slow"
+      className={styles.packageCard}
+    >
       <div className={styles.header}>
         <div className={styles.headerLeft} />
         <div className={styles.headerText}>
@@ -80,22 +73,20 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
         </div>
       </div>
 
-      <Suspense
-        fallback={
-          <div style={{ height: chartStyles.responsiveContainer.height }} />
-        }
-      >
+      {historyPoints ? (
         <div className={styles.chartContainer}>
-          <CardChart
-            identifier={props.identifier}
-            versionFilter={props.versionFilter || "major"}
+          <VersionDownloadChart
+            historyPoints={historyPoints}
+            maxVersionsShown={maxVersions(props.versionFilter)}
             measurementTransform={
               showAsPercentage ? "percentage" : "totalDownloads"
             }
           />
         </div>
-      </Suspense>
-    </FadeIn>
+      ) : (
+        <div style={{ height: chartStyles.responsiveContainer.height }} />
+      )}
+    </EaseVisiblity>
   );
 };
 
