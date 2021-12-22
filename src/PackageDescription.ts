@@ -19,8 +19,9 @@ function canaryVersionLabeler(version: string): string {
     return "canary";
   }
 
-  if (version.startsWith("0.0.0-canary")) {
-    return version.slice(6, version.length);
+  const match = version.match(/^0\.0\.0-(?<canary>canary.\d+)$/);
+  if (match) {
+    return match.groups!.canary;
   }
 
   return version;
@@ -31,11 +32,9 @@ function nightlyHashVersionLabeler(version: string): string {
     return "nightly";
   }
 
-  if (version.match(/^0\.0\.0-[0-9a-f]+$/)) {
-    const hash = version.slice(6);
-    const shortenedHash = hash.slice(0, Math.min(hash.length, 7));
-
-    return `nightly@${shortenedHash}`;
+  const match = version.match(/^0\.0\.0-(?<hash>[0-9a-f]{1,7})[0-9a-f]*$/);
+  if (match) {
+    return `nightly@${match.groups!.hash}`;
   }
 
   return version;
@@ -46,12 +45,14 @@ function nightlyDateHashVersionLabeler(version: string): string {
     return "nightly";
   }
 
-  if (version.match(/^0\.0\.0-\d{8}-\d{4}-[0-9a-f]+$/)) {
-    const dateStr = version.split("-")[1];
+  const match = version.match(
+    /^0\.0\.0-(?<year>\d{4})(?<month>\d{2})(?<day>\d{2})-\d{4}-[0-9a-f]+$/
+  );
 
-    const year = parseInt(dateStr.slice(0, 4), 10);
-    const month = parseInt(dateStr.slice(4, 6), 10);
-    const day = parseInt(dateStr.slice(6, 8), 10);
+  if (match) {
+    const year = parseInt(match.groups!.year, 10);
+    const month = parseInt(match.groups!.month, 10);
+    const day = parseInt(match.groups!.day, 10);
 
     const date = new Date(year, month - 1, day);
 
