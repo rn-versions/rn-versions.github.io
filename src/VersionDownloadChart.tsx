@@ -17,6 +17,8 @@ import type { HistoryPoint } from "./HistoryReader";
 
 export type MeasurementTransform = "totalDownloads" | "percentage";
 
+export type VersionLabeler = (version: string) => string;
+
 export type VersionDownloadChartProps = {
   /**
    * Points to render
@@ -43,6 +45,11 @@ export type VersionDownloadChartProps = {
    * Allows transforming raw measurements to a different unit
    */
   measurementTransform?: MeasurementTransform;
+
+  /**
+   * Allows relabeling versions
+   */
+  versionLabeler?: VersionLabeler;
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
@@ -51,6 +58,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   showLegend,
   showTooltip,
   measurementTransform,
+  versionLabeler,
 }) => {
   const topRawDataPoints = maxVersionsShown
     ? filterTopN(historyPoints, maxVersionsShown, 20 /*windowInDays*/)
@@ -74,7 +82,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     return (
       <Area
         {...styles.area}
-        name={v}
+        name={versionLabeler ? versionLabeler(v) : v}
         key={v}
         dataKey={(datapoint) => datapoint.versionCounts[v]}
         stackId="1"

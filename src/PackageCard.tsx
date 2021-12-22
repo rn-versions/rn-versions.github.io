@@ -22,7 +22,7 @@ function maxVersions(versionFilter: VersionFilter) {
     case "patch":
       return 9;
     case "prerelease":
-      return 4;
+      return 7;
   }
 }
 
@@ -81,6 +81,7 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
             measurementTransform={
               showAsPercentage ? "percentage" : "totalDownloads"
             }
+            versionLabeler={packageDesc.versionLabeler}
           />
         </div>
       ) : (
