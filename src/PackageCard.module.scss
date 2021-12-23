@@ -1,6 +1,6 @@
 @import "bootstrap";
 
-.packageCard {
+.packageCardFrame {
   @extend .rounded;
   @extend .shadow-sm;
 
@@ -16,24 +16,48 @@
 
   min-width: 320px;
   max-width: 850px;
+
+  transition: ease-in-out 300ms;
+}
+
+.visibleCardFrame {
+  opacity: 1.0;
+  transform: rotateY(0);
+}
+
+.hiddenCardFrame {
+  opacity: 0.2;
+  transform: rotateY(-10deg);
+}
+
+.packageCardContent {
+  transition: ease-in-out 300ms;
+}
+
+.visibleCardContent {
+  opacity: 1.0;
+}
+
+.hiddenCardContent {
+  opacity: 0.0;
 }
 
 @include media-breakpoint-up(md) {
-  .packageCard {
+  .packageCardContent {
     padding: 15px 15px 30px 15px;
   }
 
-  .chartContainer {
+  .packageCardContent {
     margin-left: -10px;
   }
 }
 
 @include media-breakpoint-down(md) {
-  .packageCard {
+  .packageCardContent {
     padding: 10px 10px 48px 10px;
   }
 
-  .chartContainer {
+  .packageCardContent {
     margin-left: -10px;
   }
 }
