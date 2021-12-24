@@ -26,14 +26,17 @@ const styles: VersionDownloadChartStyle = {
     width: "100%",
     height: 250,
   },
-  grid: {},
+  grid: {
+    strokeDasharray: "3 3",
+  },
   xAxis: {
     height: 32,
     tickLine: false,
     tickMargin: 10,
+    minTickGap: 32,
   },
   yAxis: {
-    width: 80,
+    width: 72,
     tickLine: false,
     tickMargin: 10,
     tickSize: 0,

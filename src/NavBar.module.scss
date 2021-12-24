@@ -35,6 +35,10 @@ $mobile-height: 96px;
     text-align: right;
   }
 
+  .gitHubTextButton {
+    display: none;
+  }
+
   .pivot {
     order: 1;
     min-width: 100vw;
@@ -49,6 +53,11 @@ $mobile-height: 96px;
 
   .navSpacer {
     @include desktop-nav-dimensions();
+  }
+
+  .gitHubTextButton {
+    height: 100%;
+    vertical-align: middle;
   }
 
   .pivot {
@@ -81,23 +90,10 @@ $reactLogoHeight: min($maxReactLogoHeight, $desktop-height);
   height: $reactLogoHeight;
   width: $reactLogoHeight;
   margin-left: -$reactLogoHeight / 4;
+  vertical-align: middle;
 }
 
-@include ms-screen-lg-down() {
-  .gitHubTextButton {
-    display: none;
-  }
-}
-
-@include ms-screen-xl-up() {
-  .gitHubTextButton {
-    height: 100%;
-    vertical-align: middle;
-  }
-}
-
-
-$maxGitHubLogoHeight: 32px;
+$maxGitHubLogoHeight: 30px;
 $gitHubLogoHeight: min($maxGitHubLogoHeight, $desktop-height);
 
 .githubLogo {
@@ -105,4 +101,3 @@ $gitHubLogoHeight: min($maxGitHubLogoHeight, $desktop-height);
   height: $gitHubLogoHeight;
   width: $gitHubLogoHeight;
 }
-

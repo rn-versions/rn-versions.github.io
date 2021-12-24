@@ -74,7 +74,10 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
       ? transformToPercentage(topRawDataPoints)
       : topRawDataPoints;
 
-  const dateTimeFormat = new Intl.DateTimeFormat("en-US");
+  const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+  });
 
   const allVersionsSet = new Set(datapoints.map((p) => p.version));
   const allVersionsArr = [...allVersionsSet];
