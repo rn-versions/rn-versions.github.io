@@ -51,17 +51,43 @@ $transition: ease-in-out 300ms;
   opacity: 0.8;
 }
 
-@include ms-screen-md-down() {
+@mixin header-clearance-area {
+  flex-grow: 1;
+  flex-basis: 100px;
+}
+
+@include ms-screen-sm-down() {
   .packageCardContent {
-    padding: 10px 10px 48px 10px;
+    padding: 20px 10px 48px 10px;
     margin-left: -10px;
+  }
+
+  .headerLeft {
+    display: none;
+   }
+
+   .header {
+     padding: 0 24px;
+   }
+
+   .headerText {
+    text-align: start;
+    padding-bottom: 16px;
   }
 }
 
-@include ms-screen-lg-up() {
+@include ms-screen-md-up() {
   .packageCardContent {
     padding: 15px 15px 30px 15px;
     margin-left: -10px;
+  }
+
+  .headerLeft {
+    @include header-clearance-area();
+   }
+
+   .headerText {
+    text-align: center;
   }
 }
 
@@ -70,22 +96,15 @@ $transition: ease-in-out 300ms;
   flex-direction: row;
 }
 
-.headerLeft {
-  flex-grow: 1;
-  flex-basis: 64px;
-}
-
 .headerText {
   flex-grow: 3;
-  text-align: center;
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
 }
 
 .headerControls {
-  flex-grow: 1;
-  flex-basis: 64px;
+  @include header-clearance-area();
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
