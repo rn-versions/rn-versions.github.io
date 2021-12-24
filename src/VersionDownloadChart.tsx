@@ -75,7 +75,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
       : topRawDataPoints;
 
   const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
-    month: "2-digit",
+    month: "short",
     day: "2-digit",
   });
 
