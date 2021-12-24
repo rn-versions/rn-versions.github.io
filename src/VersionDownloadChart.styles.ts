@@ -8,8 +8,6 @@ import type {
   YAxisProps,
 } from "recharts";
 
-const cardBackgroundColor = "#f8f9fa";
-
 export type VersionDownloadChartStyle = {
   area: Partial<AreaProps>;
   responsiveContainer: Partial<ResponsiveContainerProps>;
@@ -29,24 +27,21 @@ const styles: VersionDownloadChartStyle = {
     height: 250,
   },
   grid: {
-    fill: cardBackgroundColor,
+    strokeDasharray: "3 3",
   },
   xAxis: {
     height: 32,
     tickLine: false,
     tickMargin: 10,
+    minTickGap: 32,
   },
   yAxis: {
-    width: 80,
+    width: 72,
     tickLine: false,
     tickMargin: 10,
     tickSize: 0,
   },
-  tooltip: {
-    wrapperStyle: {
-      backgroundColor: cardBackgroundColor,
-    },
-  },
+  tooltip: {},
   legend: {
     height: 24,
     wrapperStyle: {

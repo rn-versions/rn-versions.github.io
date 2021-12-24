@@ -1,13 +1,12 @@
-@import "bootstrap";
+@import "@fluentui/react/dist/sass/References";
+
+$transition: ease-in-out 300ms;
 
 .packageCardFrame {
-  @extend .rounded;
-  @extend .shadow-sm;
+  @include ms-depth-4;
 
-  background-color: $gray-200;
+  background-color: white;
   min-height: 200px;
-  border: 1px solid $gray-300;
-
   flex-grow: 1;
   flex-basis: 600px;
 
@@ -17,7 +16,7 @@
   min-width: 320px;
   max-width: 850px;
 
-  transition: ease-in-out 300ms;
+  transition: $transition;
 }
 
 .visibleCardFrame {
@@ -25,40 +24,68 @@
   transform: rotateY(0);
 }
 
-.hiddenCardFrame {
-  opacity: 0.2;
+.fadedCardFrame {
+  opacity: 0.25;
   transform: rotateY(-10deg);
 }
 
+.noDataCardFrame {
+  opacity: 1.0;
+  background-color: $ms-color-gray10;
+}
+
 .packageCardContent {
-  transition: ease-in-out 300ms;
+  transition: $transition;
 }
 
 .visibleCardContent {
   opacity: 1.0;
 }
 
-.hiddenCardContent {
-  opacity: 0.0;
+.fadedCardContent {
+  visibility: hidden;
+  opacity: 0;
 }
 
-@include media-breakpoint-up(md) {
+.noDataCardContent {
+  opacity: 0.8;
+}
+
+@mixin header-clearance-area {
+  flex-grow: 1;
+  flex-basis: 100px;
+}
+
+@include ms-screen-sm-down() {
   .packageCardContent {
-    padding: 15px 15px 30px 15px;
+    padding: 10px 5px 35px 5px;
   }
 
-  .packageCardContent {
-    margin-left: -10px;
+  .headerLeft {
+    display: none;
+   }
+
+   .header {
+     padding: 10px 20px;
+   }
+
+   .headerText {
+    text-align: start;
   }
 }
 
-@include media-breakpoint-down(md) {
+@include ms-screen-md-up() {
   .packageCardContent {
-    padding: 10px 10px 48px 10px;
+    padding: 15px 15px 24px 15px;
+    margin-left: -10px;
   }
 
-  .packageCardContent {
-    margin-left: -10px;
+  .headerLeft {
+    @include header-clearance-area();
+   }
+
+   .headerText {
+    text-align: center;
   }
 }
 
@@ -67,28 +94,21 @@
   flex-direction: row;
 }
 
-.headerLeft {
-  flex-grow: 1;
-  flex-basis: 64px;
-}
-
 .headerText {
   flex-grow: 3;
-  text-align: center;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
 }
 
 .headerControls {
-  flex-grow: 1;
-  flex-basis: 64px;
+  @include header-clearance-area();
   display: flex;
   justify-content: flex-end;
+  align-items: flex-start;
 }
 
-.title {
-  margin-bottom: 0;
-}
-
-.unit {
-  @extend .fs-6;
-  margin-bottom: 5;
+.chartContainer {
+  font-family: $ms-font-family-fallbacks;
+  font-size: 10pt;
 }

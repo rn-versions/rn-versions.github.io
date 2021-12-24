@@ -1,0 +1,103 @@
+@import "./App.module.scss";
+@import "@fluentui/react/dist/sass/References";
+
+$desktop-height: 60px;
+$mobile-height: 96px;
+
+@mixin mobile-nav-dimensions {
+  width: 100%;
+  height: $mobile-height;
+}
+
+@mixin desktop-nav-dimensions {
+  width: 100%;
+  height: $desktop-height;
+}
+
+.nav {
+  background-color: white;
+  position: fixed;
+  z-index: 2;
+  @include ms-depth-8();
+}
+
+@include ms-screen-md-down() {
+  .nav {
+    @include mobile-nav-dimensions();
+  }
+
+  .navSpacer {
+    @include mobile-nav-dimensions();
+  }
+
+  .gitHubLink {
+    flex-grow: 1;
+    text-align: right;
+  }
+
+  .gitHubTextButton {
+    display: none;
+  }
+
+  .pivot {
+    order: 1;
+    min-width: 100vw;
+    text-align: center
+  }
+}
+
+@include ms-screen-lg-up() {
+  .nav {
+    @include desktop-nav-dimensions();
+  }
+
+  .navSpacer {
+    @include desktop-nav-dimensions();
+  }
+
+  .gitHubTextButton {
+    height: 100%;
+    vertical-align: middle;
+  }
+
+  .pivot {
+    margin: 0 24px;
+    flex-grow: 1;
+  }
+}
+
+.navSpacer {
+  position: relative;
+  z-index: 1;
+}
+
+.navContent {
+  @include frame-constrained();
+  height: 100%;
+  padding: 0 24px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+$maxReactLogoHeight: 48px;
+$reactLogoHeight: min($maxReactLogoHeight, $desktop-height);
+
+.reactLogo {
+  height: $reactLogoHeight;
+  width: $reactLogoHeight;
+  margin-left: -$reactLogoHeight / 4;
+  vertical-align: middle;
+}
+
+$maxGitHubLogoHeight: 30px;
+$gitHubLogoHeight: min($maxGitHubLogoHeight, $desktop-height);
+
+.githubLogo {
+  vertical-align: middle;
+  height: $gitHubLogoHeight;
+  width: $gitHubLogoHeight;
+}
