@@ -7,7 +7,6 @@ import { PackageIdentifier, packages } from "./PackageDescription";
 
 import VersionDownloadChart from "./VersionDownloadChart";
 import HistoryReader from "./HistoryReader";
-import EaseVisiblity from "./EaseVisibility";
 export type VersionFilter = "major" | "patch" | "prerelease";
 
 export type PackageCardProps = {
@@ -53,11 +52,7 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
   const packageDesc = packages[props.identifier];
 
   return (
-    <EaseVisiblity
-      visible={!!historyPoints}
-      duration="slow"
-      className={styles.packageCard}
-    >
+    <CardFrame visible={!!historyPoints}>
       <div className={styles.header}>
         <div className={styles.headerLeft} />
         <div className={styles.headerText}>
@@ -87,7 +82,25 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
       ) : (
         <div style={{ height: chartStyles.responsiveContainer.height }} />
       )}
-    </EaseVisiblity>
+    </CardFrame>
+  );
+};
+
+const CardFrame: React.FC<{ visible: boolean }> = ({ visible, children }) => {
+  return (
+    <div
+      className={`${styles.packageCardFrame} ${
+        visible ? styles.visibleCardFrame : styles.hiddenCardFrame
+      }`}
+    >
+      <div
+        className={`${styles.packageCardContent} ${
+          visible ? styles.visibleCardContent : styles.hiddenCardContent
+        }`}
+      >
+        {children}
+      </div>
+    </div>
   );
 };
 
