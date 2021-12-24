@@ -8,8 +8,6 @@ import type {
   YAxisProps,
 } from "recharts";
 
-const pageBackgroundColor = "#faf9f8";
-
 export type VersionDownloadChartStyle = {
   area: Partial<AreaProps>;
   responsiveContainer: Partial<ResponsiveContainerProps>;
@@ -28,9 +26,7 @@ const styles: VersionDownloadChartStyle = {
     width: "100%",
     height: 250,
   },
-  grid: {
-    fill: pageBackgroundColor,
-  },
+  grid: {},
   xAxis: {
     height: 32,
     tickLine: false,
@@ -42,11 +38,7 @@ const styles: VersionDownloadChartStyle = {
     tickMargin: 10,
     tickSize: 0,
   },
-  tooltip: {
-    wrapperStyle: {
-      backgroundColor: pageBackgroundColor,
-    },
-  },
+  tooltip: {},
   legend: {
     height: 24,
     wrapperStyle: {
