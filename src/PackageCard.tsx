@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
 import styles from "./PackageCard.module.scss";
 import chartStyles from "./VersionDownloadChart.styles";
+
+import { Text, Toggle } from "@fluentui/react";
 
 import { PackageIdentifier, packages } from "./PackageDescription";
 
 import VersionDownloadChart from "./VersionDownloadChart";
 import HistoryReader from "./HistoryReader";
+
 export type VersionFilter = "major" | "patch" | "prerelease";
 
 export type PackageCardProps = {
@@ -52,16 +54,21 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
   const packageDesc = packages[props.identifier];
 
   return (
-    <CardFrame visible={!!historyPoints}>
+    <CardFrame
+      loaded={!!historyPoints}
+      hasData={!!historyPoints && historyPoints.length > 0}
+    >
       <div className={styles.header}>
         <div className={styles.headerLeft} />
         <div className={styles.headerText}>
-          <h3 className={styles.title}>{packageDesc.friendlyName}</h3>
-          <p className={styles.unit}>(Downloads/Week)</p>
+          <Text variant="xLarge">{packageDesc.friendlyName}</Text>
+          <Text variant="large">(Downloads/Week)</Text>
         </div>
         <div className={styles.headerControls}>
-          <Form.Switch
+          <Toggle
+            disabled={!historyPoints || historyPoints.length === 0}
             label="%"
+            inlineLabel={true}
             checked={showAsPercentage}
             onChange={() => setShowAsPercentage(!showAsPercentage)}
           />
@@ -87,16 +94,28 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
   );
 };
 
-const CardFrame: React.FC<{ visible: boolean }> = ({ visible, children }) => {
+const CardFrame: React.FC<{ loaded: boolean; hasData: boolean }> = ({
+  loaded,
+  hasData,
+  children,
+}) => {
   return (
     <div
       className={`${styles.packageCardFrame} ${
-        visible ? styles.visibleCardFrame : styles.hiddenCardFrame
+        loaded
+          ? hasData
+            ? styles.visibleCardFrame
+            : styles.noDataCardFrame
+          : styles.fadedCardFrame
       }`}
     >
       <div
         className={`${styles.packageCardContent} ${
-          visible ? styles.visibleCardContent : styles.hiddenCardContent
+          loaded
+            ? hasData
+              ? styles.visibleCardContent
+              : styles.noDataCardContent
+            : styles.fadedCardContent
         }`}
       >
         {children}

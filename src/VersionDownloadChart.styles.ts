@@ -8,7 +8,7 @@ import type {
   YAxisProps,
 } from "recharts";
 
-const cardBackgroundColor = "#f8f9fa";
+const pageBackgroundColor = "#faf9f8";
 
 export type VersionDownloadChartStyle = {
   area: Partial<AreaProps>;
@@ -29,7 +29,7 @@ const styles: VersionDownloadChartStyle = {
     height: 250,
   },
   grid: {
-    fill: cardBackgroundColor,
+    fill: pageBackgroundColor,
   },
   xAxis: {
     height: 32,
@@ -44,7 +44,7 @@ const styles: VersionDownloadChartStyle = {
   },
   tooltip: {
     wrapperStyle: {
-      backgroundColor: cardBackgroundColor,
+      backgroundColor: pageBackgroundColor,
     },
   },
   legend: {

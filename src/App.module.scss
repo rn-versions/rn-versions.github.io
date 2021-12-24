@@ -1,55 +1,25 @@
-@import "bootstrap";
+@import "@fluentui/react/dist/sass/References";
 
 .app {
-  background-color: $gray-100;
-  min-height: 100vh;
+  background-color: $ms-color-gray20;
+  min-height: calc(100vh - 24px);
+  padding-bottom: 24px;
 }
 
-.navbarBrand {
+.contentContainer {
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding-right: 20px;
+  align-items: flex-start;
 }
 
-.navbarContainer {
-  gap: 10px;
-}
-
-.noGrow {
-  flex-grow: 0 !important;
-}
-
-.navbarLogo {
-  --size: 40px;
-  height: var(--size);
-  width: var(--size);
-  display: inline-block;
-}
-
-.leftNav {
-  flex-grow: 1;
-}
-
-.visitGithub {
-  padding-right: 20px;
-  vertical-align: middle;
-  align-content: center;
-}
-
-.githubLogo {
-  --size: 30px;
-  height: var(--size);
-  width: var(--size);
-  filter: \invert(100%);
-  display: inline-block;
-  align-content: center;
+@mixin frame-constrained {
+  max-width: 1320px;
+  margin: 0 auto;
 }
 
 .cardContainer {
-  padding-top: 96px;
-  padding-bottom: 48px;
-  gap: 20px;
+  @include frame-constrained();
+
   flex-direction: row;
   flex-wrap: wrap;
   display: flex;
@@ -59,4 +29,18 @@
   // recharts toolbars may transiently overflow the content area during
   // animation.
   overflow: hidden;
+}
+
+@include ms-screen-md-down() {
+  .cardContainer {
+    padding: 10px 0;
+    gap: 10px;
+  }
+}
+
+@include ms-screen-lg-up() {
+  .cardContainer {
+    padding: 20px;
+    gap: 20px;
+  }
 }

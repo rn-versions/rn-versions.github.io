@@ -125,15 +125,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           justifyContent: "center",
           flexDirection: "column",
         }}
-      >
-        <h4
-          style={{
-            color: "#888",
-          }}
-        >
-          No data available
-        </h4>
-      </div>
+      ></div>
     );
   }
 
