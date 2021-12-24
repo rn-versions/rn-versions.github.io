@@ -14,14 +14,14 @@ export type PackageCardProps = {
   versionFilter: VersionFilter;
 };
 
-function maxVersions(versionFilter: VersionFilter) {
+function maxDays(versionFilter: VersionFilter) {
   switch (versionFilter) {
     case "major":
-      return 8;
+      return 60;
     case "patch":
-      return 9;
+      return 30;
     case "prerelease":
-      return 7;
+      return 14;
   }
 }
 
@@ -72,7 +72,8 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
         <div className={styles.chartContainer}>
           <VersionDownloadChart
             historyPoints={historyPoints}
-            maxVersionsShown={maxVersions(props.versionFilter)}
+            maxDaysShown={maxDays(props.versionFilter)}
+            maxVersionsShown={7}
             measurementTransform={
               showAsPercentage ? "percentage" : "totalDownloads"
             }

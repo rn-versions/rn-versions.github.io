@@ -26,8 +26,12 @@ export type VersionDownloadChartProps = {
   historyPoints: HistoryPoint[];
 
   /**
-   * Number of versions shown at once, with the most popular versions always
-   * showing up
+   * Maximum duration the graph will show, in days
+   */
+  maxDaysShown?: number;
+
+  /**
+   * Maximum separate versions show, attempting to show most popular versions.
    */
   maxVersionsShown?: number;
 
@@ -54,6 +58,7 @@ export type VersionDownloadChartProps = {
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   historyPoints,
+  maxDaysShown,
   maxVersionsShown,
   showLegend,
   showTooltip,
@@ -61,7 +66,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   versionLabeler,
 }) => {
   const topRawDataPoints = maxVersionsShown
-    ? filterTopN(historyPoints, maxVersionsShown, 20 /*windowInDays*/)
+    ? filterTopN(historyPoints, maxVersionsShown, maxDaysShown ?? 30)
     : historyPoints;
 
   const datapoints =
@@ -268,6 +273,10 @@ function filterTopN(
   const pointsWithZero: HistoryPoint[] = [];
 
   for (const date of datesAscending) {
+    if (date < earliestAllowableDate) {
+      continue;
+    }
+
     for (const topVersion of topVersionsInOrder) {
       const existingPoint = pointsByDate
         .get(date)!
