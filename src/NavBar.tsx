@@ -26,10 +26,12 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => (
         <Pivot
           headersOnly
           className={styles.pivot}
-          onLinkClick={(item) =>
-            props.onItemSelected &&
-            props.onItemSelected(item!.props.itemKey! as ItemKey)
-          }
+          onLinkClick={(item) => {
+            window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+            if (props.onItemSelected) {
+              props.onItemSelected(item!.props.itemKey! as ItemKey);
+            }
+          }}
         >
           {props.items.map((p) => (
             <PivotItem headerText={p.label} itemKey={p.key} />
