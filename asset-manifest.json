@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/static/css/main.c92fb13f.chunk.css",
-    "main.js": "/static/js/main.6141373b.chunk.js",
-    "main.js.map": "/static/js/main.6141373b.chunk.js.map",
+    "main.css": "/static/css/main.6e53a118.chunk.css",
+    "main.js": "/static/js/main.fa311a79.chunk.js",
+    "main.js.map": "/static/js/main.fa311a79.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.de6967a8.js",
     "runtime-main.js.map": "/static/js/runtime-main.de6967a8.js.map",
     "static/js/2.cd925ace.chunk.js": "/static/js/2.cd925ace.chunk.js",
@@ -18,7 +18,7 @@
     "static/js/7.60b1fc63.chunk.js": "/static/js/7.60b1fc63.chunk.js",
     "static/js/7.60b1fc63.chunk.js.map": "/static/js/7.60b1fc63.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.c92fb13f.chunk.css.map": "/static/css/main.c92fb13f.chunk.css.map",
+    "static/css/main.6e53a118.chunk.css.map": "/static/css/main.6e53a118.chunk.css.map",
     "static/js/2.cd925ace.chunk.js.LICENSE.txt": "/static/js/2.cd925ace.chunk.js.LICENSE.txt",
     "static/media/github-logo.bd73fa36.svg": "/static/media/github-logo.bd73fa36.svg",
     "static/media/react-logo.6ce24c58.svg": "/static/media/react-logo.6ce24c58.svg"
@@ -26,7 +26,7 @@
   "entrypoints": [
     "static/js/runtime-main.de6967a8.js",
     "static/js/2.cd925ace.chunk.js",
-    "static/css/main.c92fb13f.chunk.css",
-    "static/js/main.6141373b.chunk.js"
+    "static/css/main.6e53a118.chunk.css",
+    "static/js/main.fa311a79.chunk.js"
   ]
 }
