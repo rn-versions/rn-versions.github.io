@@ -61,8 +61,8 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
       <div className={styles.header}>
         <div className={styles.headerLeft} />
         <div className={styles.headerText}>
-          <Text variant="xLarge">{packageDesc.friendlyName}</Text>
-          <Text variant="large">(Downloads/Week)</Text>
+          <Text variant="large">{packageDesc.friendlyName}</Text>
+          <Text variant="medium">(Downloads/Week)</Text>
         </div>
         <div className={styles.headerControls}>
           <Toggle
