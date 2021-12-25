@@ -31,16 +31,23 @@
   overflow: hidden;
 }
 
-@include ms-screen-md-down() {
+@include ms-screen-lg-down() {
   .cardContainer {
-    padding: 10px 0;
+    padding: 10px;
     gap: 10px;
   }
 }
 
-@include ms-screen-lg-up() {
+@include ms-screen-sm-down() {
   .cardContainer {
-    padding: 25px;
+    padding: 10px 0px;
+    gap: 10px;
+  }
+}
+
+@include ms-screen-xl-up() {
+  .cardContainer {
+    padding: 10px;
     gap: 5px;
   }
 }

@@ -1,8 +1,8 @@
 @import "./App.module.scss";
 @import "@fluentui/react/dist/sass/References";
 
-$desktop-height: 60px;
-$mobile-height: 96px;
+$desktop-height: 50px;
+$mobile-height: 100px;
 
 @mixin mobile-nav-dimensions {
   width: 100%;
@@ -21,7 +21,7 @@ $mobile-height: 96px;
   @include ms-depth-8();
 }
 
-@include ms-screen-md-down() {
+@include ms-screen-sm-down() {
   .nav {
     @include mobile-nav-dimensions();
   }
@@ -35,10 +35,6 @@ $mobile-height: 96px;
     text-align: right;
   }
 
-  .gitHubTextButton {
-    display: none;
-  }
-
   .pivot {
     order: 1;
     min-width: 100vw;
@@ -46,18 +42,13 @@ $mobile-height: 96px;
   }
 }
 
-@include ms-screen-lg-up() {
+@include ms-screen-md-up() {
   .nav {
     @include desktop-nav-dimensions();
   }
 
   .navSpacer {
     @include desktop-nav-dimensions();
-  }
-
-  .gitHubTextButton {
-    height: 100%;
-    vertical-align: middle;
   }
 
   .pivot {
@@ -81,6 +72,19 @@ $mobile-height: 96px;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+}
+
+@include ms-screen-md-down() {
+  .gitHubTextButton {
+    display: none;
+  }
+}
+
+@include ms-screen-lg-up() {
+  .gitHubTextButton {
+    height: 100%;
+    vertical-align: middle;
+  }
 }
 
 $maxReactLogoHeight: 48px;
