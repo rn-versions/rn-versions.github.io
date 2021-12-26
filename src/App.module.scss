@@ -13,7 +13,7 @@
 }
 
 @mixin frame-constrained {
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -24,7 +24,7 @@
   flex-wrap: wrap;
   display: flex;
   align-items: stretch;
-  justify-content: space-evenly;
+  justify-content: center;
 
   // recharts toolbars may transiently overflow the content area during
   // animation.

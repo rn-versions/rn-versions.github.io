@@ -56,7 +56,6 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
 
   return (
     <CardFrame
-      hero={!!props.hero}
       loaded={!!historyPoints}
       hasData={!!historyPoints && historyPoints.length > 0}
     >
@@ -103,13 +102,10 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
 const CardFrame: React.FC<{
   loaded: boolean;
   hasData: boolean;
-  hero: boolean;
-}> = ({ loaded, hasData, hero, children }) => {
+}> = ({ loaded, hasData, children }) => {
   return (
     <div
       className={`${styles.packageCardFrame} ${
-        hero ? styles.heroSizedCardFrame : styles.normalSizedCardFrame
-      } ${
         loaded
           ? hasData
             ? styles.visibleCardFrame

@@ -16,21 +16,14 @@ $transition-duration: 300ms;
   transition-property: opacity, transform;
 
   min-width: 320px;
-  max-width: 1000px;
+  max-width: 640px;
   min-height: 200px;
 
   display: flex;
   flex-direction: column;
-}
 
-.heroSizedCardFrame {
-  flex-grow: 2;
-  flex-basis: 805px;
-}
-
-.normalSizedCardFrame {
   flex-grow: 1;
-  flex-basis: 400px;
+  flex-basis: 500px;
 }
 
 .visibleCardFrame {
