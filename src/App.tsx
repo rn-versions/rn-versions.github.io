@@ -33,6 +33,7 @@ function App() {
         <div className={styles.cardContainer}>
           {packages.map((pkg) => (
             <PackageCard
+              hero={pkg === "react-native"}
               identifier={pkg}
               versionFilter={versionFilter}
               key={pkg}

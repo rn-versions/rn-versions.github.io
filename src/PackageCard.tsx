@@ -14,6 +14,7 @@ export type VersionFilter = "major" | "patch" | "prerelease";
 export type PackageCardProps = {
   identifier: PackageIdentifier;
   versionFilter: VersionFilter;
+  hero?: boolean;
 };
 
 function maxDays(versionFilter: VersionFilter) {
@@ -55,6 +56,7 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
 
   return (
     <CardFrame
+      hero={!!props.hero}
       loaded={!!historyPoints}
       hasData={!!historyPoints && historyPoints.length > 0}
     >
@@ -94,14 +96,16 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
   );
 };
 
-const CardFrame: React.FC<{ loaded: boolean; hasData: boolean }> = ({
-  loaded,
-  hasData,
-  children,
-}) => {
+const CardFrame: React.FC<{
+  loaded: boolean;
+  hasData: boolean;
+  hero: boolean;
+}> = ({ loaded, hasData, hero, children }) => {
   return (
     <div
       className={`${styles.packageCardFrame} ${
+        hero ? styles.heroSizedCardFrame : styles.normalSizedCardFrame
+      } ${
         loaded
           ? hasData
             ? styles.visibleCardFrame
