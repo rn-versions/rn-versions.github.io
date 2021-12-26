@@ -13,6 +13,7 @@
     "generate-assets": "ts-node --transpile-only ./scripts/generateAssets.ts"
   },
   "dependencies": {
+    "@fluentui/font-icons-mdl2": "^8.1.19",
     "@fluentui/react": "^8.48.1",
     "node-sass": "5.0.0",
     "random-seed": "^0.3.0",

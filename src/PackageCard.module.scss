@@ -1,19 +1,26 @@
 @import "@fluentui/react/dist/sass/References";
 
-$transition: ease-in-out 300ms;
+@mixin transition-timing {
+  transition-timing-function: ease-in-out;
+  transition-duration: 300ms;
+}
+
+$transition-timing-function: ease-in-out;
+$transition-duration: 300ms;
 
 .packageCardFrame {
   @include ms-depth-4;
-
   background-color: white;
+
+  @include transition-timing();
+  transition-property: opacity, transform;
+
+  min-width: 320px;
+  max-width: 1000px;
   min-height: 200px;
 
   display: flex;
   flex-direction: column;
-
-  min-width: 320px;
-
-  transition: $transition;
 }
 
 .heroSizedCardFrame {
@@ -28,7 +35,6 @@ $transition: ease-in-out 300ms;
 
 .visibleCardFrame {
   opacity: 1.0;
-  transform: rotateY(0);
 }
 
 .fadedCardFrame {
@@ -42,7 +48,7 @@ $transition: ease-in-out 300ms;
 }
 
 .packageCardContent {
-  transition: $transition;
+  @include transition-timing();
 }
 
 .visibleCardContent {
@@ -55,7 +61,7 @@ $transition: ease-in-out 300ms;
 }
 
 .noDataCardContent {
-  opacity: 0.8;
+  opacity: 1.0;
 }
 
 @mixin header-clearance-area {
@@ -106,6 +112,10 @@ $transition: ease-in-out 300ms;
   margin-bottom: 15px;
   display: flex;
   flex-direction: column;
+}
+
+.packageName {
+  @include ms-fontWeight-semibold;
 }
 
 .headerControls {

@@ -5,12 +5,12 @@ import PackageCard, { VersionFilter } from "./PackageCard";
 import { PackageIdentifier } from "./PackageDescription";
 import NavBar, { NavPivotItem } from "./NavBar";
 
-const packages: PackageIdentifier[] = [
-  "react-native",
-  "@types/react-native",
-  "react-native-windows",
-  "react-native-macos",
-  "react-native-web",
+const packages: Array<{ name: PackageIdentifier; hero?: boolean }> = [
+  { name: "react-native", hero: true },
+  { name: "@types/react-native" },
+  { name: "react-native-windows" },
+  { name: "react-native-macos" },
+  { name: "react-native-web" },
 ];
 
 const navItems: NavPivotItem<VersionFilter>[] = [
@@ -33,10 +33,10 @@ function App() {
         <div className={styles.cardContainer}>
           {packages.map((pkg) => (
             <PackageCard
-              hero={pkg === "react-native"}
-              identifier={pkg}
+              hero={pkg.hero}
+              identifier={pkg.name}
               versionFilter={versionFilter}
-              key={pkg}
+              key={pkg.name}
             />
           ))}
         </div>

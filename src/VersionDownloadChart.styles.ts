@@ -41,7 +41,9 @@ const styles: VersionDownloadChartStyle = {
     tickMargin: 10,
     tickSize: 0,
   },
-  tooltip: {},
+  tooltip: {
+    animationDuration: 300,
+  },
   legend: {
     height: 24,
     wrapperStyle: {

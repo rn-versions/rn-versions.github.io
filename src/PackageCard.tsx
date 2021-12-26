@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./PackageCard.module.scss";
 import chartStyles from "./VersionDownloadChart.styles";
 
-import { Text, Toggle } from "@fluentui/react";
+import { Text, IconButton, TooltipHost } from "@fluentui/react";
 
 import { PackageIdentifier, packages } from "./PackageDescription";
 
@@ -63,17 +63,21 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
       <div className={styles.header}>
         <div className={styles.headerLeft} />
         <div className={styles.headerText}>
-          <Text variant="large">{packageDesc.friendlyName}</Text>
+          <Text variant="large" className={styles.packageName}>
+            {packageDesc.friendlyName}
+          </Text>
           <Text variant="medium">(Downloads/Week)</Text>
         </div>
         <div className={styles.headerControls}>
-          <Toggle
-            disabled={!historyPoints || historyPoints.length === 0}
-            label="%"
-            inlineLabel={true}
-            checked={showAsPercentage}
-            onChange={() => setShowAsPercentage(!showAsPercentage)}
-          />
+          <TooltipHost content="Show as percentage">
+            <IconButton
+              toggle
+              disabled={!historyPoints || historyPoints.length === 0}
+              iconProps={{ iconName: "CalculatorPercentage" }}
+              checked={showAsPercentage}
+              onClick={() => setShowAsPercentage(!showAsPercentage)}
+            />
+          </TooltipHost>
         </div>
       </div>
 

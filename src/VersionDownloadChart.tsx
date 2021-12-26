@@ -2,6 +2,7 @@ import React from "react";
 
 import generateColor, { AvoidToken } from "./generateColor";
 import styles from "./VersionDownloadChart.styles";
+import { createTooltipContent } from "./VersionTooltip";
 
 import {
   AreaChart,
@@ -162,27 +163,8 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
         <CartesianGrid {...styles.grid} />
 
         {showTooltip !== false && (
-          <Tooltip
-            {...styles.tooltip}
-            labelFormatter={(unixTime) =>
-              dateTimeFormat.format(new Date(unixTime))
-            }
-            formatter={(count, _rnVersion, entry) => {
-              const totalCount = (
-                Object.values(entry.payload.versionCounts) as number[]
-              ).reduce((a, b) => a + b, 0);
-
-              const pct = ((count as number) / totalCount) * 100;
-
-              if (measurementTransform === "percentage") {
-                return `${Math.round(pct * 100) / 100}%`;
-              } else {
-                return `${count.toLocaleString()} (${Math.round(pct)}%)`;
-              }
-            }}
-          />
+          <Tooltip content={createTooltipContent({ measurementTransform })} />
         )}
-
         {showLegend !== false && <Legend {...styles.legend} />}
 
         {chartAreas}
