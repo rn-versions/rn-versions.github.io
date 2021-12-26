@@ -1,7 +1,7 @@
 @import "@fluentui/react/dist/sass/References";
 
 .app {
-  background-color: $ms-color-gray20;
+  background-color: $ms-color-gray30;
   min-height: calc(100vh - 24px);
   padding-bottom: 24px;
 }
@@ -33,7 +33,7 @@
 
 @include ms-screen-sm-down() {
   .cardContainer {
-    padding: 10px 0px;
+    padding: 20px 0;
     gap: 10px;
   }
 }
@@ -48,13 +48,6 @@
 @include ms-screen-xl-up() {
   .cardContainer {
     padding: 20px;
-    gap: 5px;
-  }
-}
-
-@include ms-screen-xxl-up() {
-  .cardContainer {
-    padding: 40px;
     gap: 5px;
   }
 }

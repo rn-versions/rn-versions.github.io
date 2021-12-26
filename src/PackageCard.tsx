@@ -28,31 +28,36 @@ function maxDays(versionFilter: VersionFilter) {
   }
 }
 
-const PackageCard: React.FC<PackageCardProps> = (props) => {
-  const [lastVersionFilter, setLastVersionFilter] = useState<
-    VersionFilter | undefined
-  >(props.versionFilter);
-  const [showAsPercentage, setShowAsPercentage] = useState<boolean>(false);
+const PackageCard: React.FC<PackageCardProps> = ({
+  identifier,
+  versionFilter,
+}) => {
+  const [lastVersionFilter, setLastVersionFilter] = useState(versionFilter);
+  const [showAsPercentage, setShowAsPercentage] = useState(false);
+  const [refreshInProgress, setRefreshInProgress] = useState(false);
   const [historyReader, setHistoryReader] = useState<HistoryReader | null>(
     null
   );
 
   useEffect(() => {
-    (async () => {
-      const reader = await HistoryReader.get(props.identifier);
-      setHistoryReader(reader);
-    })();
-  }, [historyReader, props.identifier]);
+    if (!historyReader) {
+      (async () => {
+        const reader = await HistoryReader.get(identifier);
+        setHistoryReader(reader);
+      })();
+    }
+  }, [historyReader, identifier]);
 
-  const historyPoints = historyReader?.getDatePoints(props.versionFilter);
+  useEffect(() => {
+    if (versionFilter !== lastVersionFilter) {
+      setShowAsPercentage(false);
+      setRefreshInProgress(true);
+      setLastVersionFilter(versionFilter);
+    }
+  }, [versionFilter, lastVersionFilter]);
 
-  // Reset show-as-percentage if version filter changes
-  if (props.versionFilter !== lastVersionFilter) {
-    setShowAsPercentage(false);
-    setLastVersionFilter(props.versionFilter);
-  }
-
-  const packageDesc = packages[props.identifier];
+  const historyPoints = historyReader?.getDatePoints(versionFilter);
+  const packageDesc = packages[identifier];
 
   return (
     <CardFrame
@@ -84,7 +89,7 @@ const PackageCard: React.FC<PackageCardProps> = (props) => {
         <div className={styles.chartContainer}>
           <VersionDownloadChart
             historyPoints={historyPoints}
-            maxDaysShown={maxDays(props.versionFilter)}
+            maxDaysShown={maxDays(versionFilter)}
             maxVersionsShown={7}
             measurementTransform={
               showAsPercentage ? "percentage" : "totalDownloads"
