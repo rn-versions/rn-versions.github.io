@@ -6,6 +6,7 @@ import { darkTheme } from "./Themes";
 import {
   ActionButton,
   IconButton,
+  ITheme,
   Link,
   Pivot,
   PivotItem,
@@ -20,6 +21,7 @@ import ReactLogoIcon from "./assets/ReactLogoIcon";
 export type NavBarProps<ItemKey extends string> = {
   items: NavPivotItem<ItemKey>[];
   onItemSelected?: (key: ItemKey) => void;
+  theme?: ITheme;
 };
 
 export type NavPivotItem<ItemKey extends string> = {
@@ -29,11 +31,14 @@ export type NavPivotItem<ItemKey extends string> = {
 
 const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => (
   <>
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={props.theme ?? darkTheme}>
       <Stack
         horizontal
         className={styles.nav}
-        style={{ backgroundColor: darkTheme.semanticColors.bodyBackground }}
+        style={{
+          backgroundColor: (props.theme ?? darkTheme).semanticColors
+            .bodyBackground,
+        }}
       >
         <div className={styles.navContent}>
           <div className={styles.brand}>

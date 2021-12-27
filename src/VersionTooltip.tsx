@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./VersionTooltip.module.scss";
-import { Text } from "@fluentui/react";
+import { Text, ThemeContext } from "@fluentui/react";
 
 import { LabelFormatter, TooltipPayload, TooltipProps } from "recharts";
 import { MeasurementTransform } from "./VersionDownloadChart";
@@ -103,11 +103,22 @@ export const VersionTooltipContent: React.FC<VersionProps & TooltipProps> = ({
   );
 
   return (
-    <div className={styles.frame} style={hidden ? { display: "none" } : {}}>
-      <Text className={styles.date} variant="medium">
-        {formatLabel(label!)}
-      </Text>
-      {versionsList}
-    </div>
+    <ThemeContext.Consumer>
+      {(theme) => (
+        <div
+          className={styles.frame}
+          style={
+            hidden
+              ? { display: "none" }
+              : { backgroundColor: theme?.semanticColors.bodyBackground }
+          }
+        >
+          <Text className={styles.date} variant="medium">
+            {formatLabel(label!)}
+          </Text>
+          {versionsList}
+        </div>
+      )}
+    </ThemeContext.Consumer>
   );
 };

@@ -4,6 +4,7 @@ import PackageCard, { VersionFilter } from "./PackageCard";
 
 import { PackageIdentifier } from "./PackageDescription";
 import NavBar, { NavPivotItem } from "./NavBar";
+import { darkTheme, lightTheme } from "./Themes";
 
 const packages: Array<{ name: PackageIdentifier }> = [
   { name: "react-native" },
@@ -27,6 +28,7 @@ function App() {
       <NavBar
         items={navItems}
         onItemSelected={(version) => setVersionFilter(version)}
+        theme={darkTheme}
       />
 
       <div className={styles.contentContainer}>
@@ -36,6 +38,7 @@ function App() {
               identifier={pkg.name}
               versionFilter={versionFilter}
               key={pkg.name}
+              theme={lightTheme}
             />
           ))}
         </div>

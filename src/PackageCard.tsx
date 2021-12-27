@@ -23,7 +23,7 @@ export type VersionFilter = "major" | "patch" | "prerelease";
 export type PackageCardProps = {
   identifier: PackageIdentifier;
   versionFilter: VersionFilter;
-  hero?: boolean;
+  theme?: ITheme;
 };
 
 function maxDays(versionFilter: VersionFilter) {
@@ -40,6 +40,7 @@ function maxDays(versionFilter: VersionFilter) {
 const PackageCard: React.FC<PackageCardProps> = ({
   identifier,
   versionFilter,
+  theme,
 }) => {
   const [lastVersionFilter, setLastVersionFilter] = useState(versionFilter);
   const [showAsPercentage, setShowAsPercentage] = useState(false);
@@ -68,7 +69,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
 
   return (
     <CardFrame
-      theme={lightTheme}
+      theme={theme ?? lightTheme}
       loaded={!!historyPoints}
       hasData={!!historyPoints && historyPoints.length > 0}
     >

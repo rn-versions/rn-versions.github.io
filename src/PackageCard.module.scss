@@ -10,7 +10,6 @@ $transition-duration: 300ms;
 
 .packageCardFrame {
   @include ms-depth-4;
-  background-color: white;
 
   @include transition-timing();
   transition-property: opacity, transform;
