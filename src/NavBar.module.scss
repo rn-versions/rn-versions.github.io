@@ -17,6 +17,7 @@ $mobile-height: 100px;
 .nav {
   background-color: white;
   position: fixed;
+  min-width: 320px;
   z-index: 2;
   @include ms-depth-8();
 }
