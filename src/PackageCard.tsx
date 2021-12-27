@@ -3,7 +3,13 @@ import styles from "./PackageCard.module.scss";
 import theme from "./PackageCard.theme";
 import chartStyles from "./VersionDownloadChart.styles";
 
-import { Text, IconButton, TooltipHost, ThemeContext } from "@fluentui/react";
+import {
+  Text,
+  IconButton,
+  TooltipHost,
+  ThemeContext,
+  ThemeProvider,
+} from "@fluentui/react";
 
 import { PackageIdentifier, packages } from "./PackageDescription";
 
@@ -59,11 +65,11 @@ const PackageCard: React.FC<PackageCardProps> = ({
   const packageDesc = packages[identifier];
 
   return (
-    <ThemeContext.Provider value={theme}>
-      <CardFrame
-        loaded={!!historyPoints}
-        hasData={!!historyPoints && historyPoints.length > 0}
-      >
+    <CardFrame
+      loaded={!!historyPoints}
+      hasData={!!historyPoints && historyPoints.length > 0}
+    >
+      <ThemeProvider theme={theme}>
         <div className={styles.header}>
           <div className={styles.headerLeft} />
           <div className={styles.headerText}>
@@ -101,8 +107,8 @@ const PackageCard: React.FC<PackageCardProps> = ({
         ) : (
           <div style={{ height: chartStyles.responsiveContainer.height }} />
         )}
-      </CardFrame>
-    </ThemeContext.Provider>
+      </ThemeProvider>
+    </CardFrame>
   );
 };
 
