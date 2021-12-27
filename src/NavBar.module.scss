@@ -66,8 +66,8 @@ $navItemHeight: 44px;
 }
 
 .gitHubLogo {
-  height: $ms-icon-size-l;
-  width: $ms-icon-size-l;
+  height: $ms-icon-size-l !important;
+  width: $ms-icon-size-l !important;
 }
 
 @include ms-screen-md-down() {
