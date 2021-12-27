@@ -1,8 +1,8 @@
 @import "./App.module.scss";
 @import "@fluentui/react/dist/sass/References";
 
-$desktop-height: 50px;
-$mobile-height: 100px;
+$desktop-height: 54px;
+$mobile-height: 108px;
 
 @mixin mobile-nav-dimensions {
   width: 100%;
@@ -15,11 +15,12 @@ $mobile-height: 100px;
 }
 
 .nav {
-  background-color: white;
   position: fixed;
   min-width: 320px;
   z-index: 2;
   @include ms-depth-8();
+
+  justify-content: center;
 }
 
 @include ms-screen-sm-down() {
@@ -64,9 +65,10 @@ $mobile-height: 100px;
 }
 
 .navContent {
-  @include frame-constrained();
+  @include frame-constrained;
   height: 100%;
   padding: 0 24px;
+  flex-grow: 1;
 
   display: flex;
   flex-direction: row;

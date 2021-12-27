@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./NavBar.module.scss";
+import theme from "./Navbar.theme";
 
 import reactLogo from "./assets/react-logo.svg";
 
@@ -9,7 +10,9 @@ import {
   Link,
   Pivot,
   PivotItem,
+  Stack,
   Text,
+  ThemeProvider,
 } from "@fluentui/react";
 
 export type NavBarProps<ItemKey extends string> = {
@@ -24,47 +27,53 @@ export type NavPivotItem<ItemKey extends string> = {
 
 const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => (
   <>
-    <div className={styles.nav}>
-      <div className={styles.navContent}>
-        <img src={reactLogo} alt="React Logo" className={styles.reactLogo} />
-        <Text variant="xLarge">RN Versions</Text>
+    <ThemeProvider theme={theme}>
+      <Stack
+        horizontal
+        className={styles.nav}
+        style={{ backgroundColor: theme.semanticColors.bodyBackground }}
+      >
+        <div className={styles.navContent}>
+          <img src={reactLogo} alt="React Logo" className={styles.reactLogo} />
+          <Text variant="xLarge">RN Versions</Text>
 
-        <Pivot
-          headersOnly
-          className={styles.pivot}
-          onLinkClick={(item) => {
-            window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
-            if (props.onItemSelected) {
-              props.onItemSelected(item!.props.itemKey! as ItemKey);
-            }
-          }}
-        >
-          {props.items.map((p) => (
-            <PivotItem headerText={p.label} itemKey={p.key} />
-          ))}
-        </Pivot>
+          <Pivot
+            headersOnly
+            className={styles.pivot}
+            onLinkClick={(item) => {
+              window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+              if (props.onItemSelected) {
+                props.onItemSelected(item!.props.itemKey! as ItemKey);
+              }
+            }}
+          >
+            {props.items.map((p) => (
+              <PivotItem headerText={p.label} itemKey={p.key} />
+            ))}
+          </Pivot>
 
-        <Link
-          className={styles.gitHubLink}
-          underline={false}
-          href="https://github.com/rn-versions/rn-versions.github.io"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <ActionButton
-            className={styles.gitHubTextButton}
-            text="Contribute"
-            label="Contribute"
-            iconProps={{ iconName: "GitHub", className: styles.gitHubLogo }}
-          />
-          <IconButton
-            className={styles.gitHubIconButton}
-            label="Contribute"
-            iconProps={{ iconName: "GitHub", className: styles.gitHubLogo }}
-          />
-        </Link>
-      </div>
-    </div>
+          <Link
+            className={styles.gitHubLink}
+            underline={false}
+            href="https://github.com/rn-versions/rn-versions.github.io"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <ActionButton
+              className={styles.gitHubTextButton}
+              text="Contribute"
+              label="Contribute"
+              iconProps={{ iconName: "GitHub", className: styles.gitHubLogo }}
+            />
+            <IconButton
+              className={styles.gitHubIconButton}
+              label="Contribute"
+              iconProps={{ iconName: "GitHub", className: styles.gitHubLogo }}
+            />
+          </Link>
+        </div>
+      </Stack>
+    </ThemeProvider>
     <div className={styles.navSpacer} />
   </>
 );
