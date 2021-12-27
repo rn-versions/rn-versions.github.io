@@ -52,7 +52,7 @@ $mobile-height: 100px;
   }
 
   .pivot {
-    margin: 0 24px;
+    margin-left: 24px;
     flex-grow: 1;
   }
 }
@@ -78,12 +78,19 @@ $mobile-height: 100px;
   .gitHubTextButton {
     display: none;
   }
+
+  .gitHubIconButton {
+    height: 100%;
+  }
 }
 
 @include ms-screen-lg-up() {
   .gitHubTextButton {
     height: 100%;
-    vertical-align: middle;
+  }
+
+  .gitHubIconButton {
+    display: none;
   }
 }
 
@@ -97,11 +104,12 @@ $reactLogoHeight: min($maxReactLogoHeight, $desktop-height);
   vertical-align: middle;
 }
 
-$maxGitHubLogoHeight: 30px;
-$gitHubLogoHeight: min($maxGitHubLogoHeight, $desktop-height);
+.gitHubLink {
+  height: 44px;
+}
 
-.githubLogo {
-  vertical-align: middle;
-  height: $gitHubLogoHeight;
-  width: $gitHubLogoHeight;
+.gitHubLogo {
+  @include ms-Icon;
+  height: $ms-icon-size-l;
+  width: $ms-icon-size-l;
 }

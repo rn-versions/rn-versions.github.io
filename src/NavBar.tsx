@@ -2,9 +2,15 @@ import React from "react";
 import styles from "./NavBar.module.scss";
 
 import reactLogo from "./assets/react-logo.svg";
-import githubLogo from "./assets/github-logo.svg";
 
-import { ActionButton, Link, Pivot, PivotItem, Text } from "@fluentui/react";
+import {
+  ActionButton,
+  IconButton,
+  Link,
+  Pivot,
+  PivotItem,
+  Text,
+} from "@fluentui/react";
 
 export type NavBarProps<ItemKey extends string> = {
   items: NavPivotItem<ItemKey>[];
@@ -47,12 +53,14 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => (
         >
           <ActionButton
             className={styles.gitHubTextButton}
-            text="Contribute on GitHub"
+            text="Contribute"
+            label="Contribute"
+            iconProps={{ iconName: "GitHub", className: styles.gitHubLogo }}
           />
-          <img
-            src={githubLogo}
-            alt="GitHub Logo"
-            className={styles.githubLogo}
+          <IconButton
+            className={styles.gitHubIconButton}
+            label="Contribute"
+            iconProps={{ iconName: "GitHub", className: styles.gitHubLogo }}
           />
         </Link>
       </div>

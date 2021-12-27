@@ -34,7 +34,6 @@ const PackageCard: React.FC<PackageCardProps> = ({
 }) => {
   const [lastVersionFilter, setLastVersionFilter] = useState(versionFilter);
   const [showAsPercentage, setShowAsPercentage] = useState(false);
-  const [refreshInProgress, setRefreshInProgress] = useState(false);
   const [historyReader, setHistoryReader] = useState<HistoryReader | null>(
     null
   );
@@ -51,7 +50,6 @@ const PackageCard: React.FC<PackageCardProps> = ({
   useEffect(() => {
     if (versionFilter !== lastVersionFilter) {
       setShowAsPercentage(false);
-      setRefreshInProgress(true);
       setLastVersionFilter(versionFilter);
     }
   }, [versionFilter, lastVersionFilter]);
@@ -76,6 +74,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
           <TooltipHost content="Show as percentage">
             <IconButton
               toggle
+              aria-label="Show as percentage"
               disabled={!historyPoints || historyPoints.length === 0}
               iconProps={{ iconName: "CalculatorPercentage" }}
               checked={showAsPercentage}
