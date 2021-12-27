@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./VersionTooltip.module.scss";
 import { Text } from "@fluentui/react";
 
@@ -42,10 +42,40 @@ export type VersionProps = {
 };
 
 export const VersionTooltipContent: React.FC<VersionProps & TooltipProps> = ({
+  active,
   label,
   payload,
   measurementTransform,
 }) => {
+  const [hidden, setHidden] = useState(false);
+  const [lastActive, setLastActive] = useState(active);
+  const [lastLabel, setLastLabel] = useState(label);
+
+  // We want to hide the tooltip on scroll, to not take up space on mobile,
+  //which recharts will not normally do.
+  useEffect(() => {
+    if (lastActive !== active) {
+      if (active && !lastActive) {
+        setHidden(false);
+      }
+
+      setLastActive(active);
+    }
+
+    if (lastLabel !== label) {
+      setHidden(false);
+      setLastLabel(label);
+    }
+  }, [lastActive, active, lastLabel, label]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setHidden(true);
+    };
+    document.addEventListener("scroll", onScroll);
+    return () => document.removeEventListener("scroll", onScroll);
+  });
+
   const reversedItems = [...(payload ?? [])];
   reversedItems.reverse();
 
@@ -73,7 +103,7 @@ export const VersionTooltipContent: React.FC<VersionProps & TooltipProps> = ({
   );
 
   return (
-    <div className={styles.frame}>
+    <div className={styles.frame} style={hidden ? { display: "none" } : {}}>
       <Text className={styles.date} variant="medium">
         {formatLabel(label!)}
       </Text>
