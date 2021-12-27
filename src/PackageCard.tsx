@@ -10,6 +10,8 @@ import {
   ITheme,
 } from "@fluentui/react";
 
+import { CalculatorPercentageIcon } from "@fluentui/react-icons-mdl2";
+
 import { PackageIdentifier, packages } from "./PackageDescription";
 
 import VersionDownloadChart from "./VersionDownloadChart";
@@ -84,7 +86,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
               toggle
               aria-label="Show as percentage"
               disabled={!historyPoints || historyPoints.length === 0}
-              iconProps={{ iconName: "CalculatorPercentage" }}
+              onRenderIcon={() => <CalculatorPercentageIcon />}
               checked={showAsPercentage}
               onClick={() => setShowAsPercentage(!showAsPercentage)}
             />

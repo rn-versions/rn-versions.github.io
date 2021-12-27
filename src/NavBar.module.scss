@@ -1,8 +1,8 @@
 @import "./App.module.scss";
 @import "@fluentui/react/dist/sass/References";
 
-$desktop-height: 54px;
-$mobile-height: 108px;
+$desktop-height: 58px;
+$mobile-height: 58px;
 
 @mixin mobile-nav-dimensions {
   width: 100%;
@@ -36,27 +36,36 @@ $mobile-height: 108px;
 
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
 }
 
-$maxReactLogoHeight: 44px;
-$reactLogoHeight: min($maxReactLogoHeight, $desktop-height);
+$navItemHeight: 44px;
 
 .reactLogo {
-  height: $reactLogoHeight;
-  width: $reactLogoHeight;
-  margin-left: -$reactLogoHeight / 4;
-  vertical-align: middle;
+  height: $navItemHeight / 1.5;
+  width: $navItemHeight / 1.5;
+  margin-right: 8px;
 }
 
 .gitHubLink {
-  height: 44px;
+  height: $navItemHeight;
+}
+
+.gitHubIconStroke {
+  fill: white;
+}
+
+.gitHubIconButton {
+  height: $navItemHeight;
+}
+
+.gitHubTextButton {
+  height: $navItemHeight;
 }
 
 .gitHubLogo {
-  @include ms-Icon;
   height: $ms-icon-size-l;
   width: $ms-icon-size-l;
 }
@@ -70,23 +79,12 @@ $reactLogoHeight: min($maxReactLogoHeight, $desktop-height);
     @include mobile-nav-dimensions();
   }
 
-  .pivot {
-    order: 1;
-    min-width: 100vw;
-    text-align: center
-  }
-
-  .gitHubLink {
-    flex-grow: 1;
-    text-align: right;
+  .brand {
+    display: none;
   }
 
   .gitHubTextButton {
     display: none;
-  }
-
-  .gitHubIconButton {
-    height: 100%;
   }
 }
 
@@ -99,13 +97,15 @@ $reactLogoHeight: min($maxReactLogoHeight, $desktop-height);
     @include desktop-nav-dimensions();
   }
 
+  .brand {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
   .pivot {
     margin-left: 24px;
     flex-grow: 1;
-  }
-
-  .gitHubTextButton {
-    height: 100%;
   }
 
   .gitHubIconButton {

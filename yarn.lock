@@ -1327,6 +1327,26 @@
     "@fluentui/utilities" "^8.3.8"
     tslib "^2.1.0"
 
+"@fluentui/react-icon-provider@^1.2.10":
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/@fluentui/react-icon-provider/-/react-icon-provider-1.2.10.tgz#52674462c2a594ff5f3f58379be32607fc68fadd"
+  integrity sha512-eqQsiUhbOW2NJuSxQzrRmNNFqv9wgj58DdzbHXzLm2KMXZTiLhrvCEA0ZjpLcCJQsr4QHtm0ElPSuMuLa0DtBQ==
+  dependencies:
+    "@fluentui/set-version" "^8.1.5"
+    "@fluentui/style-utilities" "^8.5.1"
+    tslib "^2.1.0"
+
+"@fluentui/react-icons-mdl2@^1.2.10":
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/@fluentui/react-icons-mdl2/-/react-icons-mdl2-1.2.10.tgz#b335c63fd5149ac4253bb6318d6a70ff00b75446"
+  integrity sha512-l8StFFJUm4gCwdHqztY2M4Ib4LQ6rskY36wDqKwNgD/Ei8G3donR8R+HHA7NXSvb4Yx1o6h/3pCZ37y7lY6E0Q==
+  dependencies:
+    "@fluentui/react-icon-provider" "^1.2.10"
+    "@fluentui/set-version" "^8.1.5"
+    "@fluentui/utilities" "^8.3.8"
+    "@microsoft/load-themed-styles" "^1.10.26"
+    tslib "^2.1.0"
+
 "@fluentui/react-window-provider@^2.1.6":
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/@fluentui/react-window-provider/-/react-window-provider-2.1.6.tgz#1e3d66842a6b1c724dcc3ee13d2bc0aa0d7028a8"

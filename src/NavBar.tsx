@@ -1,8 +1,6 @@
 import React from "react";
 import styles from "./NavBar.module.scss";
 
-import reactLogo from "./assets/react-logo.svg";
-
 import { darkTheme } from "./Themes";
 
 import {
@@ -15,6 +13,9 @@ import {
   Text,
   ThemeProvider,
 } from "@fluentui/react";
+
+import { GitHubLogoIcon } from "@fluentui/react-icons-mdl2";
+import ReactIcon from "./assets/ReactIcon";
 
 export type NavBarProps<ItemKey extends string> = {
   items: NavPivotItem<ItemKey>[];
@@ -35,8 +36,10 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => (
         style={{ backgroundColor: darkTheme.semanticColors.bodyBackground }}
       >
         <div className={styles.navContent}>
-          <img src={reactLogo} alt="React Logo" className={styles.reactLogo} />
-          <Text variant="large">React Native Versions</Text>
+          <div className={styles.brand}>
+            <ReactIcon className={styles.reactLogo} />
+            <Text variant="large">React Native Versions</Text>
+          </div>
 
           <Pivot
             headersOnly
@@ -63,13 +66,17 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => (
             <ActionButton
               className={styles.gitHubTextButton}
               text="Contribute"
-              label="Contribute"
-              iconProps={{ iconName: "GitHub", className: styles.gitHubLogo }}
+              aria-label="Contribute"
+              onRenderIcon={() => (
+                <GitHubLogoIcon className={styles.gitHubLogo} />
+              )}
             />
             <IconButton
               className={styles.gitHubIconButton}
-              label="Contribute"
-              iconProps={{ iconName: "GitHub", className: styles.gitHubLogo }}
+              aria-label="Contribute"
+              onRenderIcon={() => (
+                <GitHubLogoIcon className={styles.gitHubLogo} />
+              )}
             />
           </Link>
         </div>
