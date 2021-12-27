@@ -1,7 +1,7 @@
 import { createSvgIcon } from "@fluentui/react-icons-mdl2";
 
-const ReactIcon = createSvgIcon({
-  displayName: "GitHubLogoIcon",
+const ReactLogoIcon = createSvgIcon({
+  displayName: "ReactLogoIcon",
   svg: ({ classes }) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,4 +17,4 @@ const ReactIcon = createSvgIcon({
   ),
 });
 
-export default ReactIcon;
+export default ReactLogoIcon;

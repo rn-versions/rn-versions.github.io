@@ -15,7 +15,7 @@ import {
 } from "@fluentui/react";
 
 import { GitHubLogoIcon } from "@fluentui/react-icons-mdl2";
-import ReactIcon from "./assets/ReactIcon";
+import ReactLogoIcon from "./assets/ReactLogoIcon";
 
 export type NavBarProps<ItemKey extends string> = {
   items: NavPivotItem<ItemKey>[];
@@ -37,7 +37,7 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => (
       >
         <div className={styles.navContent}>
           <div className={styles.brand}>
-            <ReactIcon className={styles.reactLogo} />
+            <ReactLogoIcon className={styles.reactLogo} />
             <Text variant="large">React Native Versions</Text>
           </div>
 
