@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import styles from "./PackageCard.module.scss";
 import chartStyles from "./VersionDownloadChart.styles";
 
-import { Text, IconButton, TooltipHost, ThemeProvider } from "@fluentui/react";
+import {
+  Text,
+  IconButton,
+  TooltipHost,
+  ThemeProvider,
+  ITheme,
+} from "@fluentui/react";
 
 import { PackageIdentifier, packages } from "./PackageDescription";
 
@@ -60,58 +66,59 @@ const PackageCard: React.FC<PackageCardProps> = ({
 
   return (
     <CardFrame
+      theme={lightTheme}
       loaded={!!historyPoints}
       hasData={!!historyPoints && historyPoints.length > 0}
     >
-      <ThemeProvider theme={lightTheme}>
-        <div className={styles.header}>
-          <div className={styles.headerLeft} />
-          <div className={styles.headerText}>
-            <Text variant="large" className={styles.packageName}>
-              {packageDesc.friendlyName}
-            </Text>
-            <Text variant="medium">(Downloads/Week)</Text>
-          </div>
-          <div className={styles.headerControls}>
-            <TooltipHost content="Show as percentage">
-              <IconButton
-                toggle
-                aria-label="Show as percentage"
-                disabled={!historyPoints || historyPoints.length === 0}
-                iconProps={{ iconName: "CalculatorPercentage" }}
-                checked={showAsPercentage}
-                onClick={() => setShowAsPercentage(!showAsPercentage)}
-              />
-            </TooltipHost>
-          </div>
+      <div className={styles.header}>
+        <div className={styles.headerLeft} />
+        <div className={styles.headerText}>
+          <Text variant="large" className={styles.packageName}>
+            {packageDesc.friendlyName}
+          </Text>
+          <Text variant="medium">(Downloads/Week)</Text>
         </div>
-
-        {historyPoints ? (
-          <div className={styles.chartContainer}>
-            <VersionDownloadChart
-              historyPoints={historyPoints}
-              maxDaysShown={maxDays(versionFilter)}
-              maxVersionsShown={7}
-              measurementTransform={
-                showAsPercentage ? "percentage" : "totalDownloads"
-              }
-              versionLabeler={packageDesc.versionLabeler}
+        <div className={styles.headerControls}>
+          <TooltipHost content="Show as percentage">
+            <IconButton
+              toggle
+              aria-label="Show as percentage"
+              disabled={!historyPoints || historyPoints.length === 0}
+              iconProps={{ iconName: "CalculatorPercentage" }}
+              checked={showAsPercentage}
+              onClick={() => setShowAsPercentage(!showAsPercentage)}
             />
-          </div>
-        ) : (
-          <div style={{ height: chartStyles.responsiveContainer.height }} />
-        )}
-      </ThemeProvider>
+          </TooltipHost>
+        </div>
+      </div>
+
+      {historyPoints ? (
+        <div className={styles.chartContainer}>
+          <VersionDownloadChart
+            historyPoints={historyPoints}
+            maxDaysShown={maxDays(versionFilter)}
+            maxVersionsShown={7}
+            measurementTransform={
+              showAsPercentage ? "percentage" : "totalDownloads"
+            }
+            versionLabeler={packageDesc.versionLabeler}
+          />
+        </div>
+      ) : (
+        <div style={{ height: chartStyles.responsiveContainer.height }} />
+      )}
     </CardFrame>
   );
 };
 
 const CardFrame: React.FC<{
+  theme: ITheme;
   loaded: boolean;
   hasData: boolean;
-}> = ({ loaded, hasData, children }) => {
+}> = ({ loaded, hasData, theme, children }) => {
   return (
-    <div
+    <ThemeProvider
+      theme={theme}
       className={`${styles.packageCardFrame} ${
         loaded
           ? hasData
@@ -131,7 +138,7 @@ const CardFrame: React.FC<{
       >
         {children}
       </div>
-    </div>
+    </ThemeProvider>
   );
 };
 
