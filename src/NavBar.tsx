@@ -35,7 +35,7 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => (
       >
         <div className={styles.navContent}>
           <img src={reactLogo} alt="React Logo" className={styles.reactLogo} />
-          <Text variant="xLarge">RN Versions</Text>
+          <Text variant="large">React Native Versions</Text>
 
           <Pivot
             headersOnly

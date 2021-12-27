@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styles from "./PackageCard.module.scss";
+import theme from "./PackageCard.theme";
 import chartStyles from "./VersionDownloadChart.styles";
 
-import { Text, IconButton, TooltipHost } from "@fluentui/react";
+import { Text, IconButton, TooltipHost, ThemeContext } from "@fluentui/react";
 
 import { PackageIdentifier, packages } from "./PackageDescription";
 
@@ -58,48 +59,50 @@ const PackageCard: React.FC<PackageCardProps> = ({
   const packageDesc = packages[identifier];
 
   return (
-    <CardFrame
-      loaded={!!historyPoints}
-      hasData={!!historyPoints && historyPoints.length > 0}
-    >
-      <div className={styles.header}>
-        <div className={styles.headerLeft} />
-        <div className={styles.headerText}>
-          <Text variant="large" className={styles.packageName}>
-            {packageDesc.friendlyName}
-          </Text>
-          <Text variant="medium">(Downloads/Week)</Text>
+    <ThemeContext.Provider value={theme}>
+      <CardFrame
+        loaded={!!historyPoints}
+        hasData={!!historyPoints && historyPoints.length > 0}
+      >
+        <div className={styles.header}>
+          <div className={styles.headerLeft} />
+          <div className={styles.headerText}>
+            <Text variant="large" className={styles.packageName}>
+              {packageDesc.friendlyName}
+            </Text>
+            <Text variant="medium">(Downloads/Week)</Text>
+          </div>
+          <div className={styles.headerControls}>
+            <TooltipHost content="Show as percentage">
+              <IconButton
+                toggle
+                aria-label="Show as percentage"
+                disabled={!historyPoints || historyPoints.length === 0}
+                iconProps={{ iconName: "CalculatorPercentage" }}
+                checked={showAsPercentage}
+                onClick={() => setShowAsPercentage(!showAsPercentage)}
+              />
+            </TooltipHost>
+          </div>
         </div>
-        <div className={styles.headerControls}>
-          <TooltipHost content="Show as percentage">
-            <IconButton
-              toggle
-              aria-label="Show as percentage"
-              disabled={!historyPoints || historyPoints.length === 0}
-              iconProps={{ iconName: "CalculatorPercentage" }}
-              checked={showAsPercentage}
-              onClick={() => setShowAsPercentage(!showAsPercentage)}
-            />
-          </TooltipHost>
-        </div>
-      </div>
 
-      {historyPoints ? (
-        <div className={styles.chartContainer}>
-          <VersionDownloadChart
-            historyPoints={historyPoints}
-            maxDaysShown={maxDays(versionFilter)}
-            maxVersionsShown={7}
-            measurementTransform={
-              showAsPercentage ? "percentage" : "totalDownloads"
-            }
-            versionLabeler={packageDesc.versionLabeler}
-          />
-        </div>
-      ) : (
-        <div style={{ height: chartStyles.responsiveContainer.height }} />
-      )}
-    </CardFrame>
+        {historyPoints ? (
+          <div className={styles.chartContainer}>
+            <VersionDownloadChart
+              historyPoints={historyPoints}
+              maxDaysShown={maxDays(versionFilter)}
+              maxVersionsShown={7}
+              measurementTransform={
+                showAsPercentage ? "percentage" : "totalDownloads"
+              }
+              versionLabeler={packageDesc.versionLabeler}
+            />
+          </div>
+        ) : (
+          <div style={{ height: chartStyles.responsiveContainer.height }} />
+        )}
+      </CardFrame>
+    </ThemeContext.Provider>
   );
 };
 

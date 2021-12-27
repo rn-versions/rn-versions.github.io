@@ -23,42 +23,6 @@ $mobile-height: 108px;
   justify-content: center;
 }
 
-@include ms-screen-sm-down() {
-  .nav {
-    @include mobile-nav-dimensions();
-  }
-
-  .navSpacer {
-    @include mobile-nav-dimensions();
-  }
-
-  .gitHubLink {
-    flex-grow: 1;
-    text-align: right;
-  }
-
-  .pivot {
-    order: 1;
-    min-width: 100vw;
-    text-align: center
-  }
-}
-
-@include ms-screen-md-up() {
-  .nav {
-    @include desktop-nav-dimensions();
-  }
-
-  .navSpacer {
-    @include desktop-nav-dimensions();
-  }
-
-  .pivot {
-    margin-left: 24px;
-    flex-grow: 1;
-  }
-}
-
 .navSpacer {
   position: relative;
   z-index: 1;
@@ -75,26 +39,6 @@ $mobile-height: 108px;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-}
-
-@include ms-screen-md-down() {
-  .gitHubTextButton {
-    display: none;
-  }
-
-  .gitHubIconButton {
-    height: 100%;
-  }
-}
-
-@include ms-screen-lg-up() {
-  .gitHubTextButton {
-    height: 100%;
-  }
-
-  .gitHubIconButton {
-    display: none;
-  }
 }
 
 $maxReactLogoHeight: 48px;
@@ -115,4 +59,56 @@ $reactLogoHeight: min($maxReactLogoHeight, $desktop-height);
   @include ms-Icon;
   height: $ms-icon-size-l;
   width: $ms-icon-size-l;
+}
+
+@include ms-screen-md-down() {
+  .nav {
+    @include mobile-nav-dimensions();
+  }
+
+  .navSpacer {
+    @include mobile-nav-dimensions();
+  }
+
+  .pivot {
+    order: 1;
+    min-width: 100vw;
+    text-align: center
+  }
+
+  .gitHubLink {
+    flex-grow: 1;
+    text-align: right;
+  }
+
+  .gitHubTextButton {
+    display: none;
+  }
+
+  .gitHubIconButton {
+    height: 100%;
+  }
+}
+
+@include ms-screen-lg-up() {
+  .nav {
+    @include desktop-nav-dimensions();
+  }
+
+  .navSpacer {
+    @include desktop-nav-dimensions();
+  }
+
+  .pivot {
+    margin-left: 24px;
+    flex-grow: 1;
+  }
+
+  .gitHubTextButton {
+    height: 100%;
+  }
+
+  .gitHubIconButton {
+    display: none;
+  }
 }
