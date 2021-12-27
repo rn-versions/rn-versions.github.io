@@ -1,8 +1,9 @@
 import React from "react";
 import styles from "./NavBar.module.scss";
-import theme from "./Navbar.theme";
 
 import reactLogo from "./assets/react-logo.svg";
+
+import { darkTheme } from "./Themes";
 
 import {
   ActionButton,
@@ -27,11 +28,11 @@ export type NavPivotItem<ItemKey extends string> = {
 
 const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => (
   <>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={darkTheme}>
       <Stack
         horizontal
         className={styles.nav}
-        style={{ backgroundColor: theme.semanticColors.bodyBackground }}
+        style={{ backgroundColor: darkTheme.semanticColors.bodyBackground }}
       >
         <div className={styles.navContent}>
           <img src={reactLogo} alt="React Logo" className={styles.reactLogo} />

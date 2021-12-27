@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./PackageCard.module.scss";
-import theme from "./PackageCard.theme";
 import chartStyles from "./VersionDownloadChart.styles";
 
-import {
-  Text,
-  IconButton,
-  TooltipHost,
-  ThemeContext,
-  ThemeProvider,
-} from "@fluentui/react";
+import { Text, IconButton, TooltipHost, ThemeProvider } from "@fluentui/react";
 
 import { PackageIdentifier, packages } from "./PackageDescription";
 
 import VersionDownloadChart from "./VersionDownloadChart";
 import HistoryReader from "./HistoryReader";
+import { lightTheme } from "./Themes";
 
 export type VersionFilter = "major" | "patch" | "prerelease";
 
@@ -69,7 +63,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
       loaded={!!historyPoints}
       hasData={!!historyPoints && historyPoints.length > 0}
     >
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={lightTheme}>
         <div className={styles.header}>
           <div className={styles.headerLeft} />
           <div className={styles.headerText}>
