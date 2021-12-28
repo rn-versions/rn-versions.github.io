@@ -33,6 +33,11 @@ export type VersionDownloadChartProps = {
   maxDaysShown?: number;
 
   /**
+   * Maximum total ticks to show for dates/times
+   */
+  maxTicks?: number;
+
+  /**
    * Maximum separate versions show, attempting to show most popular versions.
    */
   maxVersionsShown?: number;
@@ -67,14 +72,16 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   historyPoints,
   maxDaysShown,
   maxVersionsShown,
+  maxTicks,
   showLegend,
   showTooltip,
   measurementTransform,
   versionLabeler,
   tooltipTheme,
 }) => {
+  maxDaysShown = maxDaysShown ?? 30;
   const topRawDataPoints = maxVersionsShown
-    ? filterTopN(historyPoints, maxVersionsShown, maxDaysShown ?? 30)
+    ? filterTopN(historyPoints, maxVersionsShown, maxDaysShown)
     : historyPoints;
 
   const datapoints =
@@ -147,12 +154,16 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           {...styles.xAxis}
           dataKey="date"
           type="number"
-          interval="preserveStartEnd"
           scale="time"
           domain={["dataMin", "dataMax"]}
           tickFormatter={(unixTime) =>
             dateTimeFormat.format(new Date(unixTime))
           }
+          interval={0}
+          ticks={calculateDateTicks(
+            datapoints.map((p) => p.date),
+            maxTicks ?? 6
+          )}
         />
         <YAxis
           {...styles.yAxis}
@@ -185,6 +196,53 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   );
 };
 
+function calculateDateTicks(dates: number[], maxTicks: number): number[] {
+  const first = dates[0];
+  const last = dates[dates.length - 1];
+
+  if (maxTicks === 0) {
+    return [];
+  }
+
+  if (maxTicks === 1) {
+    return [first];
+  }
+
+  if (maxTicks === 2) {
+    return [first, last];
+  }
+
+  const dataDuration = last - first;
+  const dayDuration = 24 * 60 * 60 * 1000;
+  const weekDuration = 7 * dayDuration;
+
+  const maxInteriorTicks = maxTicks - 1;
+  let tickInterval = weekDuration;
+  while (Math.floor(dataDuration / tickInterval) > maxInteriorTicks) {
+    tickInterval *= 2;
+  }
+
+  const ticks = new Set([first]);
+  let nextTick = fromDayStart(first, tickInterval);
+
+  for (const date of dates) {
+    if (date >= nextTick) {
+      ticks.add(date);
+      nextTick = fromDayStart(date, tickInterval);
+    }
+  }
+
+  console.log(ticks);
+  return [...ticks];
+}
+
+function fromDayStart(date: number, duration: number): number {
+  const dayStart = new Date(date);
+  dayStart.setHours(0, 0, 0, 0);
+
+  return dayStart.getTime() + duration;
+}
+
 function transformToPercentage(points: HistoryPoint[]): HistoryPoint[] {
   const totalCountByDate: Record<number, number | undefined> = {};
 
@@ -204,12 +262,14 @@ function filterTopN(
   n: number,
   windowInDays: number
 ): HistoryPoint[] {
-  let latestDate: number = 0;
-  for (const point of historyPoints) {
-    latestDate = Math.max(latestDate, point.date);
+  if (historyPoints.length === 0) {
+    return [];
   }
 
-  const earliestAllowableDate = latestDate - windowInDays * 24 * 60 * 60 * 1000;
+  const latestDate = historyPoints[historyPoints.length - 1].date;
+  const latestDay = new Date(latestDate).setHours(0, 0, 0, 0);
+
+  const earliestAllowableDate = latestDay - windowInDays * 24 * 60 * 60 * 1000;
   const versionsInWindow: Array<{ version: string; count: number }> = [];
 
   for (const point of historyPoints) {

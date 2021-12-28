@@ -38,6 +38,7 @@
 
 .packageCardContent {
   @include transition-timing();
+  overflow-y: fit;
 }
 
 .visibleCardContent {
@@ -60,7 +61,7 @@
 
 @include ms-screen-sm-down() {
   .packageCardContent {
-    padding: 10px 5px 35px 5px;
+    padding: 10px 5px;
   }
 
   .headerLeft {
@@ -78,7 +79,7 @@
 
 @include ms-screen-md-up() {
   .packageCardContent {
-    padding: 15px 15px 24px 15px;
+    padding: 15px;
     margin-left: -10px;
   }
 

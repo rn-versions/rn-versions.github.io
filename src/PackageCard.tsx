@@ -30,9 +30,9 @@ export type PackageCardProps = {
 function maxDays(versionFilter: VersionFilter) {
   switch (versionFilter) {
     case "major":
-      return 60;
+      return 56;
     case "patch":
-      return 30;
+      return 28;
     case "prerelease":
       return 14;
   }

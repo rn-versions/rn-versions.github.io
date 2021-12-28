@@ -17,8 +17,8 @@ type AssetHistoryPoint = { date: number; version: string; count: number };
 
 /** Minimum number of downloads for a version to be recored */
 
-/** Maximum datepoints per package to keep in webpage assets */
-const maxAssetHistoryEntries = 60;
+/** Maximum number of days to include */
+const maxDaysOfHistory = 60;
 
 (async () => {
   try {
@@ -36,16 +36,19 @@ async function generateWebpageAssets() {
   const fullHistory: HistoryFile = require(fullHistoryPath());
 
   for (const [packageName, counts] of Object.entries(fullHistory)) {
-    const trimmedHistory = counts.slice(0, maxAssetHistoryEntries);
+    const earliestAllowableDate =
+      Date.parse(counts[0].date) - maxDaysOfHistory * 24 * 60 * 60 * 1000;
+
     const datePoints: AssetHistoryPoint[] = [];
 
-    for (const fileDatePoint of trimmedHistory) {
+    for (const fileDatePoint of counts) {
+      const date = Date.parse(fileDatePoint.date);
+      if (date < earliestAllowableDate) {
+        break;
+      }
+
       for (const [version, count] of Object.entries(fileDatePoint.versions)) {
-        datePoints.push({
-          date: new Date(fileDatePoint.date).getTime(),
-          version,
-          count,
-        });
+        datePoints.push({ date, version, count });
       }
     }
 

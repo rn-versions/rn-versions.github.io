@@ -7,3 +7,7 @@
 body {
   background-color: $ms-color-gray30;
 }
+
+.recharts-cartesian-axis-tick:last-child text {
+ text-anchor: end; 
+}
