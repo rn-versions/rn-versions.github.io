@@ -79,16 +79,12 @@
 
 @include ms-screen-md-up() {
   .packageCardContent {
-    padding: 15px 5px;
+    padding: 10px;
   }
 
   .headerLeft {
     @include header-clearance-area();
    }
-
-   .header {
-    padding: 0 10px;
-  }
 
    .headerText {
     text-align: center;
