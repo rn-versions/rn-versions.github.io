@@ -15,7 +15,8 @@ $mobile-height: 58px;
 }
 
 .nav {
-  position: fixed;
+  position: sticky;
+  top: 0;
   min-width: 320px;
   z-index: 1;
   @include ms-depth-8();

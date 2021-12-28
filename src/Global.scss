@@ -1,3 +1,9 @@
+@import "@fluentui/react/dist/sass/References";
+
 .recharts-legend-item-text {
   color: black !important
+}
+
+body {
+  background-color: $ms-color-gray30;
 }
