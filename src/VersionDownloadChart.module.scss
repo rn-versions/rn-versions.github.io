@@ -1,0 +1,23 @@
+@import "@fluentui/react/dist/sass/References";
+
+.chartContainer {
+  :global(.recharts-legend-item-text) {
+      color: black !important
+    }
+
+  :global(.recharts-cartesian-axis-tick:last-child text) {
+    text-anchor: end; 
+   }
+}
+
+@include ms-screen-sm-down() {
+  .chartContainer :global(.recharts-responsive-container) {
+    padding-bottom: 24px;
+  }
+}
+
+@include ms-screen-md-up() {
+  .chartContainer :global(.recharts-responsive-container) {
+    padding-bottom: 6px;
+  }
+}

@@ -1,7 +1,8 @@
 import React from "react";
 
 import generateColor, { AvoidToken } from "./generateColor";
-import styles from "./VersionDownloadChart.styles";
+import styleProps from "./VersionDownloadChart.styles";
+import styles from "./VersionDownloadChart.module.scss";
 import { createTooltipContent } from "./VersionTooltip";
 
 import {
@@ -104,7 +105,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
     return (
       <Area
-        {...styles.area}
+        {...styleProps.area}
         name={versionLabeler ? versionLabeler(v) : v}
         key={v}
         dataKey={(datapoint) => datapoint.versionCounts[v]}
@@ -137,7 +138,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     return (
       <div
         style={{
-          height: styles.responsiveContainer.height,
+          height: styleProps.responsiveContainer.height,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -148,51 +149,53 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   }
 
   return (
-    <ResponsiveContainer {...styles.responsiveContainer}>
-      <AreaChart data={data}>
-        <XAxis
-          {...styles.xAxis}
-          dataKey="date"
-          type="number"
-          scale="time"
-          domain={["dataMin", "dataMax"]}
-          tickFormatter={(unixTime) =>
-            dateTimeFormat.format(new Date(unixTime))
-          }
-          interval={0}
-          ticks={calculateDateTicks(
-            datapoints.map((p) => p.date),
-            maxTicks ?? 6
-          )}
-        />
-        <YAxis
-          {...styles.yAxis}
-          type="number"
-          {...(measurementTransform === "percentage"
-            ? {
-                domain: [0, 1],
-                tickFormatter: (count) => `${Math.round(count * 100)}%`,
-              }
-            : {
-                domain: ["auto", "auto"],
-                tickFormatter: (count) => count.toLocaleString(),
-              })}
-        />
-        <CartesianGrid {...styles.grid} />
-
-        {showTooltip !== false && (
-          <Tooltip
-            content={createTooltipContent({
-              measurementTransform,
-              theme: tooltipTheme,
-            })}
+    <div className={styles.chartContainer}>
+      <ResponsiveContainer {...styleProps.responsiveContainer}>
+        <AreaChart data={data}>
+          <XAxis
+            {...styleProps.xAxis}
+            dataKey="date"
+            type="number"
+            scale="time"
+            domain={["dataMin", "dataMax"]}
+            tickFormatter={(unixTime) =>
+              dateTimeFormat.format(new Date(unixTime))
+            }
+            interval={0}
+            ticks={calculateDateTicks(
+              datapoints.map((p) => p.date),
+              maxTicks ?? 6
+            )}
           />
-        )}
-        {showLegend !== false && <Legend {...styles.legend} />}
+          <YAxis
+            {...styleProps.yAxis}
+            type="number"
+            {...(measurementTransform === "percentage"
+              ? {
+                  domain: [0, 1],
+                  tickFormatter: (count) => `${Math.round(count * 100)}%`,
+                }
+              : {
+                  domain: ["auto", "auto"],
+                  tickFormatter: (count) => count.toLocaleString(),
+                })}
+          />
+          <CartesianGrid {...styleProps.grid} />
 
-        {chartAreas}
-      </AreaChart>
-    </ResponsiveContainer>
+          {showTooltip !== false && (
+            <Tooltip
+              content={createTooltipContent({
+                measurementTransform,
+                theme: tooltipTheme,
+              })}
+            />
+          )}
+          {showLegend !== false && <Legend {...styleProps.legend} />}
+
+          {chartAreas}
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 
