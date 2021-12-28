@@ -15,6 +15,7 @@ import {
   Legend,
 } from "recharts";
 import type { HistoryPoint } from "./HistoryReader";
+import { ITheme } from "@fluentui/react";
 
 export type MeasurementTransform = "totalDownloads" | "percentage";
 
@@ -55,6 +56,11 @@ export type VersionDownloadChartProps = {
    * Allows relabeling versions
    */
   versionLabeler?: VersionLabeler;
+
+  /**
+   * Override the default provided theme for the tooltip
+   */
+  tooltipTheme?: ITheme;
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
@@ -65,6 +71,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   showTooltip,
   measurementTransform,
   versionLabeler,
+  tooltipTheme,
 }) => {
   const topRawDataPoints = maxVersionsShown
     ? filterTopN(historyPoints, maxVersionsShown, maxDaysShown ?? 30)
@@ -163,7 +170,12 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
         <CartesianGrid {...styles.grid} />
 
         {showTooltip !== false && (
-          <Tooltip content={createTooltipContent({ measurementTransform })} />
+          <Tooltip
+            content={createTooltipContent({
+              measurementTransform,
+              theme: tooltipTheme,
+            })}
+          />
         )}
         {showLegend !== false && <Legend {...styles.legend} />}
 

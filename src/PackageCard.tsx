@@ -24,6 +24,7 @@ export type PackageCardProps = {
   identifier: PackageIdentifier;
   versionFilter: VersionFilter;
   theme?: ITheme;
+  tooltipTheme?: ITheme;
 };
 
 function maxDays(versionFilter: VersionFilter) {
@@ -41,6 +42,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
   identifier,
   versionFilter,
   theme,
+  tooltipTheme,
 }) => {
   const [lastVersionFilter, setLastVersionFilter] = useState(versionFilter);
   const [showAsPercentage, setShowAsPercentage] = useState(false);
@@ -82,7 +84,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
           <Text variant="medium">(Downloads/Week)</Text>
         </div>
         <div className={styles.headerControls}>
-          <TooltipHost content="Show as percentage">
+          <TooltipHost content="Show as percentage" theme={tooltipTheme}>
             <IconButton
               toggle
               aria-label="Show as percentage"
@@ -105,6 +107,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
               showAsPercentage ? "percentage" : "totalDownloads"
             }
             versionLabeler={packageDesc.versionLabeler}
+            tooltipTheme={tooltipTheme}
           />
         </div>
       ) : (

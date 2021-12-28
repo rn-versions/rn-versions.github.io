@@ -19,7 +19,7 @@
 }
 
 .versionsListItem {
-  height: 2em;
+  height: 1.75em;
   padding: 0;
   display: flex;
   align-items: center;
@@ -35,7 +35,7 @@
 
 .versionLabel {
   @include ms-fontWeight-semibold;
-  padding-right: 16px;
+  padding-right: 10px;
 }
 
 .versionCount {

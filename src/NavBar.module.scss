@@ -17,7 +17,7 @@ $mobile-height: 58px;
 .nav {
   position: fixed;
   min-width: 320px;
-  z-index: 2;
+  z-index: 1;
   @include ms-depth-8();
 
   justify-content: center;
@@ -25,7 +25,6 @@ $mobile-height: 58px;
 
 .navSpacer {
   position: relative;
-  z-index: 1;
 }
 
 .navContent {

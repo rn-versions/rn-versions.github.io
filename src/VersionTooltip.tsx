@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import styles from "./VersionTooltip.module.scss";
-import { Text, ThemeContext } from "@fluentui/react";
+import { ITheme, Text, ThemeContext, ThemeProvider } from "@fluentui/react";
 
-import { LabelFormatter, TooltipPayload, TooltipProps } from "recharts";
+import { TooltipProps } from "recharts";
 import { MeasurementTransform } from "./VersionDownloadChart";
+import type { Payload } from "recharts/types/component/DefaultTooltipContent";
+
+type DateTooltipProps = TooltipProps<number, number>;
 
 function formatCount(
   count: number,
-  entry: TooltipPayload,
+  entry: Payload<number, number>,
   measurementTransform: MeasurementTransform | undefined
 ): string {
-  const totalCount = (
-    Object.values(entry.payload.versionCounts) as number[]
-  ).reduce((a, b) => a + b, 0);
+  const { versionCounts } = entry.payload as {
+    versionCounts: Record<string, number>;
+  };
+
+  const totalCount = Object.values(versionCounts).reduce((a, b) => a + b, 0);
 
   const pct = ((count as number) / totalCount) * 100;
 
@@ -23,15 +28,16 @@ function formatCount(
   }
 }
 
-const formatLabel: LabelFormatter = (unixTime) =>
-  new Date(unixTime).toLocaleDateString("en-US", {
+function formatLabel(unixTime: number): string {
+  return new Date(unixTime).toLocaleDateString("en-US", {
     month: "short",
     day: "2-digit",
   });
+}
 
 export function createTooltipContent(
   props: VersionProps
-): React.FC<TooltipProps> {
+): React.FC<DateTooltipProps> {
   return (tooltipProps) => (
     <VersionTooltipContent {...props} {...tooltipProps} />
   );
@@ -39,43 +45,12 @@ export function createTooltipContent(
 
 export type VersionProps = {
   measurementTransform?: MeasurementTransform;
+  theme?: ITheme;
 };
 
-export const VersionTooltipContent: React.FC<VersionProps & TooltipProps> = ({
-  active,
-  label,
-  payload,
-  measurementTransform,
-}) => {
-  const [hidden, setHidden] = useState(false);
-  const [lastActive, setLastActive] = useState(active);
-  const [lastLabel, setLastLabel] = useState(label);
-
-  // We want to hide the tooltip on scroll, to not take up space on mobile,
-  //which recharts will not normally do.
-  useEffect(() => {
-    if (lastActive !== active) {
-      if (active && !lastActive) {
-        setHidden(false);
-      }
-
-      setLastActive(active);
-    }
-
-    if (lastLabel !== label) {
-      setHidden(false);
-      setLastLabel(label);
-    }
-  }, [lastActive, active, lastLabel, label]);
-
-  useEffect(() => {
-    const onScroll = () => {
-      setHidden(true);
-    };
-    document.addEventListener("scroll", onScroll);
-    return () => document.removeEventListener("scroll", onScroll);
-  });
-
+export const VersionTooltipContent: React.FC<
+  VersionProps & DateTooltipProps
+> = ({ label, payload, measurementTransform, theme }) => {
   const reversedItems = [...(payload ?? [])];
   reversedItems.reverse();
 
@@ -83,7 +58,7 @@ export const VersionTooltipContent: React.FC<VersionProps & TooltipProps> = ({
     <ul className={styles.versionsList}>
       {reversedItems.map((entry, i) => {
         const formattedValue = formatCount(
-          entry.value as number,
+          entry.value!,
           entry,
           measurementTransform
         );
@@ -94,8 +69,12 @@ export const VersionTooltipContent: React.FC<VersionProps & TooltipProps> = ({
               className={styles.versionColorIndicator}
               style={{ backgroundColor: entry.color || "#000" }}
             />
-            <Text className={styles.versionLabel}>{entry.name}</Text>
-            <Text className={styles.versionCount}>{formattedValue}</Text>
+            <Text variant="small" className={styles.versionLabel}>
+              {entry.name}
+            </Text>
+            <Text variant="small" className={styles.versionCount}>
+              {formattedValue}
+            </Text>
           </li>
         );
       })}
@@ -104,21 +83,25 @@ export const VersionTooltipContent: React.FC<VersionProps & TooltipProps> = ({
 
   return (
     <ThemeContext.Consumer>
-      {(theme) => (
-        <div
-          className={styles.frame}
-          style={
-            hidden
-              ? { display: "none" }
-              : { backgroundColor: theme?.semanticColors.bodyBackground }
-          }
-        >
-          <Text className={styles.date} variant="medium">
-            {formatLabel(label!)}
-          </Text>
-          {versionsList}
-        </div>
-      )}
+      {(contextTheme) => {
+        theme = theme ?? contextTheme;
+
+        return (
+          <ThemeProvider
+            theme={theme}
+            className={styles.frame}
+            style={{
+              backgroundColor: (theme ?? contextTheme)?.semanticColors
+                .bodyBackground,
+            }}
+          >
+            <Text className={styles.date} variant="medium">
+              {formatLabel(label!)}
+            </Text>
+            {versionsList}
+          </ThemeProvider>
+        );
+      }}
     </ThemeContext.Consumer>
   );
 };

@@ -9,13 +9,22 @@ import type {
 } from "recharts";
 
 export type VersionDownloadChartStyle = {
-  area: Partial<AreaProps>;
-  responsiveContainer: Partial<ResponsiveContainerProps>;
-  grid: Partial<CartesianGridProps>;
-  xAxis: Partial<XAxisProps>;
-  yAxis: Partial<YAxisProps>;
-  tooltip: Partial<TooltipProps>;
-  legend: Partial<LegendProps>;
+  area: Pick<AreaProps, "isAnimationActive">;
+  responsiveContainer: Pick<ResponsiveContainerProps, "width" | "height">;
+  grid: Pick<CartesianGridProps, "strokeDasharray">;
+  xAxis: Pick<
+    XAxisProps,
+    "width" | "height" | "tickLine" | "tickSize" | "tickMargin" | "minTickGap"
+  >;
+  yAxis: Pick<
+    YAxisProps,
+    "width" | "height" | "tickLine" | "tickSize" | "tickMargin" | "minTickGap"
+  >;
+  tooltip: Pick<
+    TooltipProps<string, number>,
+    "animationDuration" | "animationEasing"
+  >;
+  legend: Pick<LegendProps, "height" | "wrapperStyle">;
 };
 
 const styles: VersionDownloadChartStyle = {
@@ -43,6 +52,7 @@ const styles: VersionDownloadChartStyle = {
   },
   tooltip: {
     animationDuration: 300,
+    animationEasing: "ease-in-out",
   },
   legend: {
     height: 24,
