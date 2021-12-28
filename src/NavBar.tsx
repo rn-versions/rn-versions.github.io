@@ -1,4 +1,4 @@
-import React from "react";
+import { CSSProperties } from "react";
 import styles from "./NavBar.module.scss";
 
 import { darkTheme } from "./Themes";
@@ -28,56 +28,76 @@ export type NavPivotItem<ItemKey extends string> = {
   key: ItemKey;
 };
 
-const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => (
-  <ThemeProvider
-    className={styles.nav}
-    theme={props.theme ?? darkTheme}
-    style={{
-      backgroundColor: (props.theme ?? darkTheme).semanticColors.bodyBackground,
-    }}
-  >
-    <div className={styles.navContent}>
-      <div className={styles.brand}>
-        <ReactLogoIcon className={styles.reactLogo} />
-        <Text variant="large">React Native Versions</Text>
-      </div>
-
-      <Pivot
-        headersOnly
-        className={styles.pivot}
-        onLinkClick={(item) => {
-          window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
-          if (props.onItemSelected) {
-            props.onItemSelected(item!.props.itemKey! as ItemKey);
-          }
-        }}
-      >
-        {props.items.map((p) => (
-          <PivotItem headerText={p.label} itemKey={p.key} />
-        ))}
-      </Pivot>
-
-      <Link
-        className={styles.gitHubLink}
-        underline={false}
-        href="https://github.com/rn-versions/rn-versions.github.io"
-        target="_blank"
-        rel="noreferrer"
-      >
-        <ActionButton
-          className={styles.gitHubTextButton}
-          text="Contribute"
-          aria-label="Contribute"
-          onRenderIcon={() => <GitHubLogoIcon className={styles.gitHubLogo} />}
-        />
-        <IconButton
-          className={styles.gitHubIconButton}
-          aria-label="Contribute"
-          onRenderIcon={() => <GitHubLogoIcon className={styles.gitHubLogo} />}
-        />
-      </Link>
-    </div>
-  </ThemeProvider>
+const Brand: React.FC<{ className: string }> = ({ className }) => (
+  <div className={className}>
+    <ReactLogoIcon className={styles.reactLogo} />
+    <Text variant="large">React Native Versions</Text>
+  </div>
 );
+
+const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => {
+  const theme = props.theme ?? darkTheme;
+  const style: CSSProperties = {
+    backgroundColor: (props.theme ?? darkTheme).semanticColors.bodyBackground,
+  };
+  return (
+    <>
+      <ThemeProvider
+        className={styles.mobileHeader}
+        theme={theme}
+        style={style}
+      >
+        <div className={styles.mobileHeaderContent}>
+          <Brand className={styles.mobileBrand} />
+        </div>
+      </ThemeProvider>
+
+      <ThemeProvider className={styles.nav} theme={theme} style={style}>
+        <div className={styles.navContent}>
+          <Brand className={styles.brand} />
+
+          <Pivot
+            headersOnly
+            className={styles.pivot}
+            onLinkClick={(item) => {
+              window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
+              if (props.onItemSelected) {
+                props.onItemSelected(item!.props.itemKey! as ItemKey);
+              }
+            }}
+          >
+            {props.items.map((p) => (
+              <PivotItem headerText={p.label} itemKey={p.key} />
+            ))}
+          </Pivot>
+
+          <Link
+            className={styles.gitHubLink}
+            underline={false}
+            href="https://github.com/rn-versions/rn-versions.github.io"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <ActionButton
+              className={styles.gitHubTextButton}
+              text="Contribute"
+              aria-label="Contribute"
+              onRenderIcon={() => (
+                <GitHubLogoIcon className={styles.gitHubLogo} />
+              )}
+            />
+            <IconButton
+              className={styles.gitHubIconButton}
+              aria-label="Contribute"
+              onRenderIcon={() => (
+                <GitHubLogoIcon className={styles.gitHubLogo} />
+              )}
+            />
+          </Link>
+        </div>
+      </ThemeProvider>
+    </>
+  );
+};
 
 export default NavBar;

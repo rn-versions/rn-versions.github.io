@@ -1,25 +1,33 @@
 @import "./App.module.scss";
 @import "@fluentui/react/dist/sass/References";
 
-$desktop-height: 58px;
-$mobile-height: 58px;
-
-@mixin mobile-nav-dimensions {
+@mixin nav-width {
+  min-width: 320px;
   width: 100%;
-  height: $mobile-height;
 }
 
-@mixin desktop-nav-dimensions {
-  width: 100%;
-  height: $desktop-height;
+@mixin navbar-items {
+  padding: 0 24px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+@mixin brand {
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
 }
 
 .nav {
+  @include nav-width;
+  height: 58px;
   position: sticky;
   top: 0;
-  min-width: 320px;
   z-index: 1;
-  @include ms-depth-8();
+  @include ms-depth-8;
 
   justify-content: center;
 }
@@ -29,16 +37,10 @@ $mobile-height: 58px;
 }
 
 .navContent {
-  @include frame-constrained;
-  height: 100%;
-  padding: 0 24px;
-  flex-grow: 1;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  @include navbar-items;
   align-items: center;
-  flex-wrap: wrap;
+  flex-grow: 1;
+  height: 100%;
 }
 
 $navItemHeight: 44px;
@@ -71,12 +73,21 @@ $navItemHeight: 44px;
 }
 
 @include ms-screen-md-down() {
-  .nav {
-    @include mobile-nav-dimensions();
+  .mobileHeader {
+    @include nav-width;
+    height: 40px;
+
+    display: flex;
+    justify-items: flex-end;
   }
 
-  .navSpacer {
-    @include mobile-nav-dimensions();
+  .mobileHeaderContent {
+    @include navbar-items;
+    align-items: flex-end;
+  }
+
+  .mobileBrand {
+    @include brand;
   }
 
   .brand {
@@ -89,18 +100,12 @@ $navItemHeight: 44px;
 }
 
 @include ms-screen-lg-up() {
-  .nav {
-    @include desktop-nav-dimensions();
-  }
-
-  .navSpacer {
-    @include desktop-nav-dimensions();
+  .mobileHeader {
+    display: none;
   }
 
   .brand {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+    @include brand;
   }
 
   .pivot {
