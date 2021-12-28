@@ -84,7 +84,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
   const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
     month: "short",
-    day: "2-digit",
+    day: "numeric",
   });
 
   const allVersionsSet = new Set(datapoints.map((p) => p.version));

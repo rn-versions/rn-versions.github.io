@@ -30,7 +30,7 @@ function formatCount(
 function formatLabel(unixTime: number): string {
   return new Date(unixTime).toLocaleDateString("en-US", {
     month: "short",
-    day: "2-digit",
+    day: "numeric",
   });
 }
 
