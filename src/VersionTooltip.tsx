@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./VersionTooltip.module.scss";
 import { Text, ThemeContext } from "@fluentui/react";
 
