@@ -38,6 +38,7 @@
 
 .navContent {
   @include navbar-items;
+  @include frame-constrained;
   align-items: center;
   flex-grow: 1;
   height: 100%;
