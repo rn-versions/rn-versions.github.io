@@ -1,7 +1,6 @@
 import type {
   AreaProps,
   CartesianGridProps,
-  LegendProps,
   ResponsiveContainerProps,
   TooltipProps,
   XAxisProps,
@@ -10,7 +9,6 @@ import type {
 
 type AnimationTimingProps = "animationDuration" | "animationEasing";
 type DimensionProps = "width" | "height";
-type MarginProps = "margin";
 type PaddingProps = "padding";
 type StrokeProps = "strokeDasharray";
 type TickProps =
@@ -27,7 +25,6 @@ export type VersionDownloadChartStyle = {
   xAxis: Pick<XAxisProps, DimensionProps | PaddingProps | TickProps>;
   yAxis: Pick<YAxisProps, DimensionProps | PaddingProps | TickProps>;
   tooltip: Pick<TooltipProps<string, number>, AnimationTimingProps>;
-  legend: Pick<LegendProps, DimensionProps | MarginProps | "wrapperStyle">;
 };
 
 const styles: VersionDownloadChartStyle = {
@@ -56,13 +53,6 @@ const styles: VersionDownloadChartStyle = {
   tooltip: {
     animationDuration: 300,
     animationEasing: "ease-in-out",
-  },
-  legend: {
-    height: 32,
-    wrapperStyle: {
-      position: "absolute",
-      bottom: 0,
-    },
   },
 };
 

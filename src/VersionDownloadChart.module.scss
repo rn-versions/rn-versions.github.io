@@ -8,16 +8,24 @@
   :global(.recharts-cartesian-axis-tick:last-child text) {
     text-anchor: end; 
    }
-}
 
-@include ms-screen-sm-down() {
-  .chartContainer :global(.recharts-responsive-container) {
-    padding-bottom: 24px;
+  :global(.recharts-legend-wrapper) {
+    bottom: 0 !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+   }
+
+   @include ms-screen-sm-down() {
+    :global(.recharts-legend-wrapper) {
+      height: 66px !important;
+    }
   }
-}
 
-@include ms-screen-md-up() {
-  .chartContainer :global(.recharts-responsive-container) {
-    padding-bottom: 6px;
+  @include ms-screen-md-up() {
+    :global(.recharts-legend-wrapper) {
+      height: 40px !important;
+    }
   }
 }

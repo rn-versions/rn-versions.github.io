@@ -137,12 +137,9 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   if (datapoints.length === 0) {
     return (
       <div
+        className={styles.placeholderContainer}
         style={{
           height: styleProps.responsiveContainer.height,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
         }}
       ></div>
     );
@@ -190,7 +187,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
               })}
             />
           )}
-          {showLegend !== false && <Legend {...styleProps.legend} />}
+          {showLegend !== false && <Legend />}
 
           {chartAreas}
         </AreaChart>
