@@ -14,18 +14,23 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
    }
 
    @include ms-screen-sm-down() {
     :global(.recharts-legend-wrapper) {
       height: 66px !important;
+      align-items: center;
+    }
+
+    :global(.recharts-default-legend) {
+      padding: 0 20px !important;
     }
   }
 
   @include ms-screen-md-up() {
     :global(.recharts-legend-wrapper) {
       height: 40px !important;
+      align-items: center;
     }
   }
 }
