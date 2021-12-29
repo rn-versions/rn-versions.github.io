@@ -16,9 +16,7 @@ import {
   Legend,
 } from "recharts";
 import type { HistoryPoint } from "./HistoryReader";
-import { ITheme, ThemeContext } from "@fluentui/react";
-
-import getContrastingColor from "./getContrastingColor";
+import { ITheme } from "@fluentui/react";
 
 // @ts-ignore
 import { DefaultLegendContent as DefaultLegendContentPrivate } from "recharts/es6/component/DefaultLegendContent";
