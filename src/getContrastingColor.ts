@@ -297,7 +297,7 @@ export function hsl2rgb(hsl: IHSL): IRGB {
 export type RequiredContrast = "minimal" | "low" | "medium" | "high";
 
 const contrastDefaults: { [K in RequiredContrast]: number } = {
-  minimal: 1.5,
+  minimal: 2.0,
   low: 3.0,
   medium: 4.5,
   high: 6.0,
