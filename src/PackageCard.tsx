@@ -107,6 +107,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
               showAsPercentage ? "percentage" : "totalDownloads"
             }
             versionLabeler={packageDesc.versionLabeler}
+            theme={theme}
             tooltipTheme={tooltipTheme}
           />
         </div>

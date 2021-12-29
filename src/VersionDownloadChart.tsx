@@ -16,7 +16,9 @@ import {
   Legend,
 } from "recharts";
 import type { HistoryPoint } from "./HistoryReader";
-import { ITheme } from "@fluentui/react";
+import { ITheme, ThemeContext } from "@fluentui/react";
+
+import getContrastingColor from "./getContrastingColor";
 
 // @ts-ignore
 import { DefaultLegendContent as DefaultLegendContentPrivate } from "recharts/es6/component/DefaultLegendContent";
@@ -71,6 +73,11 @@ export type VersionDownloadChartProps = {
   versionLabeler?: VersionLabeler;
 
   /**
+   * Theme, used to ensure we have enough contrast.
+   */
+  theme?: ITheme;
+
+  /**
    * Override the default provided theme for the tooltip
    */
   tooltipTheme?: ITheme;
@@ -85,6 +92,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   showTooltip,
   measurementTransform,
   versionLabeler,
+  theme,
   tooltipTheme,
 }) => {
   const [legendElement, setLegendElement] = useState<HTMLDivElement | null>(
@@ -107,29 +115,15 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   });
 
   const allVersionsSet = new Set(datapoints.map((p) => p.version));
-  const allVersionsArr = [...allVersionsSet];
-
-  let latAvoidToken: AvoidToken | undefined = undefined;
-  const chartAreas = allVersionsArr.map((v, i) => {
-    const { color, avoidToken } = generateColor(v, latAvoidToken);
-    latAvoidToken = avoidToken;
-
-    return (
-      <Area
-        {...styleProps.area}
-        name={versionLabeler ? versionLabeler(v) : v}
-        key={v}
-        dataKey={(datapoint) => datapoint.versionCounts[v]}
-        stackId="1"
-        stroke={color}
-        fill={color}
-      />
-    );
-  });
+  const chartAreas = createChartAreas(
+    [...allVersionsSet],
+    versionLabeler,
+    theme
+  );
 
   const data: Array<{ date: number; versionCounts: Record<string, number> }> =
     [];
-  for (const version of allVersionsArr) {
+  for (const version of allVersionsSet) {
     for (const measurePoint of datapoints) {
       if (measurePoint.version === version) {
         const datePoint = data.find((p) => p.date === measurePoint.date);
@@ -218,6 +212,31 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     </div>
   );
 };
+
+function createChartAreas(
+  versions: string[],
+  versionLabeler?: VersionLabeler,
+  theme?: ITheme
+) {
+  let latAvoidToken: AvoidToken | undefined = undefined;
+
+  return versions.map((v) => {
+    const { color, avoidToken } = generateColor(v, latAvoidToken);
+    latAvoidToken = avoidToken;
+
+    return (
+      <Area
+        {...styleProps.area}
+        name={versionLabeler ? versionLabeler(v) : v}
+        key={v}
+        dataKey={(datapoint) => datapoint.versionCounts[v]}
+        stackId="1"
+        stroke={color}
+        fill={color}
+      />
+    );
+  });
+}
 
 function calculateDateTicks(dates: number[], maxTicks: number): number[] {
   const first = dates[0];

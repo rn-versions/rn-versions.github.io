@@ -4,6 +4,7 @@ import { ITheme, Text, ThemeContext, ThemeProvider } from "@fluentui/react";
 import { TooltipProps } from "recharts";
 import { MeasurementTransform } from "./VersionDownloadChart";
 import type { Payload } from "recharts/types/component/DefaultTooltipContent";
+import getContrastingColor from "./getContrastingColor";
 
 type DateTooltipProps = TooltipProps<number, number>;
 
@@ -53,37 +54,45 @@ export const VersionTooltipContent: React.FC<
   const reversedItems = [...(payload ?? [])];
   reversedItems.reverse();
 
-  const versionsList = reversedItems.length > 0 && (
-    <ul className={styles.versionsList}>
-      {reversedItems.map((entry, i) => {
-        const formattedValue = formatCount(
-          entry.value!,
-          entry,
-          measurementTransform
-        );
-
-        return (
-          <li key={i} className={styles.versionsListItem}>
-            <div
-              className={styles.versionColorIndicator}
-              style={{ backgroundColor: entry.color || "#000" }}
-            />
-            <Text variant="small" className={styles.versionLabel}>
-              {entry.name}
-            </Text>
-            <Text variant="small" className={styles.versionCount}>
-              {formattedValue}
-            </Text>
-          </li>
-        );
-      })}
-    </ul>
-  );
-
   return (
     <ThemeContext.Consumer>
       {(contextTheme) => {
         theme = theme ?? contextTheme;
+
+        const versionsList = reversedItems.length > 0 && (
+          <ul className={styles.versionsList}>
+            {reversedItems.map((entry, i) => {
+              const colorChipColor = theme
+                ? getContrastingColor(
+                    entry.color!,
+                    theme.semanticColors.bodyBackground,
+                    "medium"
+                  )
+                : entry.color!;
+
+              const formattedValue = formatCount(
+                entry.value!,
+                entry,
+                measurementTransform
+              );
+
+              return (
+                <li key={i} className={styles.versionsListItem}>
+                  <div
+                    className={styles.versionColorIndicator}
+                    style={{ backgroundColor: colorChipColor }}
+                  />
+                  <Text variant="small" className={styles.versionLabel}>
+                    {entry.name}
+                  </Text>
+                  <Text variant="small" className={styles.versionCount}>
+                    {formattedValue}
+                  </Text>
+                </li>
+              );
+            })}
+          </ul>
+        );
 
         return (
           <ThemeProvider
