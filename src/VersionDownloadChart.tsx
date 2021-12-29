@@ -18,12 +18,8 @@ import {
 import type { HistoryPoint } from "./HistoryReader";
 import { ITheme } from "@fluentui/react";
 
-// @ts-ignore
-import { DefaultLegendContent as DefaultLegendContentPrivate } from "recharts/es6/component/DefaultLegendContent";
-import type { DefaultLegendContent as DefaultLegendContentType } from "recharts/types/component/DefaultLegendContent";
 import { createPortal } from "react-dom";
-const DefaultLegendContent: typeof DefaultLegendContentType =
-  DefaultLegendContentPrivate;
+import VersionLegend from "./VersionLegend";
 
 export type MeasurementTransform = "totalDownloads" | "percentage";
 
@@ -193,13 +189,12 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           {showLegend !== false && legendElement && (
             <Legend
               height={0}
-              content={(props) => {
-                const { ref, ...restProps } = props;
-                return createPortal(
-                  <DefaultLegendContent {...restProps} />,
+              content={({ payload }) =>
+                createPortal(
+                  payload && <VersionLegend payload={payload} />,
                   legendElement
-                );
-              }}
+                )
+              }
             />
           )}
 
