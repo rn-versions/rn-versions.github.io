@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import generateColor, { AvoidToken } from "./generateColor";
 import styleProps from "./VersionDownloadChart.styles";
@@ -17,6 +17,13 @@ import {
 } from "recharts";
 import type { HistoryPoint } from "./HistoryReader";
 import { ITheme } from "@fluentui/react";
+
+// @ts-ignore
+import { DefaultLegendContent as DefaultLegendContentPrivate } from "recharts/es6/component/DefaultLegendContent";
+import type { DefaultLegendContent as DefaultLegendContentType } from "recharts/types/component/DefaultLegendContent";
+import { createPortal } from "react-dom";
+const DefaultLegendContent: typeof DefaultLegendContentType =
+  DefaultLegendContentPrivate;
 
 export type MeasurementTransform = "totalDownloads" | "percentage";
 
@@ -80,6 +87,10 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   versionLabeler,
   tooltipTheme,
 }) => {
+  const [legendElement, setLegendElement] = useState<HTMLDivElement | null>(
+    null
+  );
+
   maxDaysShown = maxDaysShown ?? 30;
   const topRawDataPoints = maxVersionsShown
     ? filterTopN(historyPoints, maxVersionsShown, maxDaysShown)
@@ -187,11 +198,23 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
               })}
             />
           )}
-          {showLegend !== false && <Legend />}
+          {showLegend !== false && legendElement && (
+            <Legend
+              height={0}
+              content={(props) => {
+                const { ref, ...restProps } = props;
+                return createPortal(
+                  <DefaultLegendContent {...restProps} />,
+                  legendElement
+                );
+              }}
+            />
+          )}
 
           {chartAreas}
         </AreaChart>
       </ResponsiveContainer>
+      <div ref={(el) => setLegendElement(el)} className={styles.legend} />
     </div>
   );
 };
@@ -232,7 +255,6 @@ function calculateDateTicks(dates: number[], maxTicks: number): number[] {
     }
   }
 
-  console.log(ticks);
   return [...ticks];
 }
 
