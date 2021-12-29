@@ -10,8 +10,9 @@ import type {
 type AnimationTimingProps = "animationDuration" | "animationEasing";
 type DimensionProps = "width" | "height";
 type PaddingProps = "padding";
-type StrokeProps = "strokeDasharray";
+type StrokeProps = "stroke" | "strokeDasharray" | "strokeOpacity";
 type TickProps =
+  | "tick"
   | "tickCount"
   | "tickLine"
   | "tickSize"
@@ -36,7 +37,8 @@ const styles: VersionDownloadChartStyle = {
     height: 230,
   },
   grid: {
-    strokeDasharray: "3 3",
+    strokeDasharray: "5 5",
+    stroke: "black",
   },
   xAxis: {
     height: 32,

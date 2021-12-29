@@ -176,7 +176,6 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
                   tickFormatter: (count) => count.toLocaleString(),
                 })}
           />
-          <CartesianGrid {...styleProps.grid} />
 
           {showTooltip !== false && (
             <Tooltip
@@ -199,6 +198,11 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           )}
 
           {chartAreas}
+
+          <CartesianGrid
+            {...styleProps.grid}
+            stroke={theme?.palette.blackTranslucent40}
+          />
         </AreaChart>
       </ResponsiveContainer>
       <div ref={(el) => setLegendElement(el)} className={styles.legend} />
@@ -226,6 +230,7 @@ function createChartAreas(
         stackId="1"
         stroke={color}
         fill={color}
+        fillOpacity={1}
       />
     );
   });

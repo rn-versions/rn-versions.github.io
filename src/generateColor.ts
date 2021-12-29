@@ -41,8 +41,8 @@ export default function generateColor(
       ))
   );
 
-  const saturation = 1;
-  const value = 0.9;
+  const saturation = 0.6;
+  const value = 0.95;
 
   const h = hue * 360;
   const s = saturation * 100;
