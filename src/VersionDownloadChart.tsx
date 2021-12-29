@@ -150,6 +150,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
         <AreaChart data={data}>
           <XAxis
             {...styleProps.xAxis}
+            tick={{ fill: theme?.semanticColors.bodyText }}
             dataKey="date"
             type="number"
             scale="time"
@@ -165,6 +166,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           />
           <YAxis
             {...styleProps.yAxis}
+            tick={{ fill: theme?.semanticColors.bodyText }}
             type="number"
             {...(measurementTransform === "percentage"
               ? {
@@ -201,7 +203,8 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
           <CartesianGrid
             {...styleProps.grid}
-            stroke={theme?.palette.blackTranslucent40}
+            stroke={theme?.semanticColors.bodyText}
+            strokeOpacity={0.4}
           />
         </AreaChart>
       </ResponsiveContainer>
