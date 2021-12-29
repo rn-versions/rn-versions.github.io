@@ -102,7 +102,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
           <VersionDownloadChart
             historyPoints={historyPoints}
             maxDaysShown={maxDays(versionFilter)}
-            maxVersionsShown={7}
+            maxVersionsShown={6}
             measurementTransform={
               showAsPercentage ? "percentage" : "totalDownloads"
             }
