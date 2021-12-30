@@ -38,7 +38,6 @@ const styles: VersionDownloadChartStyle = {
   },
   grid: {
     strokeDasharray: "5 5",
-    stroke: "black",
   },
   xAxis: {
     height: 32,

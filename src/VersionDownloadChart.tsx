@@ -227,7 +227,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           <CartesianGrid
             {...styleProps.grid}
             stroke={theme?.semanticColors.bodyText}
-            strokeOpacity={0.4}
+            strokeOpacity={0.6}
           />
         </AreaChart>
       </ResponsiveContainer>
