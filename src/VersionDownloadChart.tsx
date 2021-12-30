@@ -211,6 +211,13 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
             />
           )}
 
+          <CartesianGrid
+            {...styleProps.grid}
+            stroke={theme?.semanticColors.bodyText}
+            strokeOpacity={0.6}
+            fill={theme?.isInverted ? "black" : "white"}
+          />
+
           {areas.map(({ name, hue, dataKey }) => (
             <Area
               {...styleProps.area}
@@ -223,12 +230,6 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
               fillOpacity={1}
             />
           ))}
-
-          <CartesianGrid
-            {...styleProps.grid}
-            stroke={theme?.semanticColors.bodyText}
-            strokeOpacity={0.6}
-          />
         </AreaChart>
       </ResponsiveContainer>
       <div ref={(el) => setLegendElement(el)} className={styles.legend} />
