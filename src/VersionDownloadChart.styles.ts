@@ -43,7 +43,7 @@ const styles: VersionDownloadChartStyle = {
   },
   responsiveContainer: {
     width: "100%",
-    height: 230,
+    height: 250,
   },
   grid: {
     strokeDasharray: "1 4",
