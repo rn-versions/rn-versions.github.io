@@ -98,17 +98,15 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     ? filterTopN(historyPoints, maxVersionsShown, maxDaysShown)
     : historyPoints;
 
+  datapoints.reverse();
+
   const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
   });
 
   const allVersionsSet = new Set(datapoints.map((p) => p.version));
-  const chartAreas = createChartAreas(
-    [...allVersionsSet],
-    versionLabeler,
-    theme
-  );
+  const chartAreas = createChartAreas([...allVersionsSet], versionLabeler);
 
   const data: Array<{ date: number; versionCounts: Record<string, number> }> =
     [];
@@ -127,6 +125,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
       }
     }
   }
+  data.sort();
 
   if (datapoints.length === 0) {
     return (
@@ -144,6 +143,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
       <ResponsiveContainer {...styleProps.responsiveContainer}>
         <AreaChart
           data={data}
+          reverseStackOrder
           stackOffset={unit === "percentage" ? "expand" : "none"}
         >
           <XAxis
@@ -211,18 +211,19 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   );
 };
 
-function createChartAreas(
-  versions: string[],
-  versionLabeler?: VersionLabeler,
-  theme?: ITheme
-) {
+function createChartAreas(versions: string[], versionLabeler?: VersionLabeler) {
   let latAvoidToken: AvoidToken | undefined = undefined;
 
-  return versions.map((v) => {
+  // Need to generate colors in reverse order, to generate them bottom up with
+  // reverse stack order
+  const areas: JSX.Element[] = [];
+
+  for (let i = versions.length - 1; i >= 0; i--) {
+    const v = versions[i];
     const { color, avoidToken } = generateColor(v, latAvoidToken);
     latAvoidToken = avoidToken;
 
-    return (
+    areas.unshift(
       <Area
         {...styleProps.area}
         name={versionLabeler ? versionLabeler(v) : v}
@@ -234,16 +235,20 @@ function createChartAreas(
         fillOpacity={1}
       />
     );
-  });
+  }
+
+  return areas;
 }
 
 function calculateDateTicks(dates: number[], maxTicks: number): number[] {
-  const first = dates[0];
-  const last = dates[dates.length - 1];
-
   if (maxTicks === 0) {
     return [];
   }
+
+  const sortedDates = dates.sort();
+
+  const first = sortedDates[0];
+  const last = sortedDates[sortedDates.length - 1];
 
   if (maxTicks === 1) {
     return [first];
@@ -266,7 +271,7 @@ function calculateDateTicks(dates: number[], maxTicks: number): number[] {
   const ticks = new Set([first]);
   let nextTick = fromDayStart(first, tickInterval);
 
-  for (const date of dates) {
+  for (const date of sortedDates) {
     if (date >= nextTick) {
       ticks.add(date);
       nextTick = fromDayStart(date, tickInterval);
@@ -296,75 +301,25 @@ function filterTopN(
   const latestDay = new Date(latestDate).setHours(0, 0, 0, 0);
 
   const earliestAllowableDate = latestDay - windowInDays * 24 * 60 * 60 * 1000;
-  const versionsInWindow: Array<{ version: string; count: number }> = [];
+  const versionsInWindow: { [version: string]: number | undefined } = {};
 
   for (const point of historyPoints) {
     if (point.date >= earliestAllowableDate) {
-      const existingCount = versionsInWindow.find(
-        (v) => v.version === point.version
-      );
-      const newCount = point.date < earliestAllowableDate ? 0 : point.count;
-
-      if (existingCount) {
-        existingCount.count += newCount;
-      } else {
-        versionsInWindow.push({ version: point.version, count: newCount });
-      }
+      const existingCount = versionsInWindow[point.version] ?? 0;
+      versionsInWindow[point.version] = existingCount + point.count;
     }
   }
 
-  const topVersions = versionsInWindow
-    .sort((a, b) => a.count - b.count)
-    .slice(-n)
-    .map((v) => v.version);
+  const topVersions = new Set(
+    Object.entries(versionsInWindow)
+      .sort((a, b) => a[1]! - b[1]!)
+      .slice(-n)
+      .map(([version, _count]) => version)
+  );
 
-  const topVersionsInOrder: string[] = [];
-  for (const point of historyPoints) {
-    if (
-      topVersions.includes(point.version) &&
-      !topVersionsInOrder.includes(point.version)
-    ) {
-      topVersionsInOrder.push(point.version);
-    }
-  }
-
-  const filteredPoints: HistoryPoint[] = [];
-  for (const point of historyPoints) {
-    if (topVersions.includes(point.version)) {
-      filteredPoints.push(point);
-    }
-  }
-
-  const pointsByDate: Map<
-    number,
-    { version: string; count: number }[] | undefined
-  > = new Map();
-  for (const point of filteredPoints) {
-    const last = pointsByDate.get(point.date) ?? [];
-    pointsByDate.set(point.date, [...last, point]);
-  }
-
-  const datesAscending = [...pointsByDate.keys()].sort();
-  const pointsWithZero: HistoryPoint[] = [];
-
-  for (const date of datesAscending) {
-    if (date < earliestAllowableDate) {
-      continue;
-    }
-
-    for (const topVersion of topVersionsInOrder) {
-      const existingPoint = pointsByDate
-        .get(date)!
-        .find((p) => p.version === topVersion);
-      if (existingPoint) {
-        pointsWithZero.push({ date, ...existingPoint });
-      } else {
-        pointsWithZero.push({ date, version: topVersion, count: 0 });
-      }
-    }
-  }
-
-  return pointsWithZero;
+  return historyPoints.filter(
+    (p) => p.date >= earliestAllowableDate && topVersions.has(p.version)
+  );
 }
 
 export default VersionDownloadChart;
