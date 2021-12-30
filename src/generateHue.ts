@@ -83,11 +83,11 @@ function getLightness(
 
   if (targetLuminance === "contrasts-white") {
     while (relativeLuminance(h, s, lightness) > maxLuminanceAgainstWhite) {
-      lightness -= 0.05;
+      lightness -= 0.02;
     }
   } else if (targetLuminance === "contrasts-black") {
     while (relativeLuminance(h, s, lightness) < minLuminanceAgainstBlack) {
-      lightness += 0.05;
+      lightness += 0.02;
     }
   }
 
