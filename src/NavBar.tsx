@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import styles from "./NavBar.module.scss";
 
 import { darkTheme } from "./Themes";
@@ -44,6 +44,17 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => {
     backgroundColor: (props.theme ?? darkTheme).semanticColors.bodyBackground,
   };
 
+  const [scrolledAway, setScrolledAway] = useState(false);
+  const nonStickyElement = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const bodyIntersectionObserver = new IntersectionObserver((events) =>
+      events.forEach((e) => setScrolledAway(e.intersectionRatio < 1.0))
+    );
+    bodyIntersectionObserver.observe(nonStickyElement.current!);
+    return () => bodyIntersectionObserver.disconnect();
+  });
+
   return (
     <>
       <ThemeProvider
@@ -56,7 +67,15 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => {
         </div>
       </ThemeProvider>
 
-      <ThemeProvider className={styles.nav} theme={theme} style={style}>
+      <div ref={nonStickyElement} />
+
+      <ThemeProvider
+        className={
+          scrolledAway ? `${styles.nav} ${styles.scrolledAwayNav}` : styles.nav
+        }
+        theme={theme}
+        style={style}
+      >
         <div className={styles.navContent}>
           <Brand className={styles.brand} />
 

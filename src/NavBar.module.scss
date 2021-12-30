@@ -30,6 +30,11 @@
   z-index: 1;
 
   justify-content: center;
+  transition: ease-in-out 150ms;
+}
+
+.scrolledAwayNav {
+  @include ms-depth-8;
 }
 
 .navContent {

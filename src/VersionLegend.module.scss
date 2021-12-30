@@ -1,15 +1,25 @@
 @import "@fluentui/react/dist/sass/References";
 
+.versionsListContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
 .versionsList {
+  @include ms-depth-4;
+  border-radius: 5px;
+
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 
-  justify-content: center;
+  justify-content: left;
   gap: 0 20px;
 
-  padding-top: 20px;
-  margin: 0;
+  margin: 5px 0 0 0;
+  padding: 10px 20px;
 }
 
 .versionsListItem {
