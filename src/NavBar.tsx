@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties } from "react";
 import styles from "./NavBar.module.scss";
 
 import { darkTheme } from "./Themes";
