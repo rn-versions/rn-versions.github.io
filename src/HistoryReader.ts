@@ -27,7 +27,10 @@ export default class HistoryReader {
     historyPoints: HistoryPoint[]
   ) {
     this.packageDescription = packages[packageIdentifier];
-    this.historyPoints = historyPoints;
+
+    this.historyPoints = historyPoints.filter((p) =>
+      this.packageDescription.versionFilter(p.version)
+    );
   }
 
   static async get(
@@ -115,18 +118,10 @@ export default class HistoryReader {
     versionMapper?: (v: string) => string;
     extraFilter?: (point: HistoryPoint) => boolean;
   }): HistoryPoint[] {
-    let points: HistoryPoint[];
+    let points = this.historyPoints;
 
     if (opts?.extraFilter) {
-      points = this.historyPoints.filter(
-        (point) =>
-          opts.extraFilter!(point) &&
-          this.packageDescription.versionFilter(point.version)
-      );
-    } else {
-      points = this.historyPoints.filter((point) =>
-        this.packageDescription.versionFilter(point.version)
-      );
+      points = this.historyPoints.filter(opts.extraFilter);
     }
 
     if (opts?.versionMapper) {
