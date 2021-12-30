@@ -2,7 +2,7 @@ import styles from "./VersionTooltip.module.scss";
 import { ITheme, Text, ThemeContext, ThemeProvider } from "@fluentui/react";
 
 import { TooltipProps } from "recharts";
-import { MeasurementTransform } from "./VersionDownloadChart";
+import { Unit } from "./VersionDownloadChart";
 import type { Payload } from "recharts/types/component/DefaultTooltipContent";
 import getContrastingColor from "./getContrastingColor";
 
@@ -11,7 +11,7 @@ type DateTooltipProps = TooltipProps<number, number>;
 function formatCount(
   count: number,
   entry: Payload<number, number>,
-  measurementTransform: MeasurementTransform | undefined
+  measurementTransform: Unit | undefined
 ): string {
   const { versionCounts } = entry.payload as {
     versionCounts: Record<string, number>;
@@ -44,7 +44,7 @@ export function createTooltipContent(
 }
 
 export type VersionProps = {
-  measurementTransform?: MeasurementTransform;
+  measurementTransform?: Unit;
   theme?: ITheme;
 };
 

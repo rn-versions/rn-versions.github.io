@@ -21,7 +21,7 @@ import { ITheme } from "@fluentui/react";
 import { createPortal } from "react-dom";
 import VersionLegend from "./VersionLegend";
 
-export type MeasurementTransform = "totalDownloads" | "percentage";
+export type Unit = "totalDownloads" | "percentage";
 
 export type VersionLabeler = (version: string) => string;
 
@@ -57,9 +57,9 @@ export type VersionDownloadChartProps = {
   showTooltip?: boolean;
 
   /**
-   * Allows transforming raw measurements to a different unit
+   * The unit to show in the Y axis
    */
-  measurementTransform?: MeasurementTransform;
+  unit?: Unit;
 
   /**
    * Allows relabeling versions
@@ -84,7 +84,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   maxTicks,
   showLegend,
   showTooltip,
-  measurementTransform,
+  unit,
   versionLabeler,
   theme,
   tooltipTheme,
@@ -94,14 +94,9 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   );
 
   maxDaysShown = maxDaysShown ?? 30;
-  const topRawDataPoints = maxVersionsShown
+  const datapoints = maxVersionsShown
     ? filterTopN(historyPoints, maxVersionsShown, maxDaysShown)
     : historyPoints;
-
-  const datapoints =
-    measurementTransform === "percentage"
-      ? transformToPercentage(topRawDataPoints)
-      : topRawDataPoints;
 
   const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
     month: "short",
@@ -147,7 +142,10 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   return (
     <div className={styles.chartContainer}>
       <ResponsiveContainer {...styleProps.responsiveContainer}>
-        <AreaChart data={data}>
+        <AreaChart
+          data={data}
+          stackOffset={unit === "percentage" ? "expand" : "none"}
+        >
           <XAxis
             {...styleProps.xAxis}
             tick={{ fill: theme?.semanticColors.bodyText }}
@@ -168,7 +166,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
             {...styleProps.yAxis}
             tick={{ fill: theme?.semanticColors.bodyText }}
             type="number"
-            {...(measurementTransform === "percentage"
+            {...(unit === "percentage"
               ? {
                   domain: [0, 1],
                   tickFormatter: (count) => `${Math.round(count * 100)}%`,
@@ -182,7 +180,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           {showTooltip !== false && (
             <Tooltip
               content={createTooltipContent({
-                measurementTransform,
+                measurementTransform: unit,
                 theme: tooltipTheme,
               })}
             />
@@ -283,20 +281,6 @@ function fromDayStart(date: number, duration: number): number {
   dayStart.setHours(0, 0, 0, 0);
 
   return dayStart.getTime() + duration;
-}
-
-function transformToPercentage(points: HistoryPoint[]): HistoryPoint[] {
-  const totalCountByDate: Record<number, number | undefined> = {};
-
-  for (const point of points) {
-    const prevTotal = totalCountByDate[point.date] ?? 0;
-    totalCountByDate[point.date] = prevTotal + point.count;
-  }
-
-  return points.map((point) => ({
-    ...point,
-    count: point.count / totalCountByDate[point.date]!,
-  }));
 }
 
 function filterTopN(

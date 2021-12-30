@@ -103,9 +103,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
             historyPoints={historyPoints}
             maxDaysShown={maxDays(versionFilter)}
             maxVersionsShown={6}
-            measurementTransform={
-              showAsPercentage ? "percentage" : "totalDownloads"
-            }
+            unit={showAsPercentage ? "percentage" : "totalDownloads"}
             versionLabeler={packageDesc.versionLabeler}
             theme={theme}
             tooltipTheme={tooltipTheme}
