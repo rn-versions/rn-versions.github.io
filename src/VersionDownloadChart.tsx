@@ -197,6 +197,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
             {showTooltip !== false && (
               <Tooltip
+                {...styleProps.tooltip}
                 content={createTooltipContent({
                   versionHues,
                   unit,

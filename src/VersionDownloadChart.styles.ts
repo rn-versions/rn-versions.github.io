@@ -7,7 +7,10 @@ import type {
   YAxisProps,
 } from "recharts";
 
-type AnimationTimingProps = "animationDuration" | "animationEasing";
+type AnimationProps =
+  | "animationDuration"
+  | "animationEasing"
+  | "isAnimationActive";
 type DimensionProps = "width" | "height";
 type PaddingProps = "padding";
 type StrokeProps = "stroke" | "strokeDasharray" | "strokeOpacity";
@@ -23,12 +26,12 @@ export type VersionDownloadChartStyle = {
   areaChart: {
     margin?: { top?: number; right?: number; bottom?: number; left?: number };
   };
-  area: Pick<AreaProps, DimensionProps | "isAnimationActive">;
+  area: Pick<AreaProps, AnimationProps | DimensionProps>;
   responsiveContainer: Pick<ResponsiveContainerProps, DimensionProps>;
   grid: Pick<CartesianGridProps, DimensionProps | StrokeProps>;
   xAxis: Pick<XAxisProps, DimensionProps | PaddingProps | TickProps>;
   yAxis: Pick<YAxisProps, DimensionProps | PaddingProps | TickProps>;
-  tooltip: Pick<TooltipProps<string, number>, AnimationTimingProps>;
+  tooltip: Pick<TooltipProps<string, number>, AnimationProps | "offset">;
 };
 
 const styles: VersionDownloadChartStyle = {
@@ -58,8 +61,9 @@ const styles: VersionDownloadChartStyle = {
     tickCount: 5,
   },
   tooltip: {
-    animationDuration: 300,
-    animationEasing: "ease-in-out",
+    animationDuration: 150,
+    animationEasing: "linear",
+    offset: 24,
   },
 };
 
