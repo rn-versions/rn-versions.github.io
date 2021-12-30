@@ -13,12 +13,12 @@ const styles = {
     maxLuminance: 0.5,
   },
   dark: {
-    saturation: 0.6,
+    saturation: 0.5,
     defaultLightness: 0.5,
   },
   light: {
-    saturation: 0.8,
-    defaultLightness: 0.65,
+    saturation: 0.7,
+    defaultLightness: 0.6,
   },
 };
 
