@@ -4,7 +4,8 @@ import PackageCard, { VersionFilter } from "./PackageCard";
 
 import { PackageIdentifier } from "./PackageDescription";
 import NavBar, { NavPivotItem } from "./NavBar";
-import { blackTheme, darkTheme, lightTheme } from "./Themes";
+import { blackTheme, darkTheme, lightTheme, whiteTheme } from "./Themes";
+import { ThemeProvider } from "@fluentui/react";
 
 const packages: Array<{ name: PackageIdentifier }> = [
   { name: "react-native" },
@@ -27,15 +28,16 @@ function App() {
   );
 
   return (
-    <div
-      className={`${styles.app} ${darkMode ? styles.appDark : styles.appLight}`}
+    <ThemeProvider
+      theme={darkMode ? blackTheme : whiteTheme}
+      className={styles.app}
     >
       <NavBar
         items={navItems}
         onItemSelected={(version) => setVersionFilter(version)}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
-        theme={darkMode ? blackTheme : lightTheme}
+        theme={darkMode ? blackTheme : whiteTheme}
       />
 
       <div className={styles.contentContainer}>
@@ -46,12 +48,12 @@ function App() {
               versionFilter={versionFilter}
               key={pkg.name}
               theme={darkMode ? darkTheme : lightTheme}
-              tooltipTheme={darkMode ? blackTheme : lightTheme}
+              tooltipTheme={darkMode ? blackTheme : whiteTheme}
             />
           ))}
         </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
