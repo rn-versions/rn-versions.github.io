@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./App.module.scss";
 import PackageCard, { VersionFilter } from "./PackageCard";
 
 import { PackageIdentifier } from "./PackageDescription";
 import NavBar, { NavPivotItem } from "./NavBar";
-import { darkTheme, lightTheme } from "./Themes";
+import { blackTheme, darkTheme, lightTheme } from "./Themes";
 
 const packages: Array<{ name: PackageIdentifier }> = [
   { name: "react-native" },
@@ -22,13 +22,20 @@ const navItems: NavPivotItem<VersionFilter>[] = [
 
 function App() {
   const [versionFilter, setVersionFilter] = useState<VersionFilter>("major");
+  const [darkMode, setDarkMode] = useState(
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  );
 
   return (
-    <div className={styles.app}>
+    <div
+      className={`${styles.app} ${darkMode ? styles.appDark : styles.appLight}`}
+    >
       <NavBar
         items={navItems}
         onItemSelected={(version) => setVersionFilter(version)}
-        theme={darkTheme}
+        darkMode={darkMode}
+        onToggleDarkMode={() => setDarkMode(!darkMode)}
+        theme={darkMode ? blackTheme : lightTheme}
       />
 
       <div className={styles.contentContainer}>
@@ -38,8 +45,8 @@ function App() {
               identifier={pkg.name}
               versionFilter={versionFilter}
               key={pkg.name}
-              theme={lightTheme}
-              tooltipTheme={darkTheme}
+              theme={darkMode ? darkTheme : lightTheme}
+              tooltipTheme={darkMode ? blackTheme : lightTheme}
             />
           ))}
         </div>

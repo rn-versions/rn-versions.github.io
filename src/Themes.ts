@@ -1,5 +1,32 @@
 import { createTheme } from "@fluentui/react";
 
+export const blackTheme = createTheme({
+  palette: {
+    themePrimary: "#79bdbc",
+    themeLighterAlt: "#050808",
+    themeLighter: "#131e1e",
+    themeLight: "#243938",
+    themeTertiary: "#487171",
+    themeSecondary: "#6aa6a5",
+    themeDarkAlt: "#84c3c2",
+    themeDark: "#95cdcc",
+    themeDarker: "#aedad9",
+    neutralLighterAlt: "#000000",
+    neutralLighter: "#000000",
+    neutralLight: "#000000",
+    neutralQuaternaryAlt: "#000000",
+    neutralQuaternary: "#000000",
+    neutralTertiaryAlt: "#000000",
+    neutralTertiary: "#fafafa",
+    neutralSecondary: "#fbfbfb",
+    neutralPrimaryAlt: "#fcfcfc",
+    neutralPrimary: "#f8f8f8",
+    neutralDark: "#fdfdfd",
+    black: "#fefefe",
+    white: "#000000",
+  },
+});
+
 export const darkTheme = createTheme({
   isInverted: true,
   palette: {

@@ -11,14 +11,15 @@
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  justify-content: left;
+  flex-wrap: nowrap;
 }
 
 @mixin brand {
   display: flex;
   flex-direction: row;
-  align-items: center; 
+  align-items: center;
+  margin-right: 24px
 }
 
 .nav {
@@ -32,14 +33,11 @@
   justify-content: center;
 }
 
-.navSpacer {
-  position: relative;
-}
-
 .navContent {
   @include navbar-items;
   @include frame-constrained;
   align-items: center;
+
   flex-grow: 1;
   height: 100%;
 }
@@ -52,12 +50,16 @@ $navItemHeight: 44px;
   margin-right: 8px;
 }
 
-.gitHubLink {
-  height: $navItemHeight;
+.buttonRegion {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
-.gitHubIconStroke {
-  fill: white;
+.brightnessIconButton {
+  height: $navItemHeight;
+  margin-right: 10px;
 }
 
 .gitHubIconButton {
@@ -68,9 +70,26 @@ $navItemHeight: 44px;
   height: $navItemHeight;
 }
 
+.brightnessIcon {
+  height: $ms-icon-size-l !important;
+  width: $ms-icon-size-l !important;
+}
+
 .gitHubLogo {
   height: $ms-icon-size-l !important;
   width: $ms-icon-size-l !important;
+}
+
+@include ms-screen-lg-down() {
+  .gitHubTextButton {
+    display: none;
+  }
+}
+
+@include ms-screen-xl-up() {
+  .gitHubIconButton {
+    display: none;
+  }
 }
 
 @include ms-screen-md-down() {
@@ -94,10 +113,6 @@ $navItemHeight: 44px;
   .brand {
     display: none;
   }
-
-  .gitHubTextButton {
-    display: none;
-  }
 }
 
 @include ms-screen-lg-up() {
@@ -107,14 +122,5 @@ $navItemHeight: 44px;
 
   .brand {
     @include brand;
-  }
-
-  .pivot {
-    margin-left: 24px;
-    flex-grow: 1;
-  }
-
-  .gitHubIconButton {
-    display: none;
   }
 }

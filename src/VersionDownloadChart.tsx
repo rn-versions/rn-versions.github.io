@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import generateHue, { AvoidToken, colorForHue } from "./generateHue";
+import generateHue, { AvoidToken, colorForHue } from "./chartColor";
 import styleProps from "./VersionDownloadChart.styles";
 import styles from "./VersionDownloadChart.module.scss";
 import { createTooltipContent } from "./VersionTooltip";
@@ -146,6 +146,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   }
 
   const VersionLegend = createLegendContent({ versionHues });
+  const colorVariant = theme?.isInverted ? "dark" : "light";
 
   return (
     <div className={styles.chartContainer}>
@@ -217,8 +218,8 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
               key={name}
               dataKey={(datapoint) => datapoint.versionCounts[dataKey]}
               stackId="1"
-              stroke={colorForHue(hue)}
-              fill={colorForHue(hue)}
+              stroke={colorForHue(hue, { variant: colorVariant })}
+              fill={colorForHue(hue, { variant: colorVariant })}
               fillOpacity={1}
             />
           ))}

@@ -5,8 +5,22 @@ export type AvoidToken = {
   allHues: number[];
 };
 
-const maxLuminanceAgainstWhite = 0.5;
-const minLuminanceAgainstBlack = 0.3;
+const styles = {
+  againstDark: {
+    minLuminance: 0.3,
+  },
+  againstLight: {
+    maxLuminance: 0.5,
+  },
+  dark: {
+    saturation: 0.6,
+    defaultLightness: 0.5,
+  },
+  light: {
+    saturation: 0.8,
+    defaultLightness: 0.65,
+  },
+};
 
 /**
  * Generates a hue with random distribution, stable for a given semver
@@ -45,7 +59,7 @@ export default function generateHue(
   );
 
   return {
-    hue,
+    hue: hue * 360,
     avoidToken: {
       adjacentHue: hue,
       allHues: [...(avoidToken?.allHues ?? []), hue],
@@ -59,34 +73,49 @@ export default function generateHue(
  */
 export function colorForHue(
   hue: number,
-  targetLuminance?: "contrasts-white" | "contrasts-black"
+  opts?: {
+    variant?: "light" | "dark";
+    targetLuminance?: "contrasts-light" | "contrasts-dark";
+  }
 ) {
-  const saturation = 0.8;
+  const saturation =
+    opts?.variant === "dark" ? styles.dark.saturation : styles.light.saturation;
 
-  const h = hue * 360;
-  const s = saturation;
-  const l = getLightness(h, s, targetLuminance);
+  const defaultLightness =
+    opts?.variant === "dark"
+      ? styles.dark.defaultLightness
+      : styles.light.defaultLightness;
 
-  return `hsl(${h}, ${s * 100}%, ${l * 100}%)`;
+  const lightness = adjustLightnessForContrast(
+    defaultLightness,
+    hue,
+    saturation,
+    opts?.targetLuminance
+  );
+
+  return `hsl(${hue}, ${saturation * 100}%, ${lightness * 100}%)`;
 }
 
 function hueDifference(hue1: number, hue2: number) {
   return Math.abs(((hue1 - hue2 + 0.5) % 1.0) - 0.5);
 }
 
-function getLightness(
+function adjustLightnessForContrast(
+  lightness: number,
   h: number,
   s: number,
-  targetLuminance?: "contrasts-white" | "contrasts-black"
+  contrastingColor?: "contrasts-light" | "contrasts-dark"
 ) {
-  let lightness = 0.65;
-
-  if (targetLuminance === "contrasts-white") {
-    while (relativeLuminance(h, s, lightness) > maxLuminanceAgainstWhite) {
+  if (contrastingColor === "contrasts-light") {
+    while (
+      relativeLuminance(h, s, lightness) > styles.againstLight.maxLuminance
+    ) {
       lightness -= 0.02;
     }
-  } else if (targetLuminance === "contrasts-black") {
-    while (relativeLuminance(h, s, lightness) < minLuminanceAgainstBlack) {
+  } else if (contrastingColor === "contrasts-dark") {
+    while (
+      relativeLuminance(h, s, lightness) < styles.againstDark.minLuminance
+    ) {
       lightness += 0.02;
     }
   }

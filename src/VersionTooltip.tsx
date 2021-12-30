@@ -4,7 +4,7 @@ import { ITheme, Text, ThemeContext, ThemeProvider } from "@fluentui/react";
 import { TooltipProps } from "recharts";
 import { Unit } from "./VersionDownloadChart";
 import type { Payload } from "recharts/types/component/DefaultTooltipContent";
-import { colorForHue } from "./generateHue";
+import { colorForHue } from "./chartColor";
 
 type DateTooltipProps = TooltipProps<number, number>;
 
@@ -66,7 +66,9 @@ export const VersionTooltipContent: React.FC<
               const colorChipColor = theme
                 ? colorForHue(
                     versionHues[entry.name!],
-                    theme.isInverted ? "contrasts-black" : "contrasts-white"
+                    theme.isInverted
+                      ? { variant: "dark", targetLuminance: "contrasts-dark" }
+                      : { variant: "light", targetLuminance: "contrasts-light" }
                   )
                 : entry.color;
 

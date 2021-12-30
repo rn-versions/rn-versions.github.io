@@ -2,7 +2,7 @@ import type { Payload } from "recharts/types/component/DefaultLegendContent";
 import styles from "./VersionLegend.module.scss";
 
 import { Text, ThemeContext } from "@fluentui/react";
-import { colorForHue } from "./generateHue";
+import { colorForHue } from "./chartColor";
 
 type CreateOptions = {
   versionHues: Record<string, number>;
@@ -20,7 +20,9 @@ export function createLegendContent(
               const colorChipColor = theme
                 ? colorForHue(
                     opts.versionHues[entry.value!],
-                    theme.isInverted ? "contrasts-black" : "contrasts-white"
+                    theme.isInverted
+                      ? { variant: "dark", targetLuminance: "contrasts-dark" }
+                      : { variant: "light", targetLuminance: "contrasts-light" }
                   )
                 : entry.color!;
 

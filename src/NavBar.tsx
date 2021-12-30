@@ -1,25 +1,28 @@
-import { CSSProperties } from "react";
+import { CSSProperties, useState } from "react";
 import styles from "./NavBar.module.scss";
 
 import { darkTheme } from "./Themes";
 
 import {
-  ActionButton,
+  CommandBarButton,
   IconButton,
   ITheme,
   Link,
   Pivot,
   PivotItem,
   Text,
+  TooltipHost,
   ThemeProvider,
 } from "@fluentui/react";
 
-import { GitHubLogoIcon } from "@fluentui/react-icons-mdl2";
+import { LightIcon, GitHubLogoIcon } from "@fluentui/react-icons-mdl2";
 import ReactLogoIcon from "./assets/ReactLogoIcon";
 
 export type NavBarProps<ItemKey extends string> = {
   items: NavPivotItem<ItemKey>[];
   onItemSelected?: (key: ItemKey) => void;
+  darkMode?: boolean;
+  onToggleDarkMode?: () => void;
   theme?: ITheme;
 };
 
@@ -40,6 +43,7 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => {
   const style: CSSProperties = {
     backgroundColor: (props.theme ?? darkTheme).semanticColors.bodyBackground,
   };
+
   return (
     <>
       <ThemeProvider
@@ -71,29 +75,46 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => {
             ))}
           </Pivot>
 
-          <Link
-            className={styles.gitHubLink}
-            underline={false}
-            href="https://github.com/rn-versions/rn-versions.github.io"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <ActionButton
-              className={styles.gitHubTextButton}
-              text="Contribute"
-              aria-label="Contribute"
-              onRenderIcon={() => (
-                <GitHubLogoIcon className={styles.gitHubLogo} />
-              )}
-            />
-            <IconButton
-              className={styles.gitHubIconButton}
-              aria-label="Contribute"
-              onRenderIcon={() => (
-                <GitHubLogoIcon className={styles.gitHubLogo} />
-              )}
-            />
-          </Link>
+          <div className={styles.buttonRegion}>
+            <TooltipHost content="Toggle dark mode">
+              <IconButton
+                toggle
+                checked={props.darkMode}
+                onClick={() =>
+                  props.onToggleDarkMode && props.onToggleDarkMode()
+                }
+                className={styles.brightnessIconButton}
+                aria-label="Toggle dark mode"
+                onRenderIcon={() => (
+                  <LightIcon className={styles.brightnessIcon} />
+                )}
+              />
+            </TooltipHost>
+
+            <Link
+              className={styles.gitHubLink}
+              underline={false}
+              href="https://github.com/rn-versions/rn-versions.github.io"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <CommandBarButton
+                className={styles.gitHubTextButton}
+                text="Contribute"
+                aria-label="Contribute"
+                onRenderIcon={() => (
+                  <GitHubLogoIcon className={styles.gitHubLogo} />
+                )}
+              />
+              <IconButton
+                className={styles.gitHubIconButton}
+                aria-label="Contribute"
+                onRenderIcon={() => (
+                  <GitHubLogoIcon className={styles.gitHubLogo} />
+                )}
+              />
+            </Link>
+          </div>
         </div>
       </ThemeProvider>
     </>

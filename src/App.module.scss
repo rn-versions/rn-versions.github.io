@@ -8,6 +8,14 @@
   flex-direction: column;
 }
 
+.appLight {
+  background-color: $ms-color-gray20;
+}
+
+.appDark {
+  background-color: black;
+}
+
 .contentContainer {
   flex-grow: 1;
 

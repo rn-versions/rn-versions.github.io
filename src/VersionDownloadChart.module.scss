@@ -1,10 +1,6 @@
 @import "@fluentui/react/dist/sass/References";
 
 .chartContainer {
-  :global(.recharts-legend-item-text) {
-      color: black !important
-    }
-
   :global(.recharts-cartesian-axis-tick:last-child text) {
     text-anchor: end; 
    }
