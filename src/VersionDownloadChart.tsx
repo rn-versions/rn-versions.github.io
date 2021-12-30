@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import generateColor, { AvoidToken } from "./generateColor";
+import generateHue, { AvoidToken, colorForHue } from "./generateHue";
 import styleProps from "./VersionDownloadChart.styles";
 import styles from "./VersionDownloadChart.module.scss";
 import { createTooltipContent } from "./VersionTooltip";
@@ -19,7 +19,7 @@ import type { HistoryPoint } from "./HistoryReader";
 import { ITheme } from "@fluentui/react";
 
 import { createPortal } from "react-dom";
-import VersionLegend from "./VersionLegend";
+import { createLegendContent } from "./VersionLegend";
 
 export type Unit = "totalDownloads" | "percentage";
 
@@ -98,19 +98,27 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     ? filterTopN(historyPoints, maxVersionsShown, maxDaysShown)
     : historyPoints;
 
-  datapoints.reverse();
+  const allVersions = [...new Set(datapoints.map((p) => p.version))];
 
-  const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-  });
+  const versionHues: Record<string, number> = {};
+  // Generate color from earlier versions to later
+  let lastAvoidToken: AvoidToken | undefined = undefined;
+  const areas = [...allVersions]
+    .map((v) => {
+      const { hue, avoidToken } = generateHue(v, lastAvoidToken);
+      lastAvoidToken = avoidToken;
+      const name = versionLabeler ? versionLabeler(v) : v;
+      versionHues[name] = hue;
+      return { name, hue, dataKey: v };
+    })
+    .reverse();
 
-  const allVersionsSet = new Set(datapoints.map((p) => p.version));
-  const chartAreas = createChartAreas([...allVersionsSet], versionLabeler);
+  const data: Array<{
+    date: number;
+    versionCounts: Record<string, number>;
+  }> = [];
 
-  const data: Array<{ date: number; versionCounts: Record<string, number> }> =
-    [];
-  for (const version of allVersionsSet) {
+  for (const version of allVersions) {
     for (const measurePoint of datapoints) {
       if (measurePoint.version === version) {
         const datePoint = data.find((p) => p.date === measurePoint.date);
@@ -125,7 +133,6 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
       }
     }
   }
-  data.sort();
 
   if (datapoints.length === 0) {
     return (
@@ -137,6 +144,8 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
       ></div>
     );
   }
+
+  const VersionLegend = createLegendContent({ versionHues });
 
   return (
     <div className={styles.chartContainer}>
@@ -154,7 +163,10 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
             scale="time"
             domain={["dataMin", "dataMax"]}
             tickFormatter={(unixTime) =>
-              dateTimeFormat.format(new Date(unixTime))
+              new Date(unixTime).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              })
             }
             interval={0}
             ticks={calculateDateTicks(
@@ -180,7 +192,8 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           {showTooltip !== false && (
             <Tooltip
               content={createTooltipContent({
-                measurementTransform: unit,
+                versionHues,
+                unit,
                 theme: tooltipTheme,
               })}
             />
@@ -197,7 +210,18 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
             />
           )}
 
-          {chartAreas}
+          {areas.map(({ name, hue, dataKey }) => (
+            <Area
+              {...styleProps.area}
+              name={name}
+              key={name}
+              dataKey={(datapoint) => datapoint.versionCounts[dataKey]}
+              stackId="1"
+              stroke={colorForHue(hue)}
+              fill={colorForHue(hue)}
+              fillOpacity={1}
+            />
+          ))}
 
           <CartesianGrid
             {...styleProps.grid}
@@ -210,35 +234,6 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     </div>
   );
 };
-
-function createChartAreas(versions: string[], versionLabeler?: VersionLabeler) {
-  let latAvoidToken: AvoidToken | undefined = undefined;
-
-  // Need to generate colors in reverse order, to generate them bottom up with
-  // reverse stack order
-  const areas: JSX.Element[] = [];
-
-  for (let i = versions.length - 1; i >= 0; i--) {
-    const v = versions[i];
-    const { color, avoidToken } = generateColor(v, latAvoidToken);
-    latAvoidToken = avoidToken;
-
-    areas.unshift(
-      <Area
-        {...styleProps.area}
-        name={versionLabeler ? versionLabeler(v) : v}
-        key={v}
-        dataKey={(datapoint) => datapoint.versionCounts[v]}
-        stackId="1"
-        stroke={color}
-        fill={color}
-        fillOpacity={1}
-      />
-    );
-  }
-
-  return areas;
-}
 
 function calculateDateTicks(dates: number[], maxTicks: number): number[] {
   if (maxTicks === 0) {

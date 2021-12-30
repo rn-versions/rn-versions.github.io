@@ -4,7 +4,7 @@ import { ITheme, Text, ThemeContext, ThemeProvider } from "@fluentui/react";
 import { TooltipProps } from "recharts";
 import { Unit } from "./VersionDownloadChart";
 import type { Payload } from "recharts/types/component/DefaultTooltipContent";
-import getContrastingColor from "./getContrastingColor";
+import { colorForHue } from "./generateHue";
 
 type DateTooltipProps = TooltipProps<number, number>;
 
@@ -44,13 +44,14 @@ export function createTooltipContent(
 }
 
 export type VersionProps = {
-  measurementTransform?: Unit;
+  versionHues: Record<string, number>;
+  unit?: Unit;
   theme?: ITheme;
 };
 
 export const VersionTooltipContent: React.FC<
   VersionProps & DateTooltipProps
-> = ({ label, payload, measurementTransform, theme }) => {
+> = ({ label, payload, unit, versionHues, theme }) => {
   const reversedItems = [...(payload ?? [])];
   reversedItems.reverse();
 
@@ -63,18 +64,13 @@ export const VersionTooltipContent: React.FC<
           <ul className={styles.versionsList}>
             {reversedItems.map((entry, i) => {
               const colorChipColor = theme
-                ? getContrastingColor(
-                    entry.color!,
-                    theme.semanticColors.bodyBackground,
-                    "medium"
+                ? colorForHue(
+                    versionHues[entry.name!],
+                    theme.isInverted ? "contrasts-black" : "contrasts-white"
                   )
-                : entry.color!;
+                : entry.color;
 
-              const formattedValue = formatCount(
-                entry.value!,
-                entry,
-                measurementTransform
-              );
+              const formattedValue = formatCount(entry.value!, entry, unit);
 
               return (
                 <li key={i} className={styles.versionsListItem}>

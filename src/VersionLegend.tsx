@@ -1,38 +1,44 @@
 import type { Payload } from "recharts/types/component/DefaultLegendContent";
 import styles from "./VersionLegend.module.scss";
-import getContrastingColor from "./getContrastingColor";
 
 import { Text, ThemeContext } from "@fluentui/react";
+import { colorForHue } from "./generateHue";
 
-const VersionLegend: React.FC<{ payload: Payload[] }> = ({ payload }) => {
-  return (
-    <ThemeContext.Consumer>
-      {(theme) => (
-        <ul className={styles.versionsList}>
-          {payload.map((entry) => {
-            const colorChipColor = theme
-              ? getContrastingColor(
-                  entry.color!,
-                  theme.semanticColors.bodyBackground,
-                  "minimal"
-                )
-              : entry.color!;
-            return (
-              <li key={entry.value} className={styles.versionsListItem}>
-                <div
-                  className={styles.versionColorIndicator}
-                  style={{ backgroundColor: colorChipColor }}
-                />
-                <Text variant="small" className={styles.versionLabel}>
-                  {entry.value}
-                </Text>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </ThemeContext.Consumer>
-  );
+type CreateOptions = {
+  versionHues: Record<string, number>;
 };
 
-export default VersionLegend;
+export function createLegendContent(
+  opts: CreateOptions
+): React.FC<{ payload: Payload[] }> {
+  return ({ payload }) => {
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => (
+          <ul className={styles.versionsList}>
+            {payload.map((entry) => {
+              const colorChipColor = theme
+                ? colorForHue(
+                    opts.versionHues[entry.value!],
+                    theme.isInverted ? "contrasts-black" : "contrasts-white"
+                  )
+                : entry.color!;
+
+              return (
+                <li key={entry.value} className={styles.versionsListItem}>
+                  <div
+                    className={styles.versionColorIndicator}
+                    style={{ backgroundColor: colorChipColor }}
+                  />
+                  <Text variant="small" className={styles.versionLabel}>
+                    {entry.value}
+                  </Text>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </ThemeContext.Consumer>
+    );
+  };
+}
