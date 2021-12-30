@@ -60,7 +60,7 @@
 
 @include ms-screen-sm-down() {
   .packageCardContent {
-    padding: 10px 5px;
+    padding: 10px 0;
   }
 
   .headerLeft {
@@ -78,7 +78,7 @@
 
 @include ms-screen-md-up() {
   .packageCardContent {
-    padding: 10px;
+    padding: 16px;
   }
 
   .headerLeft {

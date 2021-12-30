@@ -150,88 +150,93 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
   return (
     <div className={styles.chartContainer}>
-      <ResponsiveContainer {...styleProps.responsiveContainer}>
-        <AreaChart
-          data={data}
-          reverseStackOrder
-          stackOffset={unit === "percentage" ? "expand" : "none"}
-        >
-          <XAxis
-            {...styleProps.xAxis}
-            tick={{ fill: theme?.semanticColors.bodyText }}
-            dataKey="date"
-            type="number"
-            scale="time"
-            domain={["dataMin", "dataMax"]}
-            tickFormatter={(unixTime) =>
-              new Date(unixTime).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-              })
-            }
-            interval={0}
-            ticks={calculateDateTicks(
-              datapoints.map((p) => p.date),
-              maxTicks ?? 6
-            )}
-          />
-          <YAxis
-            {...styleProps.yAxis}
-            tick={{ fill: theme?.semanticColors.bodyText }}
-            type="number"
-            {...(unit === "percentage"
-              ? {
-                  domain: [0, 1],
-                  tickFormatter: (count) => `${Math.round(count * 100)}%`,
-                }
-              : {
-                  domain: ["auto", "auto"],
-                  tickFormatter: (count) => count.toLocaleString(),
-                })}
-          />
-
-          {showTooltip !== false && (
-            <Tooltip
-              content={createTooltipContent({
-                versionHues,
-                unit,
-                theme: tooltipTheme,
-              })}
-            />
-          )}
-          {showLegend !== false && legendElement && (
-            <Legend
-              height={0}
-              content={({ payload }) =>
-                createPortal(
-                  payload && <VersionLegend payload={payload} />,
-                  legendElement
-                )
+      <div
+        className={styles.chartFill}
+        style={{ backgroundColor: theme?.isInverted ? "black" : "white" }}
+      >
+        <ResponsiveContainer {...styleProps.responsiveContainer}>
+          <AreaChart
+            {...styleProps.areaChart}
+            data={data}
+            reverseStackOrder
+            stackOffset={unit === "percentage" ? "expand" : "none"}
+          >
+            <XAxis
+              {...styleProps.xAxis}
+              tick={{ fill: theme?.semanticColors.bodyText }}
+              dataKey="date"
+              type="number"
+              scale="time"
+              domain={["dataMin", "dataMax"]}
+              tickFormatter={(unixTime) =>
+                new Date(unixTime).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                })
               }
+              interval={0}
+              ticks={calculateDateTicks(
+                datapoints.map((p) => p.date),
+                maxTicks ?? 6
+              )}
             />
-          )}
-
-          <CartesianGrid
-            {...styleProps.grid}
-            stroke={theme?.semanticColors.bodyText}
-            strokeOpacity={0.6}
-            fill={theme?.isInverted ? "black" : "white"}
-          />
-
-          {areas.map(({ name, hue, dataKey }) => (
-            <Area
-              {...styleProps.area}
-              name={name}
-              key={name}
-              dataKey={(datapoint) => datapoint.versionCounts[dataKey]}
-              stackId="1"
-              stroke={colorForHue(hue, { variant: colorVariant })}
-              fill={colorForHue(hue, { variant: colorVariant })}
-              fillOpacity={1}
+            <YAxis
+              {...styleProps.yAxis}
+              tick={{ fill: theme?.semanticColors.bodyText }}
+              type="number"
+              {...(unit === "percentage"
+                ? {
+                    domain: [0, 1],
+                    tickFormatter: (count) => `${Math.round(count * 100)}%`,
+                  }
+                : {
+                    domain: ["auto", "auto"],
+                    tickFormatter: (count) => count.toLocaleString(),
+                  })}
             />
-          ))}
-        </AreaChart>
-      </ResponsiveContainer>
+
+            {showTooltip !== false && (
+              <Tooltip
+                content={createTooltipContent({
+                  versionHues,
+                  unit,
+                  theme: tooltipTheme,
+                })}
+              />
+            )}
+            {showLegend !== false && legendElement && (
+              <Legend
+                height={0}
+                content={({ payload }) =>
+                  createPortal(
+                    payload && <VersionLegend payload={payload} />,
+                    legendElement
+                  )
+                }
+              />
+            )}
+
+            {areas.map(({ name, hue, dataKey }) => (
+              <Area
+                {...styleProps.area}
+                name={name}
+                key={name}
+                dataKey={(datapoint) => datapoint.versionCounts[dataKey]}
+                stackId="1"
+                stroke={colorForHue(hue, { variant: colorVariant })}
+                fill={colorForHue(hue, { variant: colorVariant })}
+                fillOpacity={1}
+              />
+            ))}
+
+            <CartesianGrid
+              {...styleProps.grid}
+              stroke={theme?.semanticColors.bodyText}
+              strokeOpacity={0.6}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
       <div ref={(el) => setLegendElement(el)} className={styles.legend} />
     </div>
   );

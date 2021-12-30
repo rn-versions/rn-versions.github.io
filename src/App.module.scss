@@ -45,7 +45,7 @@ $max-frame-width: 1600px;
 @include ms-screen-sm-down() {
   .cardContainer {
     padding: 20px 0;
-    gap: 10px;
+    gap: 16px;
   }
 }
 

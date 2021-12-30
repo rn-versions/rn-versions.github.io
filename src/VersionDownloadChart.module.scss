@@ -6,6 +6,11 @@
    }
 }
 
+.chartFill {
+  border-radius: 5px;
+  @include ms-depth-4;
+}
+
 .placeholderContainer {
   padding-bottom: 30px 0 0 0;
 }

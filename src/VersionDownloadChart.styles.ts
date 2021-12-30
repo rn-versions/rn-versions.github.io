@@ -20,6 +20,9 @@ type TickProps =
   | "minTickGap";
 
 export type VersionDownloadChartStyle = {
+  areaChart: {
+    margin?: { top?: number; right?: number; bottom?: number; left?: number };
+  };
   area: Pick<AreaProps, DimensionProps | "isAnimationActive">;
   responsiveContainer: Pick<ResponsiveContainerProps, DimensionProps>;
   grid: Pick<CartesianGridProps, DimensionProps | StrokeProps>;
@@ -29,6 +32,9 @@ export type VersionDownloadChartStyle = {
 };
 
 const styles: VersionDownloadChartStyle = {
+  areaChart: {
+    margin: { top: 20, right: 20, bottom: 10 },
+  },
   area: {
     isAnimationActive: false,
   },
@@ -37,7 +43,7 @@ const styles: VersionDownloadChartStyle = {
     height: 230,
   },
   grid: {
-    strokeDasharray: "5 5",
+    strokeDasharray: "1 4",
   },
   xAxis: {
     height: 32,
@@ -45,7 +51,7 @@ const styles: VersionDownloadChartStyle = {
     tickMargin: 10,
   },
   yAxis: {
-    width: 72,
+    width: 80,
     tickLine: false,
     tickMargin: 10,
     tickSize: 0,

@@ -48,7 +48,7 @@ function App() {
               versionFilter={versionFilter}
               key={pkg.name}
               theme={darkMode ? darkTheme : lightTheme}
-              tooltipTheme={darkMode ? blackTheme : whiteTheme}
+              tooltipTheme={darkMode ? darkTheme : lightTheme}
             />
           ))}
         </div>
