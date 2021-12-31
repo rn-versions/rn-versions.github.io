@@ -1,8 +1,8 @@
 import type { Payload } from "recharts/types/component/DefaultLegendContent";
-import styles from "./VersionLegend.module.scss";
+import styles from "../styles/VersionLegend.module.scss";
 
 import { Text, ThemeContext } from "@fluentui/react";
-import { colorForHue } from "./chartColor";
+import { colorForHue } from "../chartColor";
 
 type CreateOptions = {
   versionHues: Record<string, number>;

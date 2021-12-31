@@ -1,10 +1,15 @@
 import { useState } from "react";
-import styles from "./App.module.scss";
+import styles from "../styles/App.module.scss";
 import PackageCard, { VersionFilter } from "./PackageCard";
 
-import { PackageIdentifier } from "./PackageDescription";
+import { PackageIdentifier } from "../PackageDescription";
 import NavBar, { NavPivotItem } from "./NavBar";
-import { blackTheme, darkTheme, lightTheme, whiteTheme } from "./Themes";
+import {
+  blackTheme,
+  darkTheme,
+  lightTheme,
+  whiteTheme,
+} from "../styles/Themes";
 import { ThemeProvider } from "@fluentui/react";
 
 const packages: Array<{ name: PackageIdentifier }> = [

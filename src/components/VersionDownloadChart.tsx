@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import generateHue, { AvoidToken, colorForHue } from "./chartColor";
-import styleProps from "./VersionDownloadChart.styles";
-import styles from "./VersionDownloadChart.module.scss";
+import generateHue, { AvoidToken, colorForHue } from "../chartColor";
+import styleProps from "../styles/VersionDownloadChart.styles";
+import styles from "../styles/VersionDownloadChart.module.scss";
 import { createTooltipContent } from "./VersionTooltip";
 
 import {
@@ -15,7 +15,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import type { HistoryPoint } from "./HistoryReader";
+import type { HistoryPoint } from "../HistoryReader";
 import { ITheme } from "@fluentui/react";
 
 import { createPortal } from "react-dom";

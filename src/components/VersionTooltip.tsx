@@ -1,10 +1,10 @@
-import styles from "./VersionTooltip.module.scss";
+import styles from "../styles/VersionTooltip.module.scss";
 import { ITheme, Text, ThemeContext, ThemeProvider } from "@fluentui/react";
 
 import { TooltipProps } from "recharts";
 import { Unit } from "./VersionDownloadChart";
 import type { Payload } from "recharts/types/component/DefaultTooltipContent";
-import { colorForHue } from "./chartColor";
+import { colorForHue } from "../chartColor";
 
 type DateTooltipProps = TooltipProps<number, number>;
 

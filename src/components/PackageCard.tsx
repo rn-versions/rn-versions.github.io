@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import styles from "./PackageCard.module.scss";
-import chartStyles from "./VersionDownloadChart.styles";
+import styles from "../styles/PackageCard.module.scss";
+import chartStyles from "../styles/VersionDownloadChart.styles";
 
 import {
   Text,
@@ -12,11 +12,11 @@ import {
 
 import { CalculatorPercentageIcon } from "@fluentui/react-icons-mdl2";
 
-import { PackageIdentifier, packages } from "./PackageDescription";
+import { PackageIdentifier, packages } from "../PackageDescription";
 
 import VersionDownloadChart from "./VersionDownloadChart";
-import HistoryReader from "./HistoryReader";
-import { lightTheme } from "./Themes";
+import HistoryReader from "../HistoryReader";
+import { lightTheme } from "../styles/Themes";
 
 export type VersionFilter = "major" | "patch" | "prerelease";
 

@@ -1,7 +1,7 @@
 import { CSSProperties, useEffect, useRef, useState } from "react";
-import styles from "./NavBar.module.scss";
+import styles from "../styles/NavBar.module.scss";
 
-import { darkTheme } from "./Themes";
+import { darkTheme } from "../styles/Themes";
 
 import {
   CommandBarButton,
@@ -16,7 +16,7 @@ import {
 } from "@fluentui/react";
 
 import { LightIcon, GitHubLogoIcon } from "@fluentui/react-icons-mdl2";
-import ReactLogoIcon from "./assets/ReactLogoIcon";
+import ReactLogoIcon from "../assets/ReactLogoIcon";
 
 export type NavBarProps<ItemKey extends string> = {
   items: NavPivotItem<ItemKey>[];
