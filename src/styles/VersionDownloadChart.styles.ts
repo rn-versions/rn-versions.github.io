@@ -36,7 +36,7 @@ export type VersionDownloadChartStyle = {
 
 const styles: VersionDownloadChartStyle = {
   areaChart: {
-    margin: { top: 20, right: 20, bottom: 10 },
+    margin: { top: 30, right: 30, bottom: 15 },
   },
   area: {
     isAnimationActive: false,
