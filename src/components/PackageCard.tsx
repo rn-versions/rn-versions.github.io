@@ -111,7 +111,9 @@ const PackageCard: React.FC<PackageCardProps> = ({
           />
         </div>
       ) : (
-        <div style={{ height: chartStyles.responsiveContainer.height }} />
+        <div
+          style={{ height: chartStyles(theme).responsiveContainer.height }}
+        />
       )}
     </CardFrame>
   );

@@ -1,3 +1,5 @@
+import { ITheme } from "@fluentui/react";
+
 import type {
   AreaProps,
   CartesianGridProps,
@@ -22,7 +24,7 @@ type TickProps =
   | "tickMargin"
   | "minTickGap";
 
-export type VersionDownloadChartStyle = {
+export type VersionDownloadChartStyle = (theme?: ITheme) => {
   areaChart: {
     margin?: { top?: number; right?: number; bottom?: number; left?: number };
   };
@@ -34,7 +36,7 @@ export type VersionDownloadChartStyle = {
   tooltip: Pick<TooltipProps<string, number>, AnimationProps | "offset">;
 };
 
-const styles: VersionDownloadChartStyle = {
+const styles: VersionDownloadChartStyle = (theme) => ({
   areaChart: {
     margin: { top: 30, right: 30, bottom: 15 },
   },
@@ -45,13 +47,19 @@ const styles: VersionDownloadChartStyle = {
     width: "100%",
     height: 250,
   },
-  grid: {
-    strokeDasharray: "2 4",
-  },
+  grid: theme?.isInverted
+    ? {
+        stroke: theme.palette.whiteTranslucent40,
+      }
+    : {
+        stroke: theme?.palette.black,
+        strokeDasharray: "2 4",
+      },
   xAxis: {
     height: 32,
     tickLine: false,
     tickMargin: 10,
+    tick: { fill: theme?.semanticColors.bodyText },
   },
   yAxis: {
     width: 80,
@@ -59,12 +67,13 @@ const styles: VersionDownloadChartStyle = {
     tickMargin: 10,
     tickSize: 0,
     tickCount: 5,
+    tick: { fill: theme?.semanticColors.bodyText },
   },
   tooltip: {
     animationDuration: 150,
     animationEasing: "linear",
     offset: 24,
   },
-};
+});
 
 export default styles;

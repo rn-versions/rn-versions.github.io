@@ -89,6 +89,8 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   theme,
   tooltipTheme,
 }) => {
+  const jsStyles = styleProps(theme);
+
   const [legendElement, setLegendElement] = useState<HTMLDivElement | null>(
     null
   );
@@ -139,7 +141,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
       <div
         className={styles.placeholderContainer}
         style={{
-          height: styleProps.responsiveContainer.height,
+          height: jsStyles.responsiveContainer.height,
         }}
       ></div>
     );
@@ -156,16 +158,15 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           backgroundColor: theme?.isInverted ? "black" : "white",
         }}
       >
-        <ResponsiveContainer {...styleProps.responsiveContainer}>
+        <ResponsiveContainer {...jsStyles.responsiveContainer}>
           <AreaChart
-            {...styleProps.areaChart}
+            {...jsStyles.areaChart}
             data={data}
             reverseStackOrder
             stackOffset={unit === "percentage" ? "expand" : "none"}
           >
             <XAxis
-              {...styleProps.xAxis}
-              tick={{ fill: theme?.semanticColors.bodyText }}
+              {...jsStyles.xAxis}
               dataKey="date"
               type="number"
               scale="time"
@@ -183,8 +184,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
               )}
             />
             <YAxis
-              {...styleProps.yAxis}
-              tick={{ fill: theme?.semanticColors.bodyText }}
+              {...jsStyles.yAxis}
               type="number"
               {...(unit === "percentage"
                 ? {
@@ -199,7 +199,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
             {showTooltip !== false && (
               <Tooltip
-                {...styleProps.tooltip}
+                {...jsStyles.tooltip}
                 content={createTooltipContent({
                   versionHues,
                   unit,
@@ -221,7 +221,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
             {areas.map(({ name, hue, dataKey }) => (
               <Area
-                {...styleProps.area}
+                {...jsStyles.area}
                 name={name}
                 key={name}
                 dataKey={(datapoint) => datapoint.versionCounts[dataKey]}
@@ -232,11 +232,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
               />
             ))}
 
-            <CartesianGrid
-              {...styleProps.grid}
-              stroke={theme?.palette.black}
-              strokeOpacity={1}
-            />
+            <CartesianGrid {...jsStyles.grid} />
           </AreaChart>
         </ResponsiveContainer>
       </div>
