@@ -89,7 +89,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   theme,
   tooltipTheme,
 }) => {
-  const jsStyles = styleProps(theme);
+  const jsStyles = styleProps({ theme, unit });
 
   const [legendElement, setLegendElement] = useState<HTMLDivElement | null>(
     null

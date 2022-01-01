@@ -8,6 +8,7 @@ import type {
   XAxisProps,
   YAxisProps,
 } from "recharts";
+import { Unit } from "../components/VersionDownloadChart";
 
 type AnimationProps =
   | "animationDuration"
@@ -24,7 +25,10 @@ type TickProps =
   | "tickMargin"
   | "minTickGap";
 
-export type VersionDownloadChartStyle = (theme?: ITheme) => {
+export type VersionDownloadChartStyle = (opts?: {
+  theme?: ITheme;
+  unit?: Unit;
+}) => {
   areaChart: {
     margin?: { top?: number; right?: number; bottom?: number; left?: number };
   };
@@ -36,7 +40,7 @@ export type VersionDownloadChartStyle = (theme?: ITheme) => {
   tooltip: Pick<TooltipProps<string, number>, AnimationProps | "offset">;
 };
 
-const styles: VersionDownloadChartStyle = (theme) => ({
+const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
   areaChart: {
     margin: { top: 15, right: 15, bottom: 5 },
   },
@@ -62,7 +66,7 @@ const styles: VersionDownloadChartStyle = (theme) => ({
     tick: { fill: theme?.semanticColors.bodyText },
   },
   yAxis: {
-    width: 80,
+    width: unit === "percentage" ? 55 : 80,
     tickLine: false,
     tickMargin: 10,
     tickSize: 0,
