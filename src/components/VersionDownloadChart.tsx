@@ -152,7 +152,10 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     <div className={styles.chartContainer}>
       <div
         className={styles.chartFill}
-        style={{ backgroundColor: theme?.isInverted ? "black" : "white" }}
+        style={{
+          backgroundColor: theme?.isInverted ? "black" : "white",
+          borderColor: theme?.palette.blackTranslucent40,
+        }}
       >
         <ResponsiveContainer {...styleProps.responsiveContainer}>
           <AreaChart

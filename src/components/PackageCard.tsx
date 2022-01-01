@@ -131,6 +131,11 @@ const CardFrame: React.FC<{
             : styles.noDataCardFrame
           : styles.fadedCardFrame
       }`}
+      style={{
+        borderColor: theme.isInverted
+          ? theme.palette.whiteTranslucent40
+          : theme.palette.blackTranslucent40,
+      }}
     >
       <div
         className={`${styles.packageCardContent} ${

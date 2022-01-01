@@ -1,6 +1,7 @@
 import { createTheme } from "@fluentui/react";
 
 export const blackTheme = createTheme({
+  isInverted: true,
   palette: {
     themePrimary: "#79bdbc",
     themeLighterAlt: "#050808",

@@ -8,9 +8,6 @@
 }
 
 .versionsList {
-  @include ms-depth-4;
-  border-radius: 5px;
-
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

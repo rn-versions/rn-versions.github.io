@@ -38,7 +38,6 @@
 
 .packageCardContent {
   @include transition-timing();
-  overflow-y: fit;
 }
 
 .visibleCardContent {

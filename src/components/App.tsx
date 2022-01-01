@@ -34,7 +34,7 @@ function App() {
 
   return (
     <ThemeProvider
-      theme={darkMode ? blackTheme : whiteTheme}
+      theme={darkMode ? darkTheme : lightTheme}
       className={styles.app}
     >
       <NavBar
@@ -42,7 +42,7 @@ function App() {
         onItemSelected={(version) => setVersionFilter(version)}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
-        theme={darkMode ? blackTheme : whiteTheme}
+        theme={darkMode ? darkTheme : lightTheme}
       />
 
       <div className={styles.contentContainer}>
@@ -52,7 +52,7 @@ function App() {
               identifier={pkg.name}
               versionFilter={versionFilter}
               key={pkg.name}
-              theme={darkMode ? darkTheme : lightTheme}
+              theme={darkMode ? blackTheme : whiteTheme}
               tooltipTheme={darkMode ? darkTheme : lightTheme}
             />
           ))}
