@@ -11,6 +11,7 @@
   @include transition-timing();
   transition-property: opacity, transform;
 
+  width: 100%;
   min-width: 320px;
   max-width: 640px;
   min-height: 200px;

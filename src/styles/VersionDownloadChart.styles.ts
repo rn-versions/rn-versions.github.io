@@ -38,14 +38,14 @@ export type VersionDownloadChartStyle = (theme?: ITheme) => {
 
 const styles: VersionDownloadChartStyle = (theme) => ({
   areaChart: {
-    margin: { top: 30, right: 30, bottom: 15 },
+    margin: { top: 15, right: 15, bottom: 5 },
   },
   area: {
     isAnimationActive: false,
   },
   responsiveContainer: {
     width: "100%",
-    height: 250,
+    height: 220,
   },
   grid: theme?.isInverted
     ? {
