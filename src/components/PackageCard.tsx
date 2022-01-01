@@ -30,7 +30,7 @@ export type PackageCardProps = {
 function maxDays(versionFilter: VersionFilter) {
   switch (versionFilter) {
     case "major":
-      return 56;
+      return 84;
     case "patch":
       return 28;
     case "prerelease":
@@ -103,6 +103,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
             historyPoints={historyPoints}
             maxDaysShown={maxDays(versionFilter)}
             maxVersionsShown={6}
+            maxTicks={5}
             unit={showAsPercentage ? "percentage" : "totalDownloads"}
             versionLabeler={packageDesc.versionLabeler}
             theme={theme}

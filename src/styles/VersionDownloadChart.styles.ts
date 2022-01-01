@@ -46,7 +46,7 @@ const styles: VersionDownloadChartStyle = {
     height: 250,
   },
   grid: {
-    strokeDasharray: "1 4",
+    strokeDasharray: "2 4",
   },
   xAxis: {
     height: 32,

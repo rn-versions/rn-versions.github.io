@@ -18,7 +18,7 @@ type AssetHistoryPoint = { date: number; version: string; count: number };
 /** Minimum number of downloads for a version to be recored */
 
 /** Maximum number of days to include */
-const maxDaysOfHistory = 60;
+const maxDaysOfHistory = 90;
 
 (async () => {
   try {

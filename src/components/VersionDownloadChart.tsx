@@ -154,7 +154,6 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
         className={styles.chartFill}
         style={{
           backgroundColor: theme?.isInverted ? "black" : "white",
-          borderColor: theme?.palette.blackTranslucent40,
         }}
       >
         <ResponsiveContainer {...styleProps.responsiveContainer}>
@@ -235,8 +234,8 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
             <CartesianGrid
               {...styleProps.grid}
-              stroke={theme?.semanticColors.bodyText}
-              strokeOpacity={0.6}
+              stroke={theme?.palette.black}
+              strokeOpacity={1}
             />
           </AreaChart>
         </ResponsiveContainer>
