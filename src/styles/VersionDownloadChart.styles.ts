@@ -51,14 +51,10 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
     width: "100%",
     height: 220,
   },
-  grid: theme?.isInverted
-    ? {
-        stroke: theme.palette.whiteTranslucent40,
-      }
-    : {
-        stroke: theme?.palette.black,
-        strokeDasharray: "2 4",
-      },
+  grid: {
+    stroke: theme?.palette.black,
+    strokeDasharray: "1 4",
+  },
   xAxis: {
     height: 32,
     tickLine: false,
