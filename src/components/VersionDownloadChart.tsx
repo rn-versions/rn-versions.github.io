@@ -221,7 +221,12 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
                 key={name}
                 dataKey={(datapoint) => datapoint.versionCounts[dataKey]}
                 stackId="1"
-                fill={colorForHue(hue, { variant: colorVariant })}
+                fill={colorForHue(hue, {
+                  variant: colorVariant,
+                  targetLuminance: theme?.isInverted
+                    ? "contrasts-light"
+                    : "contrasts-dark",
+                })}
                 fillOpacity={1}
               />
             ))}

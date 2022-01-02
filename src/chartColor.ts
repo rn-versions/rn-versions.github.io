@@ -7,10 +7,10 @@ export type AvoidToken = {
 
 const styles = {
   againstDark: {
-    minLuminance: 0.3,
+    minLuminance: 0.25,
   },
   againstLight: {
-    maxLuminance: 0.5,
+    maxLuminance: 0.3,
   },
   dark: {
     saturation: 0.5,
