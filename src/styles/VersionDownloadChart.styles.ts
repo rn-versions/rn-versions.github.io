@@ -46,14 +46,19 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
   },
   area: {
     isAnimationActive: false,
+    stroke: theme?.isInverted
+      ? theme.palette.whiteTranslucent40
+      : theme?.palette.blackTranslucent40,
   },
   responsiveContainer: {
     width: "100%",
     height: 220,
   },
   grid: {
-    stroke: theme?.palette.black,
-    strokeDasharray: "1 4",
+    stroke: theme?.isInverted
+      ? theme.palette.whiteTranslucent40
+      : theme?.palette.blackTranslucent40,
+    strokeDasharray: "1 1",
   },
   xAxis: {
     height: 32,
