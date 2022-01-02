@@ -16,13 +16,7 @@ export function createLegendContent(
       <ThemeContext.Consumer>
         {(theme) => (
           <div className={styles.versionsListContainer}>
-            <ul
-              className={styles.versionsList}
-              style={{
-                backgroundColor: theme?.isInverted ? "black" : "white",
-                borderColor: theme?.palette.blackTranslucent40,
-              }}
-            >
+            <ul className={styles.versionsList}>
               {payload.map((entry) => {
                 const colorChipColor = theme
                   ? colorForHue(
