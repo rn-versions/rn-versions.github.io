@@ -48,8 +48,10 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => {
   const nonStickyElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const bodyIntersectionObserver = new IntersectionObserver((events) =>
-      events.forEach((e) => setScrolledAway(e.intersectionRatio < 1.0))
+    const bodyIntersectionObserver = new IntersectionObserver(
+      (events) =>
+        events.forEach((e) => setScrolledAway(e.intersectionRatio < 1.0)),
+      { rootMargin: "10px" }
     );
     bodyIntersectionObserver.observe(nonStickyElement.current!);
     return () => bodyIntersectionObserver.disconnect();
