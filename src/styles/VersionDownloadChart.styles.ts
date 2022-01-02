@@ -42,7 +42,7 @@ export type VersionDownloadChartStyle = (opts?: {
 
 const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
   areaChart: {
-    margin: { top: 15, right: 15, bottom: 5 },
+    margin: { top: 15, right: 32, bottom: 5 },
   },
   area: {
     isAnimationActive: false,
@@ -67,7 +67,7 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
     tick: { fill: theme?.semanticColors.bodyText },
   },
   yAxis: {
-    width: unit === "percentage" ? 55 : 80,
+    width: 80,
     tickLine: false,
     tickMargin: 10,
     tickSize: 0,

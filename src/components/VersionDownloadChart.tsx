@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import generateHue, { AvoidToken, colorForHue } from "../chartColor";
 import styleProps from "../styles/VersionDownloadChart.styles";
-import styles from "../styles/VersionDownloadChart.module.scss";
 import { createTooltipContent } from "./VersionTooltip";
 
 import {
@@ -89,7 +88,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   theme,
   tooltipTheme,
 }) => {
-  const jsStyles = styleProps({ theme, unit });
+  const styles = styleProps({ theme, unit });
 
   const [legendElement, setLegendElement] = useState<HTMLDivElement | null>(
     null
@@ -137,105 +136,96 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   }
 
   if (datapoints.length === 0) {
-    return (
-      <div
-        className={styles.placeholderContainer}
-        style={{
-          height: jsStyles.responsiveContainer.height,
-        }}
-      ></div>
-    );
+    return null;
   }
 
   const VersionLegend = createLegendContent({ versionHues });
   const colorVariant = theme?.isInverted ? "dark" : "light";
 
   return (
-    <div className={styles.chartContainer}>
-      <div className={styles.chartFill}>
-        <ResponsiveContainer {...jsStyles.responsiveContainer}>
-          <AreaChart
-            {...jsStyles.areaChart}
-            data={data}
-            reverseStackOrder
-            stackOffset={unit === "percentage" ? "expand" : "none"}
-          >
-            <XAxis
-              {...jsStyles.xAxis}
-              dataKey="date"
-              type="number"
-              scale="time"
-              domain={["dataMin", "dataMax"]}
-              tickFormatter={(unixTime) =>
-                new Date(unixTime).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                })
-              }
-              interval={0}
-              ticks={calculateDateTicks(
-                datapoints.map((p) => p.date),
-                maxTicks ?? 6
-              )}
-            />
-            <YAxis
-              {...jsStyles.yAxis}
-              type="number"
-              {...(unit === "percentage"
-                ? {
-                    domain: [0, 1],
-                    tickFormatter: (count) => `${Math.round(count * 100)}%`,
-                  }
-                : {
-                    domain: ["auto", "auto"],
-                    tickFormatter: (count) => count.toLocaleString(),
-                  })}
-            />
-
-            {showTooltip !== false && (
-              <Tooltip
-                {...jsStyles.tooltip}
-                content={createTooltipContent({
-                  versionHues,
-                  unit,
-                  theme: tooltipTheme,
-                })}
-              />
+    <div>
+      <ResponsiveContainer {...styles.responsiveContainer}>
+        <AreaChart
+          {...styles.areaChart}
+          data={data}
+          reverseStackOrder
+          stackOffset={unit === "percentage" ? "expand" : "none"}
+        >
+          <XAxis
+            {...styles.xAxis}
+            dataKey="date"
+            type="number"
+            scale="time"
+            domain={["dataMin", "dataMax"]}
+            tickFormatter={(unixTime) =>
+              new Date(unixTime).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              })
+            }
+            interval={0}
+            ticks={calculateDateTicks(
+              datapoints.map((p) => p.date),
+              maxTicks ?? 6
             )}
-            {showLegend !== false && legendElement && (
-              <Legend
-                height={0}
-                content={({ payload }) =>
-                  createPortal(
-                    payload && <VersionLegend payload={payload} />,
-                    legendElement
-                  )
+          />
+          <YAxis
+            {...styles.yAxis}
+            type="number"
+            {...(unit === "percentage"
+              ? {
+                  domain: [0, 1],
+                  tickFormatter: (count) => `${Math.round(count * 100)}%`,
                 }
-              />
-            )}
-
-            {areas.map(({ name, hue, dataKey }) => (
-              <Area
-                {...jsStyles.area}
-                name={name}
-                key={name}
-                dataKey={(datapoint) => datapoint.versionCounts[dataKey]}
-                stackId="1"
-                fill={colorForHue(hue, {
-                  variant: colorVariant,
-                  targetLuminance: theme?.isInverted
-                    ? "contrasts-light"
-                    : "contrasts-dark",
+              : {
+                  domain: ["auto", "auto"],
+                  tickFormatter: (count) => count.toLocaleString(),
                 })}
-                fillOpacity={1}
-              />
-            ))}
+          />
 
-            <CartesianGrid {...jsStyles.grid} />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-      <div ref={(el) => setLegendElement(el)} className={styles.legend} />
+          {showTooltip !== false && (
+            <Tooltip
+              {...styles.tooltip}
+              content={createTooltipContent({
+                versionHues,
+                unit,
+                theme: tooltipTheme,
+              })}
+            />
+          )}
+          {showLegend !== false && legendElement && (
+            <Legend
+              height={0}
+              content={({ payload }) =>
+                createPortal(
+                  payload && <VersionLegend payload={payload} />,
+                  legendElement
+                )
+              }
+            />
+          )}
+
+          {areas.map(({ name, hue, dataKey }) => (
+            <Area
+              {...styles.area}
+              name={name}
+              key={name}
+              dataKey={(datapoint) => datapoint.versionCounts[dataKey]}
+              stackId="1"
+              fill={colorForHue(hue, {
+                variant: colorVariant,
+                targetLuminance: theme?.isInverted
+                  ? "contrasts-light"
+                  : "contrasts-dark",
+              })}
+              fillOpacity={1}
+            />
+          ))}
+
+          <CartesianGrid {...styles.grid} />
+        </AreaChart>
+      </ResponsiveContainer>
+      <div ref={(el) => setLegendElement(el)} />
     </div>
   );
 };
