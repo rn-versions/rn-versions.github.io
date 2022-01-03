@@ -1,5 +1,5 @@
 import semver from "semver";
-import { PackageIdentifier } from "./PackageDescription";
+import { PackageIdentifier, packages } from "./PackageDescription";
 
 export type HistoryPointCollection = {
   versions: string[];
@@ -21,42 +21,50 @@ export default class HistoryReader {
   private majorDatePoints: HistoryPointCollection | null = null;
   private prereleaseDatePoints: HistoryPointCollection | null = null;
 
-  private static instances: Partial<Record<PackageIdentifier, HistoryReader>> =
-    {};
+  private static historyImports: Partial<
+    Record<PackageIdentifier, Promise<HistoryPointCollection>>
+  > = {};
 
   private constructor(historyPoints: HistoryPointCollection) {
     this.pointCollection = historyPoints;
   }
 
+  static prefetch() {
+    for (const identifier of Object.keys(packages)) {
+      if (!this.historyImports[identifier as PackageIdentifier]) {
+        this.historyImports[identifier as PackageIdentifier] =
+          HistoryReader.loadHistoryFile(identifier as PackageIdentifier);
+      }
+    }
+  }
+
   static async get(
     packageIdentifier: PackageIdentifier
   ): Promise<HistoryReader> {
-    if (!HistoryReader.instances[packageIdentifier]) {
-      const historyFile = await HistoryReader.loadHistoryFile(
-        packageIdentifier
-      );
-
-      HistoryReader.instances[packageIdentifier] = new HistoryReader(
-        historyFile
-      );
+    if (!HistoryReader.historyImports[packageIdentifier]) {
+      HistoryReader.historyImports[packageIdentifier] =
+        HistoryReader.loadHistoryFile(packageIdentifier);
     }
-    return HistoryReader.instances[packageIdentifier]!;
+
+    return new HistoryReader(
+      await HistoryReader.historyImports[packageIdentifier]!
+    );
   }
 
-  private static async loadHistoryFile(
+  private static loadHistoryFile(
     packageIdentifier: PackageIdentifier
   ): Promise<HistoryPointCollection> {
     switch (packageIdentifier) {
       case "@types/react-native":
-        return await import("./generated_assets/@types_react-native.json");
+        return import("./generated_assets/@types_react-native.json");
       case "react-native":
-        return await import("./generated_assets/react-native.json");
+        return import("./generated_assets/react-native.json");
       case "react-native-macos":
-        return await import("./generated_assets/react-native-macos.json");
+        return import("./generated_assets/react-native-macos.json");
       case "react-native-web":
-        return await import("./generated_assets/react-native-web.json");
+        return import("./generated_assets/react-native-web.json");
       case "react-native-windows":
-        return await import("./generated_assets/react-native-windows.json");
+        return import("./generated_assets/react-native-windows.json");
     }
   }
 
