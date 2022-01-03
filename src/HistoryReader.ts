@@ -24,6 +24,7 @@ export default class HistoryReader {
   private static historyImports: Partial<
     Record<PackageIdentifier, Promise<HistoryPointCollection>>
   > = {};
+  private static lastAcquisition: Promise<unknown> = Promise.resolve();
 
   private constructor(historyPoints: HistoryPointCollection) {
     this.pointCollection = historyPoints;
@@ -38,17 +39,18 @@ export default class HistoryReader {
     }
   }
 
-  static async get(
-    packageIdentifier: PackageIdentifier
-  ): Promise<HistoryReader> {
+  static get(packageIdentifier: PackageIdentifier): Promise<HistoryReader> {
     if (!HistoryReader.historyImports[packageIdentifier]) {
       HistoryReader.historyImports[packageIdentifier] =
         HistoryReader.loadHistoryFile(packageIdentifier);
     }
 
-    return new HistoryReader(
-      await HistoryReader.historyImports[packageIdentifier]!
-    );
+    const readerAcquisition = HistoryReader.lastAcquisition
+      .then(() => HistoryReader.historyImports[packageIdentifier])
+      .then((history) => new HistoryReader(history!));
+
+    this.lastAcquisition = readerAcquisition;
+    return readerAcquisition;
   }
 
   private static loadHistoryFile(
