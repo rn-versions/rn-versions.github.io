@@ -14,10 +14,13 @@ type HistoryFile = {
 };
 
 /** Representation of packed asset file */
-type AssetHistoryFile = { points: AssetHistoryPoint[] };
-type AssetHistoryPoint = { date: number; version: string; count: number };
+type AssetHistoryFile = { versions: string[]; points: AssetHistoryPoint[] };
+type AssetHistoryPoint = {
+  date: number;
+  versionCounts: Record<string, number>;
+};
 
-/** Minimum number of downloads for a version to be recored */
+/** Minimum number of downloads for a version to be recorded */
 
 /** Maximum number of days to include */
 const maxDaysOfHistory = 90;
@@ -41,31 +44,23 @@ async function generateWebpageAssets() {
     const earliestAllowableDate =
       Date.parse(counts[0].date) - maxDaysOfHistory * 24 * 60 * 60 * 1000;
 
-    const datePoints: AssetHistoryPoint[] = [];
-
-    for (const fileDatePoint of counts) {
-      const date = Date.parse(fileDatePoint.date);
-      if (date < earliestAllowableDate) {
-        break;
-      }
-
-      for (const [version, count] of Object.entries(fileDatePoint.versions)) {
-        if (
-          (packages as Record<string, PackageDescription | undefined>)[
-            packageName
-          ]?.versionFilter(version)
-        ) {
-          datePoints.push({ date, version, count });
-        }
-      }
-    }
-
-    if (datePoints.length === 0) {
+    const description = (
+      packages as Record<string, PackageDescription | undefined>
+    )[packageName];
+    if (!description) {
       continue;
     }
 
-    const sortedPoints: AssetHistoryPoint[] = datePoints.sort(
-      compareAssetHistoryPoint
+    const includedPoints = counts
+      .filter((p) => Date.parse(p.date) >= earliestAllowableDate)
+      .map((p) => ({ versionCounts: p.versions, date: Date.parse(p.date) }))
+      .sort((a, b) => a.date - b.date)
+      .map((p) => filterToAllowedVersions(p, description.versionFilter))
+      .filter((p) => Object.keys(p.versionCounts).length > 0);
+
+    const allVersions = new Set<string>();
+    includedPoints.forEach((p) =>
+      Object.keys(p.versionCounts).forEach((v) => allVersions.add(v))
     );
 
     const historyAssetPath = path.join(
@@ -75,17 +70,33 @@ async function generateWebpageAssets() {
       `${packageName.replace(/\//g, "_")}.json`
     );
 
-    const historyFile: AssetHistoryFile = { points: sortedPoints };
+    const historyFile: AssetHistoryFile = {
+      versions: [...allVersions].sort(compareVersion),
+      points: includedPoints,
+    };
     await fs.writeFile(historyAssetPath, JSON.stringify(historyFile));
   }
 }
 
-function compareAssetHistoryPoint(
-  p1: AssetHistoryPoint,
-  p2: AssetHistoryPoint
-): -1 | 0 | 1 {
-  const firstIsCanary = semver.lt(p1.version, "0.0.0");
-  const secondIsCanary = semver.lt(p2.version, "0.0.0");
+function filterToAllowedVersions(
+  point: AssetHistoryPoint,
+  versionFilter?: (version: string) => boolean
+): AssetHistoryPoint {
+  const newPoint: AssetHistoryPoint = { date: point.date, versionCounts: {} };
+  const sortedVersions = Object.keys(point.versionCounts)
+    .filter(versionFilter ?? (() => true))
+    .sort(compareVersion);
+
+  for (const v of sortedVersions) {
+    newPoint.versionCounts[v] = point.versionCounts[v];
+  }
+
+  return newPoint;
+}
+
+function compareVersion(v1: string, v2: string): -1 | 0 | 1 {
+  const firstIsCanary = semver.lt(v1, "0.0.0");
+  const secondIsCanary = semver.lt(v2, "0.0.0");
 
   if (firstIsCanary && !secondIsCanary) {
     return 1;
@@ -97,16 +108,13 @@ function compareAssetHistoryPoint(
 
   // Some 0.0.0-xxx releases are not in sorted order
   if (
-    (!firstIsCanary || isCanaryComparable(p1.version)) &&
-    (!secondIsCanary || isCanaryComparable(p2.version))
+    (!firstIsCanary || isCanaryComparable(v1)) &&
+    (!secondIsCanary || isCanaryComparable(v2))
   ) {
-    const versionComparison = semver.compare(p1.version, p2.version);
-    if (versionComparison !== 0) {
-      return versionComparison;
-    }
+    return semver.compare(v1, v2);
   }
 
-  return Math.max(-1, Math.min(1, p1.date - p2.date)) as -1 | 0 | 1;
+  return 0;
 }
 
 function isCanaryComparable(version: string): boolean {

@@ -66,14 +66,14 @@ const PackageCard: React.FC<PackageCardProps> = ({
     }
   }, [versionFilter, lastVersionFilter]);
 
-  const historyPoints = historyReader?.getDatePoints(versionFilter);
+  const history = historyReader?.getDatePoints(versionFilter);
   const packageDesc = packages[identifier];
 
   return (
     <CardFrame
       theme={theme ?? lightTheme}
-      loaded={!!historyPoints}
-      hasData={!!historyPoints && historyPoints.length > 0}
+      loaded={!!history}
+      hasData={!!history && history.points.length > 0}
     >
       <div className={styles.header}>
         <div className={styles.headerLeft} />
@@ -88,7 +88,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
             <IconButton
               toggle
               aria-label="Show as percentage"
-              disabled={!historyPoints || historyPoints.length === 0}
+              disabled={!history || history.points.length === 0}
               onRenderIcon={() => <CalculatorPercentageIcon />}
               checked={showAsPercentage}
               onClick={() => setShowAsPercentage(!showAsPercentage)}
@@ -97,10 +97,10 @@ const PackageCard: React.FC<PackageCardProps> = ({
         </div>
       </div>
 
-      {historyPoints ? (
+      {history ? (
         <div className={styles.chartContainer}>
           <VersionDownloadChart
-            historyPoints={historyPoints}
+            history={history}
             maxDaysShown={maxDays(versionFilter)}
             maxVersionsShown={6}
             maxTicks={4}

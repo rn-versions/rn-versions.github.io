@@ -1,34 +1,31 @@
 import semver from "semver";
-import {
-  PackageDescription,
-  PackageIdentifier,
-  packages,
-} from "./PackageDescription";
+import { PackageIdentifier } from "./PackageDescription";
 
-type HistoryFile = { points: HistoryPoint[] };
-export type HistoryPoint = { date: number; version: string; count: number };
+export type HistoryPointCollection = {
+  versions: string[];
+  points: HistoryPoint[];
+};
+export type HistoryPoint = {
+  date: number;
+  versionCounts: { [version: string]: number | undefined };
+};
+
+type FlattenedPoint = { date: number; version: string; count: number };
 
 /**
  * Allows reading from stored download history of an npm package
  */
 export default class HistoryReader {
-  private readonly packageDescription: PackageDescription;
-  private readonly historyPoints: HistoryPoint[];
+  private readonly pointCollection: HistoryPointCollection;
 
-  private majorDatePoints: HistoryPoint[] | null = null;
-  private patchDatePoints: HistoryPoint[] | null = null;
-  private prereleaseDatePoints: HistoryPoint[] | null = null;
+  private majorDatePoints: HistoryPointCollection | null = null;
+  private prereleaseDatePoints: HistoryPointCollection | null = null;
 
   private static instances: Partial<Record<PackageIdentifier, HistoryReader>> =
     {};
 
-  private constructor(
-    packageIdentifier: PackageIdentifier,
-    historyPoints: HistoryPoint[]
-  ) {
-    this.packageDescription = packages[packageIdentifier];
-
-    this.historyPoints = historyPoints;
+  private constructor(historyPoints: HistoryPointCollection) {
+    this.pointCollection = historyPoints;
   }
 
   static async get(
@@ -40,8 +37,7 @@ export default class HistoryReader {
       );
 
       HistoryReader.instances[packageIdentifier] = new HistoryReader(
-        packageIdentifier,
-        historyFile.points
+        historyFile
       );
     }
     return HistoryReader.instances[packageIdentifier]!;
@@ -49,7 +45,7 @@ export default class HistoryReader {
 
   private static async loadHistoryFile(
     packageIdentifier: PackageIdentifier
-  ): Promise<HistoryFile> {
+  ): Promise<HistoryPointCollection> {
     switch (packageIdentifier) {
       case "@types/react-native":
         return await import("./generated_assets/@types_react-native.json");
@@ -64,7 +60,7 @@ export default class HistoryReader {
     }
   }
 
-  getMajorDatePoints(): HistoryPoint[] {
+  getMajorDatePoints(): HistoryPointCollection {
     if (!this.majorDatePoints) {
       this.majorDatePoints = this.accumulateDatePoints({
         versionMapper: this.mapToMajor,
@@ -83,17 +79,14 @@ export default class HistoryReader {
     }
   }
 
-  getPatchDatePoints(): HistoryPoint[] {
-    if (!this.patchDatePoints) {
-      this.patchDatePoints = this.accumulateDatePoints();
-    }
-    return this.patchDatePoints;
+  getPatchDatePoints(): HistoryPointCollection {
+    return this.pointCollection;
   }
 
-  getPrereleaseDataPoints(): HistoryPoint[] {
+  getPrereleaseDataPoints(): HistoryPointCollection {
     if (!this.prereleaseDatePoints) {
       this.prereleaseDatePoints = this.accumulateDatePoints({
-        extraFilter: (point) => !!semver.prerelease(point.version),
+        versionFilter: (v) => !!semver.prerelease(v),
       });
     }
     return this.prereleaseDatePoints;
@@ -101,7 +94,7 @@ export default class HistoryReader {
 
   getDatePoints(
     versionFilter: "major" | "patch" | "prerelease"
-  ): HistoryPoint[] {
+  ): HistoryPointCollection {
     switch (versionFilter) {
       case "major":
         return this.getMajorDatePoints();
@@ -114,15 +107,18 @@ export default class HistoryReader {
 
   private accumulateDatePoints(opts?: {
     versionMapper?: (v: string) => string;
-    extraFilter?: (point: HistoryPoint) => boolean;
-  }): HistoryPoint[] {
-    let points = this.historyPoints;
+    versionFilter?: (version: string) => boolean;
+  }): HistoryPointCollection {
+    let versions = [...this.pointCollection.versions];
+    let points = flattenPoints(this.pointCollection.points);
 
-    if (opts?.extraFilter) {
-      points = this.historyPoints.filter(opts.extraFilter);
+    if (opts?.versionFilter) {
+      versions = versions.filter(opts.versionFilter);
+      points = points.filter((p) => opts.versionFilter!(p.version));
     }
 
     if (opts?.versionMapper) {
+      versions = [...new Set(versions.map(opts.versionMapper))];
       const pointsByMappedVersion: Record<
         string,
         Array<{ date: number; count: number }> | undefined
@@ -156,6 +152,36 @@ export default class HistoryReader {
       }
     }
 
-    return points;
+    return { versions, points: unflattenPoints(points) };
   }
+}
+
+function flattenPoints(points: HistoryPoint[]): FlattenedPoint[] {
+  const flattened: FlattenedPoint[] = [];
+
+  for (const point of points) {
+    for (const [version, count] of Object.entries(point.versionCounts)) {
+      flattened.push({ date: point.date, version, count: count! });
+    }
+  }
+
+  return flattened;
+}
+
+function unflattenPoints(points: FlattenedPoint[]): HistoryPoint[] {
+  const unflattenedPoints: Array<HistoryPoint> = [];
+
+  for (const flatPoint of points) {
+    const datePoint = unflattenedPoints.find((p) => p.date === flatPoint.date);
+    if (datePoint) {
+      datePoint.versionCounts[flatPoint.version] = flatPoint.count;
+    } else {
+      unflattenedPoints.push({
+        date: flatPoint.date,
+        versionCounts: { [flatPoint.version]: flatPoint.count },
+      });
+    }
+  }
+
+  return unflattenedPoints;
 }

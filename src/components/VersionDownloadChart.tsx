@@ -14,7 +14,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import type { HistoryPoint } from "../HistoryReader";
+import type { HistoryPointCollection, HistoryPoint } from "../HistoryReader";
 import { ITheme } from "@fluentui/react";
 
 import { createPortal } from "react-dom";
@@ -28,7 +28,7 @@ export type VersionDownloadChartProps = {
   /**
    * Points to render
    */
-  historyPoints: HistoryPoint[];
+  history: HistoryPointCollection;
 
   /**
    * Maximum duration the graph will show, in days
@@ -77,7 +77,7 @@ export type VersionDownloadChartProps = {
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
-  historyPoints,
+  history: historyPoints,
   maxDaysShown,
   maxVersionsShown,
   maxTicks,
@@ -94,17 +94,14 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     null
   );
 
+  maxVersionsShown = maxVersionsShown ?? 5;
   maxDaysShown = maxDaysShown ?? 30;
-  const datapoints = maxVersionsShown
-    ? filterTopN(historyPoints, maxVersionsShown, maxDaysShown)
-    : historyPoints;
-
-  const allVersions = [...new Set(datapoints.map((p) => p.version))];
+  const history = filterTopN(historyPoints, maxVersionsShown, maxDaysShown);
 
   const versionHues: Record<string, number> = {};
   // Generate color from earlier versions to later
   let lastAvoidToken: AvoidToken | undefined = undefined;
-  const areas = [...allVersions]
+  const areas = history.versions
     .map((v) => {
       const { hue, avoidToken } = generateHue(v, lastAvoidToken);
       lastAvoidToken = avoidToken;
@@ -114,28 +111,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     })
     .reverse();
 
-  const data: Array<{
-    date: number;
-    versionCounts: Record<string, number>;
-  }> = [];
-
-  for (const version of allVersions) {
-    for (const measurePoint of datapoints) {
-      if (measurePoint.version === version) {
-        const datePoint = data.find((p) => p.date === measurePoint.date);
-        if (datePoint) {
-          datePoint.versionCounts[version] = measurePoint.count;
-        } else {
-          data.push({
-            date: measurePoint.date,
-            versionCounts: { [version]: measurePoint.count },
-          });
-        }
-      }
-    }
-  }
-
-  if (datapoints.length === 0) {
+  if (history.points.length === 0) {
     return null;
   }
 
@@ -147,7 +123,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
       <ResponsiveContainer {...styles.responsiveContainer}>
         <AreaChart
           {...styles.areaChart}
-          data={data}
+          data={history.points}
           reverseStackOrder
           stackOffset={unit === "percentage" ? "expand" : "none"}
         >
@@ -165,7 +141,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
             }
             interval={0}
             ticks={calculateDateTicks(
-              datapoints.map((p) => p.date),
+              history.points.map((p) => p.date),
               maxTicks ?? 6
             )}
           />
@@ -235,10 +211,8 @@ function calculateDateTicks(dates: number[], maxTicks: number): number[] {
     return [];
   }
 
-  const sortedDates = dates.sort();
-
-  const first = sortedDates[0];
-  const last = sortedDates[sortedDates.length - 1];
+  const first = dates[0];
+  const last = dates[dates.length - 1];
 
   if (maxTicks === 1) {
     return [first];
@@ -261,7 +235,7 @@ function calculateDateTicks(dates: number[], maxTicks: number): number[] {
   const ticks = new Set([first]);
   let nextTick = fromDayStart(first, tickInterval);
 
-  for (const date of sortedDates) {
+  for (const date of dates) {
     if (date >= nextTick) {
       ticks.add(date);
       nextTick = fromDayStart(date, tickInterval);
@@ -279,24 +253,26 @@ function fromDayStart(date: number, duration: number): number {
 }
 
 function filterTopN(
-  historyPoints: HistoryPoint[],
+  history: HistoryPointCollection,
   n: number,
   windowInDays: number
-): HistoryPoint[] {
-  if (historyPoints.length === 0) {
-    return [];
+): HistoryPointCollection {
+  if (history.points.length === 0) {
+    return history;
   }
 
-  const latestDate = historyPoints[historyPoints.length - 1].date;
+  const latestDate = history.points[history.points.length - 1].date;
   const latestDay = new Date(latestDate).setHours(0, 0, 0, 0);
 
   const earliestAllowableDate = latestDay - windowInDays * 24 * 60 * 60 * 1000;
   const versionsInWindow: { [version: string]: number | undefined } = {};
 
-  for (const point of historyPoints) {
+  for (const point of history.points) {
     if (point.date >= earliestAllowableDate) {
-      const existingCount = versionsInWindow[point.version] ?? 0;
-      versionsInWindow[point.version] = existingCount + point.count;
+      for (const [version, count] of Object.entries(point.versionCounts)) {
+        const existingCount = versionsInWindow[version] ?? 0;
+        versionsInWindow[version] = existingCount + count!;
+      }
     }
   }
 
@@ -307,9 +283,34 @@ function filterTopN(
       .map(([version, _count]) => version)
   );
 
-  return historyPoints.filter(
-    (p) => p.date >= earliestAllowableDate && topVersions.has(p.version)
-  );
+  const filteredPoints: HistoryPoint[] = [];
+
+  for (const point of history.points) {
+    if (point.date >= earliestAllowableDate) {
+      const topVersionsOnDate = Object.keys(point.versionCounts).filter((v) =>
+        topVersions.has(v)
+      );
+
+      if (topVersionsOnDate.length > 0) {
+        const filteredPoint: HistoryPoint = {
+          date: point.date,
+          versionCounts: {},
+        };
+
+        for (const topVersion of topVersionsOnDate) {
+          filteredPoint.versionCounts[topVersion] =
+            point.versionCounts[topVersion];
+        }
+
+        filteredPoints.push(filteredPoint);
+      }
+    }
+  }
+
+  return {
+    versions: history.versions.filter((v) => topVersions.has(v)),
+    points: filteredPoints,
+  };
 }
 
 export default VersionDownloadChart;
