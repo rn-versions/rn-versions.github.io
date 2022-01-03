@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "../styles/App.module.scss";
 import PackageCard, { VersionFilter } from "./PackageCard";
 
-import { PackageIdentifier } from "../PackageDescription";
+import { PackageIdentifier, packages } from "../PackageDescription";
 import NavBar, { NavPivotItem } from "./NavBar";
 import {
   blackTheme,
@@ -11,14 +11,6 @@ import {
   whiteTheme,
 } from "../styles/Themes";
 import { ThemeProvider } from "@fluentui/react";
-
-const packages: Array<{ name: PackageIdentifier }> = [
-  { name: "react-native" },
-  { name: "@types/react-native" },
-  { name: "react-native-windows" },
-  { name: "react-native-macos" },
-  { name: "react-native-web" },
-];
 
 const navItems: NavPivotItem<VersionFilter>[] = [
   { label: "Major", key: "major" },
@@ -47,11 +39,11 @@ function App() {
 
       <div className={styles.contentContainer}>
         <div className={styles.cardContainer}>
-          {packages.map((pkg) => (
+          {Object.keys(packages).map((pkg) => (
             <PackageCard
-              identifier={pkg.name}
+              identifier={pkg as PackageIdentifier}
               versionFilter={versionFilter}
-              key={pkg.name}
+              key={pkg}
               theme={darkMode ? darkTheme : whiteTheme}
               tooltipTheme={darkMode ? blackTheme : lightTheme}
             />
