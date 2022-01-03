@@ -28,9 +28,7 @@ export default class HistoryReader {
   ) {
     this.packageDescription = packages[packageIdentifier];
 
-    this.historyPoints = historyPoints.filter((p) =>
-      this.packageDescription.versionFilter(p.version)
-    );
+    this.historyPoints = historyPoints;
   }
 
   static async get(

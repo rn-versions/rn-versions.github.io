@@ -3,6 +3,8 @@ import semver from "semver";
 
 import { promises as fs } from "fs";
 
+import { PackageDescription, packages } from "../src/PackageDescription";
+
 /** Representation of History File JSON */
 type HistoryFile = {
   [packageName: string]: Array<{
@@ -48,8 +50,18 @@ async function generateWebpageAssets() {
       }
 
       for (const [version, count] of Object.entries(fileDatePoint.versions)) {
-        datePoints.push({ date, version, count });
+        if (
+          (packages as Record<string, PackageDescription | undefined>)[
+            packageName
+          ]?.versionFilter(version)
+        ) {
+          datePoints.push({ date, version, count });
+        }
       }
+    }
+
+    if (datePoints.length === 0) {
+      continue;
     }
 
     const sortedPoints: AssetHistoryPoint[] = datePoints.sort(
