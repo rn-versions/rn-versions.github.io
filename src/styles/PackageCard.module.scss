@@ -9,7 +9,7 @@
   @include ms-depth-4;
 
   @include transition-timing();
-  transition-property: opacity, transform;
+  transition-property: opacity;
 
   width: 100%;
   min-width: 320px;
@@ -29,7 +29,6 @@
 
 .fadedCardFrame {
   opacity: 0.3;
-  transform: rotateY(-10deg);
   padding-bottom: 45px;
 }
 
