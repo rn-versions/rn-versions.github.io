@@ -118,25 +118,37 @@ export default class HistoryReader {
     }
 
     if (opts?.versionMapper) {
-      versions = [...new Set(versions.map(opts.versionMapper))];
+      const versionMapping: Record<string, string> = {};
+      for (const v of versions) {
+        versionMapping[v] = opts.versionMapper(v);
+      }
+
+      versions = [...new Set(Object.values(versionMapping))];
       const pointsByMappedVersion: Record<
         string,
         Array<{ date: number; count: number }> | undefined
       > = {};
 
       for (const point of points) {
-        const mappedVersion = opts.versionMapper(point.version);
+        const mappedVersion = versionMapping[point.version];
 
         const versionPoints = pointsByMappedVersion[mappedVersion] ?? [];
         pointsByMappedVersion[mappedVersion] = versionPoints;
 
-        const versionDatePoint = versionPoints.find(
-          (p) => point.date === p.date
-        );
+        let pointFound = false;
+        for (let i = versionPoints.length - 1; i >= 0; i--) {
+          if (versionPoints[i].date === point.date) {
+            pointFound = true;
+            versionPoints[i].count += point.count;
+            break;
+          }
 
-        if (versionDatePoint) {
-          versionDatePoint.count += point.count;
-        } else {
+          if (versionPoints[i].date < point.date) {
+            break;
+          }
+        }
+
+        if (!pointFound) {
           versionPoints.push({ date: point.date, count: point.count });
         }
       }
