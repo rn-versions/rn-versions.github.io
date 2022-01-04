@@ -15,8 +15,8 @@ import { CalculatorPercentageIcon } from "@fluentui/react-icons-mdl2";
 import { PackageIdentifier, packages } from "../PackageDescription";
 
 import VersionDownloadChart from "./VersionDownloadChart";
-import HistoryReader from "../HistoryReader";
 import { lightTheme } from "../styles/Themes";
+import useHistory from "../hooks/useHistory";
 
 export type VersionFilter = "major" | "patch" | "prerelease";
 
@@ -46,18 +46,6 @@ const PackageCard: React.FC<PackageCardProps> = ({
 }) => {
   const [lastVersionFilter, setLastVersionFilter] = useState(versionFilter);
   const [showAsPercentage, setShowAsPercentage] = useState(false);
-  const [historyReader, setHistoryReader] = useState<HistoryReader | null>(
-    null
-  );
-
-  useEffect(() => {
-    if (!historyReader) {
-      (async () => {
-        const reader = await HistoryReader.get(identifier);
-        setHistoryReader(reader);
-      })();
-    }
-  }, [historyReader, identifier]);
 
   useEffect(() => {
     if (versionFilter !== lastVersionFilter) {
@@ -66,7 +54,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
     }
   }, [versionFilter, lastVersionFilter]);
 
-  const history = historyReader?.getDatePoints(versionFilter);
+  const history = useHistory(identifier, versionFilter);
   const packageDesc = packages[identifier];
 
   return (
