@@ -8,8 +8,6 @@
   max-width: 640px;
   min-height: 360px;
 
-  @include ms-depth-4;
-
   display: flex;
   flex-direction: column;
   position: relative;
@@ -24,7 +22,9 @@
   left: 0;
   height: 100%;
   width: 100%;
-  opacity: 0.4;
+
+  @include ms-depth-4;
+  opacity: 0.3;
 }
 
 .contentWrapper {
