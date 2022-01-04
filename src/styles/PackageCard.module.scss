@@ -1,56 +1,42 @@
 @import "@fluentui/react/dist/sass/References";
 
-@mixin transition-timing {
-  transition-timing-function: ease-in-out;
-  transition-duration: 200ms;
-}
+@include ms-motion-keyframes;
 
-.packageCardFrame {
-  @include ms-depth-4;
-
-  @include transition-timing();
-  transition-property: opacity;
-
+.cardFrame {
   width: 100%;
   min-width: 320px;
   max-width: 640px;
-  min-height: 200px;
+  min-height: 360px;
+
+  @include ms-depth-4;
 
   display: flex;
   flex-direction: column;
+  position: relative;
 
   flex-grow: 1;
   flex-basis: 500px;
 }
 
-.visibleCardFrame {
-  opacity: 1.0;
+.silhouette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.4;
 }
 
-.fadedCardFrame {
-  opacity: 0.3;
-  padding-bottom: 45px;
+.contentWrapper {
+  height: 100%;
+
+  @include ms-motion-fadeIn;
 }
 
-.noDataCardFrame {
+.disabledContentWrapper {
   opacity: 0.6;
 }
 
-.packageCardContent {
-  @include transition-timing();
-}
-
-.visibleCardContent {
-  opacity: 1.0;
-}
-
-.fadedCardContent {
-  opacity: 0;
-}
-
-.noDataCardContent {
-  opacity: 1.0;
-}
 
 @mixin header-clearance-area {
   flex-grow: 1;
@@ -58,7 +44,7 @@
 }
 
 @include ms-screen-sm-down() {
-  .packageCardContent {
+  .cardContent {
     padding: 10px 0;
   }
 
@@ -76,7 +62,7 @@
 }
 
 @include ms-screen-md-up() {
-  .packageCardContent {
+  .cardContent {
     padding: 16px;
   }
 

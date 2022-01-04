@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/PackageCard.module.scss";
-import chartStyles from "../styles/VersionDownloadChart.styles";
 
 import {
   Text,
@@ -59,9 +58,9 @@ const PackageCard: React.FC<PackageCardProps> = ({
 
   return (
     <CardFrame
-      theme={theme ?? lightTheme}
       loaded={!!history}
-      hasData={!!history && history.points.length > 0}
+      theme={theme ?? lightTheme}
+      disabled={!!history && history.points.length === 0}
     >
       <div className={styles.header}>
         <div className={styles.headerLeft} />
@@ -85,7 +84,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
         </div>
       </div>
 
-      {history ? (
+      {history && (
         <div className={styles.chartContainer}>
           <VersionDownloadChart
             history={history}
@@ -98,8 +97,6 @@ const PackageCard: React.FC<PackageCardProps> = ({
             tooltipTheme={tooltipTheme}
           />
         </div>
-      ) : (
-        <div style={{ height: chartStyles().responsiveContainer.height }} />
       )}
     </CardFrame>
   );
@@ -108,36 +105,31 @@ const PackageCard: React.FC<PackageCardProps> = ({
 const CardFrame: React.FC<{
   theme: ITheme;
   loaded: boolean;
-  hasData: boolean;
-}> = ({ loaded, hasData, theme, children }) => {
+  disabled: boolean;
+}> = ({ theme, loaded, disabled, children }) => {
   return (
-    <ThemeProvider
-      theme={theme}
-      className={`${styles.packageCardFrame} ${
-        loaded
-          ? hasData
-            ? styles.visibleCardFrame
-            : styles.noDataCardFrame
-          : styles.fadedCardFrame
-      }`}
-      style={{
-        borderColor: theme.isInverted
-          ? theme.palette.whiteTranslucent40
-          : theme.palette.blackTranslucent40,
-      }}
+    <div
+      className={
+        disabled
+          ? `${styles.cardFrame} ${styles.disabledCardFrame}`
+          : styles.cardFrame
+      }
     >
-      <div
-        className={`${styles.packageCardContent} ${
-          loaded
-            ? hasData
-              ? styles.visibleCardContent
-              : styles.noDataCardContent
-            : styles.fadedCardContent
-        }`}
-      >
-        {children}
-      </div>
-    </ThemeProvider>
+      <ThemeProvider className={styles.silhouette} theme={theme} />
+
+      {loaded && (
+        <ThemeProvider
+          className={
+            disabled
+              ? `${styles.contentWrapper} ${styles.disabledContentWrapper}`
+              : styles.contentWrapper
+          }
+          theme={theme}
+        >
+          <div className={styles.cardContent}>{children}</div>
+        </ThemeProvider>
+      )}
+    </div>
   );
 };
 

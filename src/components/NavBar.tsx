@@ -92,7 +92,7 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => {
             }}
           >
             {props.items.map((p) => (
-              <PivotItem headerText={p.label} itemKey={p.key} />
+              <PivotItem headerText={p.label} itemKey={p.key} key={p.key} />
             ))}
           </Pivot>
 
