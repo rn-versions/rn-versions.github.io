@@ -67,6 +67,17 @@ export default function generateHue(
   };
 }
 
+const colorCache: Partial<
+  Record<
+    number,
+    Array<{
+      variant?: "light" | "dark";
+      targetLuminance?: "contrasts-light" | "contrasts-dark";
+      result: string;
+    }>
+  >
+> = {};
+
 /**
  * Calculates a color with the given hue, optionally specified to meet a
  * specific contrast requirement
@@ -78,6 +89,16 @@ export function colorForHue(
     targetLuminance?: "contrasts-light" | "contrasts-dark";
   }
 ) {
+  const cacheEntry = colorCache[hue] ?? [];
+  for (const record of cacheEntry) {
+    if (
+      record.targetLuminance === opts?.targetLuminance &&
+      record.variant === opts?.variant
+    ) {
+      return record.result;
+    }
+  }
+
   const saturation =
     opts?.variant === "dark" ? styles.dark.saturation : styles.light.saturation;
 
@@ -93,7 +114,13 @@ export function colorForHue(
     opts?.targetLuminance
   );
 
-  return `hsl(${hue}, ${saturation * 100}%, ${lightness * 100}%)`;
+  const result = `hsl(${hue}, ${saturation * 100}%, ${lightness * 100}%)`;
+  cacheEntry.push({
+    variant: opts?.variant,
+    targetLuminance: opts?.targetLuminance,
+    result,
+  });
+  return result;
 }
 
 function hueDifference(hue1: number, hue2: number) {

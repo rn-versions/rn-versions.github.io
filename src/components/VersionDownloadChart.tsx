@@ -77,7 +77,7 @@ export type VersionDownloadChartProps = {
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
-  history: historyPoints,
+  history,
   maxDaysShown,
   maxVersionsShown,
   maxTicks,
@@ -90,40 +90,66 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 }) => {
   const styles = styleProps({ theme, unit });
 
-  const [legendElement, setLegendElement] = useState<HTMLDivElement | null>(
-    null
+  const [legendElement, setLegendElement] = useState<HTMLDivElement>();
+
+  const filteredHistory = React.useMemo(
+    () => filterTopN(history, maxVersionsShown ?? 5, maxDaysShown ?? 30),
+    [history, maxDaysShown, maxVersionsShown]
   );
 
-  maxVersionsShown = maxVersionsShown ?? 5;
-  maxDaysShown = maxDaysShown ?? 30;
-  const history = filterTopN(historyPoints, maxVersionsShown, maxDaysShown);
+  const dateTicks = React.useMemo(
+    () =>
+      calculateDateTicks(
+        filteredHistory.points.map((p) => p.date),
+        maxTicks ?? 6
+      ),
+    [filteredHistory.points, maxTicks]
+  );
 
-  const versionHues: Record<string, number> = {};
-  // Generate color from earlier versions to later
-  let lastAvoidToken: AvoidToken | undefined = undefined;
-  const areas = history.versions
-    .map((v) => {
+  const versionHues = React.useMemo(() => {
+    const hues: Record<string, number> = {};
+    let lastAvoidToken: AvoidToken | undefined;
+
+    filteredHistory.versions.forEach((v) => {
       const { hue, avoidToken } = generateHue(v, lastAvoidToken);
       lastAvoidToken = avoidToken;
-      const name = versionLabeler ? versionLabeler(v) : v;
-      versionHues[name] = hue;
-      return { name, hue, dataKey: v };
-    })
-    .reverse();
+      hues[versionLabeler ? versionLabeler(v) : v] = hue;
+    });
 
-  if (history.points.length === 0) {
+    return hues;
+  }, [filteredHistory.versions, versionLabeler]);
+
+  const chartAreas = React.useMemo(
+    () =>
+      filteredHistory.versions
+        .map((v) => {
+          const name = versionLabeler ? versionLabeler(v) : v;
+          const hue = versionHues[name];
+          const colorVariant = theme?.isInverted ? "dark" : "light";
+          const fill = colorForHue(hue, {
+            variant: colorVariant,
+            targetLuminance: theme?.isInverted
+              ? "contrasts-light"
+              : "contrasts-dark",
+          });
+          return { name, hue, fill, dataKey: v };
+        })
+        .reverse(),
+    [filteredHistory.versions, theme?.isInverted, versionHues, versionLabeler]
+  );
+
+  if (filteredHistory.points.length === 0) {
     return null;
   }
 
-  const VersionLegend = createLegendContent({ versionHues });
-  const colorVariant = theme?.isInverted ? "dark" : "light";
+  const VersionLegend = React.memo(createLegendContent({ versionHues }));
 
   return (
     <div>
       <ResponsiveContainer {...styles.responsiveContainer}>
         <AreaChart
           {...styles.areaChart}
-          data={history.points}
+          data={filteredHistory.points}
           reverseStackOrder
           stackOffset={unit === "percentage" ? "expand" : "none"}
         >
@@ -140,10 +166,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
               })
             }
             interval={0}
-            ticks={calculateDateTicks(
-              history.points.map((p) => p.date),
-              maxTicks ?? 6
-            )}
+            ticks={dateTicks}
           />
           <YAxis
             {...styles.yAxis}
@@ -181,19 +204,14 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
             />
           )}
 
-          {areas.map(({ name, hue, dataKey }) => (
+          {chartAreas.map(({ name, fill, dataKey }) => (
             <Area
               {...styles.area}
               name={name}
               key={name}
               dataKey={(datapoint) => datapoint.versionCounts[dataKey]}
               stackId="1"
-              fill={colorForHue(hue, {
-                variant: colorVariant,
-                targetLuminance: theme?.isInverted
-                  ? "contrasts-light"
-                  : "contrasts-dark",
-              })}
+              fill={fill}
               fillOpacity={1}
             />
           ))}
@@ -201,7 +219,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
           <CartesianGrid {...styles.grid} />
         </AreaChart>
       </ResponsiveContainer>
-      <div ref={(el) => setLegendElement(el)} />
+      <div ref={(el) => setLegendElement(el ?? undefined)} />
     </div>
   );
 };
