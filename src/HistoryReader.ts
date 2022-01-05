@@ -5,6 +5,13 @@ export type HistoryPointCollection = {
   versions: string[];
   points: HistoryPoint[];
 };
+
+type HistoryFile = {
+  epoch: number;
+  versions: string[];
+  points: HistoryPoint[];
+};
+
 export type HistoryPoint = {
   date: number;
   versionCounts: { [version: string]: number | undefined };
@@ -22,12 +29,34 @@ export default class HistoryReader {
   private prereleaseDatePoints: HistoryPointCollection | null = null;
 
   private static historyImports: Partial<
-    Record<PackageIdentifier, Promise<HistoryPointCollection>>
+    Record<PackageIdentifier, Promise<HistoryFile>>
   > = {};
   private static lastAcquisition: Promise<unknown> = Promise.resolve();
 
-  private constructor(historyPoints: HistoryPointCollection) {
-    this.pointCollection = historyPoints;
+  private constructor(historyFile: HistoryFile) {
+    const history: HistoryPointCollection = {
+      versions: historyFile.versions,
+      points: [],
+    };
+
+    for (const filePoint of historyFile.points) {
+      const historyPoint: HistoryPoint = {
+        date: historyFile.epoch + filePoint.date * 1000,
+        versionCounts: {},
+      };
+
+      for (const [versionIndex, count] of Object.entries(
+        filePoint.versionCounts
+      )) {
+        historyPoint.versionCounts[
+          historyFile.versions[parseInt(versionIndex, 10)]
+        ] = count;
+      }
+
+      history.points.push(historyPoint);
+    }
+
+    this.pointCollection = history;
   }
 
   static prefetch() {
@@ -55,7 +84,7 @@ export default class HistoryReader {
 
   private static loadHistoryFile(
     packageIdentifier: PackageIdentifier
-  ): Promise<HistoryPointCollection> {
+  ): Promise<HistoryFile> {
     switch (packageIdentifier) {
       case "@types/react-native":
         return import("./generated_assets/@types_react-native.json");

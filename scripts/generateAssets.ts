@@ -5,6 +5,8 @@ import { promises as fs } from "fs";
 
 import { PackageDescription, packages } from "../src/PackageDescription";
 
+type VersionIndex = string;
+
 /** Representation of History File JSON */
 type HistoryFile = {
   [packageName: string]: Array<{
@@ -14,13 +16,15 @@ type HistoryFile = {
 };
 
 /** Representation of packed asset file */
-type AssetHistoryFile = { versions: string[]; points: AssetHistoryPoint[] };
+type AssetHistoryFile = {
+  epoch: number;
+  versions: string[];
+  points: AssetHistoryPoint[];
+};
 type AssetHistoryPoint = {
   date: number;
-  versionCounts: Record<string, number>;
+  versionCounts: Record<VersionIndex, number>;
 };
-
-/** Minimum number of downloads for a version to be recorded */
 
 /** Maximum number of days to include */
 const maxDaysOfHistory = 90;
@@ -63,6 +67,23 @@ async function generateWebpageAssets() {
       Object.keys(p.versionCounts).forEach((v) => allVersions.add(v))
     );
 
+    const versions = [...allVersions].sort(compareVersion);
+    const keyedPoints: AssetHistoryPoint[] = [];
+
+    const epoch = includedPoints[0].date;
+
+    for (const point of includedPoints) {
+      const newPoint: AssetHistoryPoint = {
+        date: Math.round(point.date - epoch) / 1000,
+        versionCounts: {},
+      };
+      for (const [version, count] of Object.entries(point.versionCounts)) {
+        const key = versions.indexOf(version.toString());
+        newPoint.versionCounts[key] = count;
+      }
+      keyedPoints.push(newPoint);
+    }
+
     const historyAssetPath = path.join(
       __dirname,
       "..",
@@ -71,8 +92,9 @@ async function generateWebpageAssets() {
     );
 
     const historyFile: AssetHistoryFile = {
-      versions: [...allVersions].sort(compareVersion),
-      points: includedPoints,
+      epoch,
+      versions,
+      points: keyedPoints,
     };
     await fs.writeFile(historyAssetPath, JSON.stringify(historyFile));
   }
