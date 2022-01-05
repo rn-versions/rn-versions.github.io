@@ -6,7 +6,6 @@
   width: 100%;
   min-width: 320px;
   max-width: 640px;
-  min-height: 360px;
 
   display: flex;
   flex-direction: column;
@@ -60,6 +59,10 @@
 }
 
 @include ms-screen-sm-down() {
+  .cardFrame {
+    min-height: 380px;
+  }
+
   .cardContent {
     padding: 10px 0;
   }
@@ -78,6 +81,10 @@
 }
 
 @include ms-screen-md-up() {
+  .cardFrame {
+    min-height: 360px;
+  }
+
   .cardContent {
     padding: 16px;
   }
