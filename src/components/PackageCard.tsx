@@ -14,9 +14,29 @@ import { CalculatorPercentageIcon } from "@fluentui/react-icons-mdl2";
 
 import { PackageIdentifier, packages } from "../PackageDescription";
 
-import VersionDownloadChart from "./VersionDownloadChart";
 import { lightTheme } from "../styles/Themes";
 import useHistory from "../hooks/useHistory";
+import { VersionDownloadChartProps } from "./VersionDownloadChart";
+
+let chart: React.FC<VersionDownloadChartProps> | undefined;
+const chartImport = import("./VersionDownloadChart").then((imp) => {
+  chart = imp.default;
+  return chart;
+});
+
+function useVersionDownloadChart():
+  | React.FC<VersionDownloadChartProps>
+  | undefined {
+  const [chartLoaded, setChartLoaded] = useState(chart !== undefined);
+
+  useEffect(() => {
+    if (!chartLoaded) {
+      void chartImport.then(() => setChartLoaded(true));
+    }
+  });
+
+  return chart;
+}
 
 export type VersionFilter = "major" | "patch" | "prerelease";
 
@@ -54,8 +74,12 @@ const PackageCard: React.FC<PackageCardProps> = ({
     }
   }, [versionFilter, lastVersionFilter]);
 
+  const VersionDownloadChart = useVersionDownloadChart();
   const history = useHistory(identifier, versionFilter);
   const packageDesc = packages[identifier];
+
+  const isDataLoaded =
+    history !== undefined && VersionDownloadChart !== undefined;
 
   return (
     <CardFrame
@@ -83,16 +107,17 @@ const PackageCard: React.FC<PackageCardProps> = ({
           </TooltipHost>
         </div>
       </div>
+
       <div className={styles.chartContainer}>
         <div className={styles.silhouette}>
           <div className={styles.shimmerRoot}>
             {new Array(10).fill(null).map((_, i) => (
-              <Shimmer isDataLoaded={!!history} key={i} />
+              <Shimmer isDataLoaded={isDataLoaded} key={i} />
             ))}
           </div>
         </div>
 
-        {history && (
+        {isDataLoaded && (
           <div className={styles.innerChartContainer}>
             <VersionDownloadChart
               history={history}
