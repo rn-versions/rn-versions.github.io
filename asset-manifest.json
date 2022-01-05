@@ -5,7 +5,7 @@
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.99546dd4.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.65afb8d3.chunk.js",
     "VersionDownloadChart.js.map": "/static/js/VersionDownloadChart.65afb8d3.chunk.js.map",
-    "main.css": "/static/css/main.9526a56f.chunk.css",
+    "main.css": "/static/css/main.54216057.chunk.css",
     "main.js": "/static/js/main.28616e5a.chunk.js",
     "main.js.map": "/static/js/main.28616e5a.chunk.js.map",
     "react-native.js": "/static/js/react-native.5539c5f0.chunk.js",
@@ -24,14 +24,14 @@
     "static/js/9.66d19879.chunk.js.map": "/static/js/9.66d19879.chunk.js.map",
     "index.html": "/index.html",
     "static/css/VersionDownloadChart.99546dd4.chunk.css.map": "/static/css/VersionDownloadChart.99546dd4.chunk.css.map",
-    "static/css/main.9526a56f.chunk.css.map": "/static/css/main.9526a56f.chunk.css.map",
+    "static/css/main.54216057.chunk.css.map": "/static/css/main.54216057.chunk.css.map",
     "static/js/8.2401048a.chunk.js.LICENSE.txt": "/static/js/8.2401048a.chunk.js.LICENSE.txt",
     "static/js/9.66d19879.chunk.js.LICENSE.txt": "/static/js/9.66d19879.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.39be67b7.js",
     "static/js/9.66d19879.chunk.js",
-    "static/css/main.9526a56f.chunk.css",
+    "static/css/main.54216057.chunk.css",
     "static/js/main.28616e5a.chunk.js"
   ]
 }
