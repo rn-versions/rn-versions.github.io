@@ -19,7 +19,10 @@ import useHistory from "../hooks/useHistory";
 import { VersionDownloadChartProps } from "./VersionDownloadChart";
 
 let chart: React.FC<VersionDownloadChartProps> | undefined;
-const chartImport = import("./VersionDownloadChart").then((imp) => {
+const chartImport = import(
+  /* webpackChunkName: "VersionDownloadChart" */
+  /* webpackPrefetch: true */ "./VersionDownloadChart"
+).then((imp) => {
   chart = imp.default;
   return chart;
 });
