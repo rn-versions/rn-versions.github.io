@@ -5,8 +5,8 @@
     "TooltipHost.js": "/static/js/TooltipHost.e16678d9.chunk.js",
     "TooltipHost.js.map": "/static/js/TooltipHost.e16678d9.chunk.js.map",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.f65602a3.chunk.css",
-    "VersionDownloadChart.js": "/static/js/VersionDownloadChart.c261219f.chunk.js",
-    "VersionDownloadChart.js.map": "/static/js/VersionDownloadChart.c261219f.chunk.js.map",
+    "VersionDownloadChart.js": "/static/js/VersionDownloadChart.82684cbc.chunk.js",
+    "VersionDownloadChart.js.map": "/static/js/VersionDownloadChart.82684cbc.chunk.js.map",
     "main.css": "/static/css/main.d440f7e0.chunk.css",
     "main.js": "/static/js/main.a0484e5a.chunk.js",
     "main.js.map": "/static/js/main.a0484e5a.chunk.js.map",
@@ -18,8 +18,8 @@
     "react-native-web.js.map": "/static/js/react-native-web.9b5795c7.chunk.js.map",
     "react-native-windows.js": "/static/js/react-native-windows.60002aa3.chunk.js",
     "react-native-windows.js.map": "/static/js/react-native-windows.60002aa3.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.3c11fa98.js",
-    "runtime-main.js.map": "/static/js/runtime-main.3c11fa98.js.map",
+    "runtime-main.js": "/static/js/runtime-main.798cc509.js",
+    "runtime-main.js.map": "/static/js/runtime-main.798cc509.js.map",
     "static/js/9.2742939e.chunk.js": "/static/js/9.2742939e.chunk.js",
     "static/js/9.2742939e.chunk.js.map": "/static/js/9.2742939e.chunk.js.map",
     "static/js/10.c94a84a3.chunk.js": "/static/js/10.c94a84a3.chunk.js",
@@ -31,7 +31,7 @@
     "static/js/9.2742939e.chunk.js.LICENSE.txt": "/static/js/9.2742939e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.3c11fa98.js",
+    "static/js/runtime-main.798cc509.js",
     "static/js/10.c94a84a3.chunk.js",
     "static/css/main.d440f7e0.chunk.css",
     "static/js/main.a0484e5a.chunk.js"
