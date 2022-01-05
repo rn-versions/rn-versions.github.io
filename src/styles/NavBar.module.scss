@@ -50,8 +50,8 @@
 $navItemHeight: 44px;
 
 .reactLogo {
-  height: $navItemHeight / 1.5 !important;
-  width: $navItemHeight / 1.5 !important;
+  height: calc($navItemHeight / 1.5) !important;
+  width: calc($navItemHeight / 1.5) !important;
   margin-right: 8px;
 }
 
