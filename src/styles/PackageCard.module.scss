@@ -14,27 +14,43 @@
 
   flex-grow: 1;
   flex-basis: 500px;
+
+  @include ms-depth-4;
 }
 
 .silhouette {
   position: absolute;
-  top: 0;
+  box-sizing: border-box;
+  top: 40px;
   left: 0;
   height: 100%;
   width: 100%;
+  padding: 0 40px;
 
-  @include ms-depth-4;
-  opacity: 0.3;
+}
+
+.shimmerRoot {
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
 }
 
 .contentWrapper {
   height: 100%;
-
-  @include ms-motion-fadeIn;
 }
 
 .disabledContentWrapper {
   opacity: 0.6;
+}
+
+.cardContent {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 
@@ -99,6 +115,17 @@
 }
 
 .chartContainer {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+
   font-family: $ms-font-family-fallbacks;
   font-size: 10pt;
+}
+
+.innerChartContainer {
+  @include ms-motion-fadeIn;
 }

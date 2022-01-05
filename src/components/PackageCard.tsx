@@ -7,6 +7,7 @@ import {
   TooltipHost,
   ThemeProvider,
   ITheme,
+  Shimmer,
 } from "@fluentui/react";
 
 import { CalculatorPercentageIcon } from "@fluentui/react-icons-mdl2";
@@ -58,9 +59,8 @@ const PackageCard: React.FC<PackageCardProps> = ({
 
   return (
     <CardFrame
-      loaded={!!history}
       theme={theme ?? lightTheme}
-      disabled={!!history && history.points.length === 0}
+      disabled={history?.points.length === 0}
     >
       <div className={styles.header}>
         <div className={styles.headerLeft} />
@@ -83,53 +83,57 @@ const PackageCard: React.FC<PackageCardProps> = ({
           </TooltipHost>
         </div>
       </div>
-
-      {history && (
-        <div className={styles.chartContainer}>
-          <VersionDownloadChart
-            history={history}
-            maxDaysShown={maxDays(versionFilter)}
-            maxVersionsShown={6}
-            maxTicks={4}
-            unit={showAsPercentage ? "percentage" : "totalDownloads"}
-            versionLabeler={packageDesc.versionLabeler}
-            theme={theme}
-            tooltipTheme={tooltipTheme}
-          />
+      <div className={styles.chartContainer}>
+        <div className={styles.silhouette}>
+          <div className={styles.shimmerRoot}>
+            {new Array(10).fill(null).map((_, i) => (
+              <Shimmer isDataLoaded={!!history} key={i} />
+            ))}
+          </div>
         </div>
-      )}
+
+        {history && (
+          <div className={styles.innerChartContainer}>
+            <VersionDownloadChart
+              history={history}
+              maxDaysShown={maxDays(versionFilter)}
+              maxVersionsShown={6}
+              maxTicks={4}
+              unit={showAsPercentage ? "percentage" : "totalDownloads"}
+              versionLabeler={packageDesc.versionLabeler}
+              theme={theme}
+              tooltipTheme={tooltipTheme}
+            />
+          </div>
+        )}
+      </div>
     </CardFrame>
   );
 };
 
 const CardFrame: React.FC<{
   theme: ITheme;
-  loaded: boolean;
   disabled: boolean;
-}> = ({ theme, loaded, disabled, children }) => {
+}> = ({ theme, disabled, children }) => {
   return (
-    <div
+    <ThemeProvider
       className={
         disabled
           ? `${styles.cardFrame} ${styles.disabledCardFrame}`
           : styles.cardFrame
       }
+      theme={theme}
     >
-      <ThemeProvider className={styles.silhouette} theme={theme} />
-
-      {loaded && (
-        <ThemeProvider
-          className={
-            disabled
-              ? `${styles.contentWrapper} ${styles.disabledContentWrapper}`
-              : styles.contentWrapper
-          }
-          theme={theme}
-        >
-          <div className={styles.cardContent}>{children}</div>
-        </ThemeProvider>
-      )}
-    </div>
+      <div
+        className={
+          disabled
+            ? `${styles.contentWrapper} ${styles.disabledContentWrapper}`
+            : styles.contentWrapper
+        }
+      >
+        <div className={styles.cardContent}>{children}</div>
+      </div>
+    </ThemeProvider>
   );
 };
 
