@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../styles/PackageCard.module.scss";
 
-import {
-  Text,
-  IconButton,
-  TooltipHost,
-  ThemeProvider,
-  ITheme,
-  Shimmer,
-} from "@fluentui/react";
+import { Text, ThemeProvider, ITheme, Shimmer } from "@fluentui/react";
 
 import { CalculatorPercentageIcon } from "@fluentui/react-icons-mdl2";
 
@@ -16,33 +9,8 @@ import { PackageIdentifier, packages } from "../PackageDescription";
 
 import { lightTheme } from "../styles/Themes";
 import useHistory from "../hooks/useHistory";
-import { VersionDownloadChartProps } from "./VersionDownloadChart";
-
-const chartImport = import(
-  /* webpackChunkName: "VersionDownloadChart" */
-  /* webpackPreload: true */
-  "./VersionDownloadChart"
-);
-
-let chart: React.FC<VersionDownloadChartProps> | undefined;
-void chartImport.then((imp) => {
-  chart = imp.default;
-  return chart;
-});
-
-function useVersionDownloadChart():
-  | React.FC<VersionDownloadChartProps>
-  | undefined {
-  const [chartLoaded, setChartLoaded] = useState(chart !== undefined);
-
-  useEffect(() => {
-    if (!chartLoaded) {
-      void chartImport.then(() => setChartLoaded(true));
-    }
-  });
-
-  return chart;
-}
+import useVersionDownloadChart from "../hooks/useVersionDownloadChart";
+import TooltipButton from "./TooltipButton";
 
 export type VersionFilter = "major" | "patch" | "prerelease";
 
@@ -101,16 +69,15 @@ const PackageCard: React.FC<PackageCardProps> = ({
           <Text variant="medium">(Downloads/Week)</Text>
         </div>
         <div className={styles.headerControls}>
-          <TooltipHost content="Show as percentage" theme={tooltipTheme}>
-            <IconButton
-              toggle
-              aria-label="Show as percentage"
-              disabled={!history || history.points.length === 0}
-              onRenderIcon={() => <CalculatorPercentageIcon />}
-              checked={showAsPercentage}
-              onClick={() => setShowAsPercentage(!showAsPercentage)}
-            />
-          </TooltipHost>
+          <TooltipButton
+            toggle
+            content="Show as percentage"
+            aria-label="Show as percentage"
+            disabled={!history || history.points.length === 0}
+            onRenderIcon={() => <CalculatorPercentageIcon />}
+            checked={showAsPercentage}
+            onClick={() => setShowAsPercentage(!showAsPercentage)}
+          />
         </div>
       </div>
 

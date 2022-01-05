@@ -11,12 +11,12 @@ import {
   Pivot,
   PivotItem,
   Text,
-  TooltipHost,
   ThemeProvider,
 } from "@fluentui/react";
 
 import { LightIcon, GitHubLogoIcon } from "@fluentui/react-icons-mdl2";
 import ReactLogoIcon from "../assets/ReactLogoIcon";
+import TooltipButton from "./TooltipButton";
 
 export type NavBarProps<ItemKey extends string> = {
   items: NavPivotItem<ItemKey>[];
@@ -97,20 +97,17 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => {
           </Pivot>
 
           <div className={styles.buttonRegion}>
-            <TooltipHost content="Toggle dark mode">
-              <IconButton
-                toggle
-                checked={props.darkMode}
-                onClick={() =>
-                  props.onToggleDarkMode && props.onToggleDarkMode()
-                }
-                className={styles.brightnessIconButton}
-                aria-label="Toggle dark mode"
-                onRenderIcon={() => (
-                  <LightIcon className={styles.brightnessIcon} />
-                )}
-              />
-            </TooltipHost>
+            <TooltipButton
+              toggle
+              checked={props.darkMode}
+              onClick={() => props.onToggleDarkMode && props.onToggleDarkMode()}
+              className={styles.brightnessIconButton}
+              content="Toggle dark mode"
+              aria-label="Toggle dark mode"
+              onRenderIcon={() => (
+                <LightIcon className={styles.brightnessIcon} />
+              )}
+            />
 
             <Link
               className={styles.gitHubLink}
