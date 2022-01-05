@@ -18,11 +18,14 @@ import { lightTheme } from "../styles/Themes";
 import useHistory from "../hooks/useHistory";
 import { VersionDownloadChartProps } from "./VersionDownloadChart";
 
-let chart: React.FC<VersionDownloadChartProps> | undefined;
 const chartImport = import(
   /* webpackChunkName: "VersionDownloadChart" */
-  /* webpackPrefetch: true */ "./VersionDownloadChart"
-).then((imp) => {
+  /* webpackPreload: true */
+  "./VersionDownloadChart"
+);
+
+let chart: React.FC<VersionDownloadChartProps> | undefined;
+void chartImport.then((imp) => {
   chart = imp.default;
   return chart;
 });

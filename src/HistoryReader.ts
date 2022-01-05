@@ -1,5 +1,5 @@
 import semver from "semver";
-import { PackageIdentifier } from "./PackageDescription";
+import { PackageIdentifier, packages } from "./PackageDescription";
 
 export type HistoryPointCollection = {
   versions: string[];
@@ -18,39 +18,6 @@ export type HistoryPoint = {
 };
 
 type FlattenedPoint = { date: number; version: string; count: number };
-
-const imports: Record<PackageIdentifier, () => Promise<HistoryFile>> = {
-  "react-native": () =>
-    import(
-      /* webpackChunkName: "react-native" */
-      /* webpackPrefetch: true */
-      "./generated_assets/react-native.json"
-    ),
-  "@types/react-native": () =>
-    import(
-      /* webpackChunkName: "@types_react-native" */
-      /* webpackPrefetch: true */
-      "./generated_assets/@types_react-native.json"
-    ),
-  "react-native-windows": () =>
-    import(
-      /* webpackChunkName: "react-native-windows" */
-      /* webpackPrefetch: true */
-      "./generated_assets/react-native-windows.json"
-    ),
-  "react-native-macos": () =>
-    import(
-      /* webpackChunkName: "react-native-macos" */
-      /* webpackPrefetch: true */
-      "./generated_assets/react-native-macos.json"
-    ),
-  "react-native-web": () =>
-    import(
-      /* webpackChunkName: "react-native-web" */
-      /* webpackPrefetch: true */
-      "./generated_assets/react-native-web.json"
-    ),
-};
 
 /**
  * Allows reading from stored download history of an npm package
@@ -92,6 +59,15 @@ export default class HistoryReader {
     this.pointCollection = history;
   }
 
+  static prefetch() {
+    for (const identifier of Object.keys(packages)) {
+      if (!this.historyImports[identifier as PackageIdentifier]) {
+        this.historyImports[identifier as PackageIdentifier] =
+          HistoryReader.loadHistoryFile(identifier as PackageIdentifier);
+      }
+    }
+  }
+
   static get(packageIdentifier: PackageIdentifier): Promise<HistoryReader> {
     if (!HistoryReader.historyImports[packageIdentifier]) {
       HistoryReader.historyImports[packageIdentifier] =
@@ -109,7 +85,33 @@ export default class HistoryReader {
   private static loadHistoryFile(
     packageIdentifier: PackageIdentifier
   ): Promise<HistoryFile> {
-    return imports[packageIdentifier]();
+    switch (packageIdentifier) {
+      case "@types/react-native":
+        return import(
+          /* webpackChunkName: "@types_react-native" */
+          "./generated_assets/@types_react-native.json"
+        );
+      case "react-native":
+        return import(
+          /* webpackChunkName: "react-native" */
+          "./generated_assets/react-native.json"
+        );
+      case "react-native-macos":
+        return import(
+          /* webpackChunkName: "react-native-macos" */
+          "./generated_assets/react-native-macos.json"
+        );
+      case "react-native-web":
+        return import(
+          /* webpackChunkName: "react-native-web" */
+          "./generated_assets/react-native-web.json"
+        );
+      case "react-native-windows":
+        return import(
+          /* webpackChunkName: "react-native-windows" */
+          "./generated_assets/react-native-windows.json"
+        );
+    }
   }
 
   getMajorDatePoints(): HistoryPointCollection {
