@@ -1,4 +1,4 @@
-import { useDeferredValue } from "react";
+import { useDeferredValue, useState } from "react";
 import styles from "../styles/App.module.scss";
 import PackageCard, { VersionFilter } from "./PackageCard";
 
@@ -22,10 +22,7 @@ const navItems: NavPivotItem<VersionFilter>[] = [
 ];
 
 function App() {
-  const [versionFilter, setVersionFilter] = usePersistentState<VersionFilter>(
-    "App.versionFilter",
-    "major"
-  );
+  const [versionFilter, setVersionFilter] = useState<VersionFilter>("major");
   const [darkMode, setDarkMode] = usePersistentState(
     "App.darkMode",
     window.matchMedia("(prefers-color-scheme: dark)").matches
