@@ -69,7 +69,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
     if (history && !!VersionDownloadChart) {
       startTransition(() => setDataIsReady(true));
     }
-  });
+  }, [history, VersionDownloadChart]);
 
   const disabled = !dataIsReady || (history && history.points.length === 0);
 
@@ -103,7 +103,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
         {VersionDownloadChart && (
           <VersionDownloadChart
             className={!disabled ? styles.visibleChart : styles.invisibleChart}
-            history={history}
+            history={dataIsReady ? history : undefined}
             maxDaysShown={maxDays(versionFilter)}
             maxVersionsShown={6}
             maxTicks={4}
