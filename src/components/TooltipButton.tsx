@@ -1,20 +1,25 @@
+import React, { Suspense } from "react";
+
 import type { ITooltipHostProps, IButtonProps } from "@fluentui/react";
 
 import { IconButton } from "@fluentui/react";
-import useTooltipHost from "../hooks/useTooltipHost";
 
-const TooltipButton: React.FC<ITooltipHostProps & IButtonProps> = (props) => {
-  const TooltipHost = useTooltipHost();
+const tooltipImport = import(
+  /* webpackChunkName: "Tooltip" */
+  /* webpackPreload: true */
+  "@fluentui/react/lib/components/Tooltip"
+);
 
-  if (TooltipHost) {
-    return (
-      <TooltipHost {...props}>
-        <IconButton {...props} />
-      </TooltipHost>
-    );
-  } else {
-    return <IconButton {...props} />;
-  }
-};
+const TooltipHost = React.lazy(async () => ({
+  default: (await tooltipImport).TooltipHost,
+}));
+
+const TooltipButton: React.FC<ITooltipHostProps & IButtonProps> = (props) => (
+  <Suspense fallback={<IconButton {...props} />}>
+    <TooltipHost {...props}>
+      <IconButton {...props} />
+    </TooltipHost>
+  </Suspense>
+);
 
 export default TooltipButton;

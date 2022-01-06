@@ -1,4 +1,4 @@
-import { useEffect, useState, startTransition } from "react";
+import { useEffect, useState, startTransition, Suspense } from "react";
 import styles from "../styles/PackageCard.module.scss";
 
 import { Text, ThemeProvider, ITheme, Shimmer } from "@fluentui/react";
@@ -9,10 +9,10 @@ import { PackageIdentifier, packages } from "../PackageDescription";
 
 import { lightTheme } from "../styles/Themes";
 import useHistory from "../hooks/useHistory";
-import useVersionDownloadChart from "../hooks/useVersionDownloadChart";
 import TooltipButton from "./TooltipButton";
 
 import type {} from "react/experimental";
+import React from "react";
 
 export type VersionFilter = "major" | "patch" | "prerelease";
 
@@ -22,6 +22,13 @@ export type PackageCardProps = {
   theme?: ITheme;
   tooltipTheme?: ITheme;
 };
+
+const chartImport = import(
+  /* webpackChunkName: "VersionDownloadChart" */
+  /* webpackPreload: true */
+  "../components/VersionDownloadChart"
+);
+const VersionDownloadChart = React.lazy(() => chartImport);
 
 function maxDays(versionFilter: VersionFilter) {
   switch (versionFilter) {
@@ -60,16 +67,15 @@ const PackageCard: React.FC<PackageCardProps> = ({
     }
   }, [versionFilter, lastVersionFilter]);
 
-  const VersionDownloadChart = useVersionDownloadChart();
   const history = useHistory(identifier, versionFilter);
   const packageDesc = packages[identifier];
 
   const [dataIsReady, setDataIsReady] = useState(false);
   useEffect(() => {
-    if (history && !!VersionDownloadChart) {
+    if (history) {
       startTransition(() => setDataIsReady(true));
     }
-  }, [history, VersionDownloadChart]);
+  }, [history]);
 
   const disabled = !dataIsReady || (history && history.points.length === 0);
 
@@ -99,8 +105,8 @@ const PackageCard: React.FC<PackageCardProps> = ({
         </div>
       </div>
       <div className={styles.chartContainer}>
-        {!dataIsReady && <ChartFallback />}
-        {VersionDownloadChart && (
+        <Suspense fallback={<ChartFallback />}>
+          {!dataIsReady && <ChartFallback />}
           <VersionDownloadChart
             className={!disabled ? styles.visibleChart : styles.invisibleChart}
             history={dataIsReady ? history : undefined}
@@ -112,7 +118,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
             theme={theme}
             tooltipTheme={tooltipTheme}
           />
-        )}
+        </Suspense>
       </div>
     </CardFrame>
   );
