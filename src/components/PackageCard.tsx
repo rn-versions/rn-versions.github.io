@@ -13,6 +13,7 @@ import TooltipButton from "./TooltipButton";
 
 import type {} from "react/experimental";
 import React from "react";
+import usePersistentState from "../hooks/usePersistentState";
 
 export type VersionFilter = "major" | "patch" | "prerelease";
 
@@ -57,15 +58,11 @@ const PackageCard: React.FC<PackageCardProps> = ({
   theme,
   tooltipTheme,
 }) => {
-  const [lastVersionFilter, setLastVersionFilter] = useState(versionFilter);
-  const [showAsPercentage, setShowAsPercentage] = useState(false);
-
-  useEffect(() => {
-    if (versionFilter !== lastVersionFilter) {
-      setShowAsPercentage(false);
-      setLastVersionFilter(versionFilter);
-    }
-  }, [versionFilter, lastVersionFilter]);
+  const showAsPercentageKey = `PackageCard.showAsPercentage-${identifier}-${versionFilter}`;
+  const [showAsPercentage, setShowAsPercentage] = usePersistentState(
+    showAsPercentageKey,
+    false
+  );
 
   const history = useHistory(identifier, versionFilter);
   const packageDesc = packages[identifier];

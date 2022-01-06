@@ -13,6 +13,7 @@ import {
 import { ThemeProvider } from "@fluentui/react";
 
 import type {} from "react/experimental";
+import usePersistentState from "../hooks/usePersistentState";
 
 const navItems: NavPivotItem<VersionFilter>[] = [
   { label: "Major", key: "major" },
@@ -21,8 +22,12 @@ const navItems: NavPivotItem<VersionFilter>[] = [
 ];
 
 function App() {
-  const [versionFilter, setVersionFilter] = useState<VersionFilter>("major");
-  const [darkMode, setDarkMode] = useState(
+  const [versionFilter, setVersionFilter] = usePersistentState<VersionFilter>(
+    "App.versionFilter",
+    "major"
+  );
+  const [darkMode, setDarkMode] = usePersistentState(
+    "App.darkMode",
     window.matchMedia("(prefers-color-scheme: dark)").matches
   );
 
@@ -35,6 +40,7 @@ function App() {
     >
       <NavBar
         items={navItems}
+        selectedItem={versionFilter}
         onItemSelected={(version) => setVersionFilter(version)}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}

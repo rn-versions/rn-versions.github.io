@@ -20,6 +20,7 @@ import TooltipButton from "./TooltipButton";
 
 export type NavBarProps<ItemKey extends string> = {
   items: NavPivotItem<ItemKey>[];
+  selectedItem?: ItemKey;
   onItemSelected?: (key: ItemKey) => void;
   darkMode?: boolean;
   onToggleDarkMode?: () => void;
@@ -84,6 +85,7 @@ const NavBar = <ItemKey extends string>(props: NavBarProps<ItemKey>) => {
           <Pivot
             headersOnly
             className={styles.pivot}
+            selectedKey={props.selectedItem}
             onLinkClick={(item) => {
               window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
               if (props.onItemSelected) {
