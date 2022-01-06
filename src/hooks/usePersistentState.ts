@@ -4,22 +4,28 @@ export default function usePersistentState<T>(
   storageKey: string,
   defaultValue?: T
 ) {
-  const [state, setState] = useState(defaultValue);
-
   const storedStateStr = localStorage.getItem(storageKey);
   const storedState =
     storedStateStr === null ? null : JSON.parse(storedStateStr);
 
-  useEffect(() => {
-    if (storedState && storedState !== state) {
-      setState(storedState);
-    }
-  }, [storedState, state]);
+  const [state, setState] = useState(storedState ?? defaultValue);
+  const [lastStorageKey, setLastStorageKey] = useState<string>();
 
-  const setAndPersistState: typeof setState = (newState) => {
-    setState(newState);
+  useEffect(() => {
+    if (lastStorageKey !== storageKey) {
+      setState(storedState ?? defaultValue);
+      setLastStorageKey(lastStorageKey);
+    }
+  }, [defaultValue, lastStorageKey, storageKey, storedState]);
+
+  const setAndPersistState = (newState: T) => {
     localStorage.setItem(storageKey, JSON.stringify(newState));
+    setState(newState);
   };
 
-  return [storedState ?? state, setAndPersistState] as const;
+  if (storageKey === lastStorageKey) {
+    return [state, setAndPersistState] as const;
+  } else {
+    return [storedState ?? defaultValue, setAndPersistState] as const;
+  }
 }

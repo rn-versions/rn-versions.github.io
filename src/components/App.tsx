@@ -1,4 +1,4 @@
-import { useState, useDeferredValue } from "react";
+import { useDeferredValue } from "react";
 import styles from "../styles/App.module.scss";
 import PackageCard, { VersionFilter } from "./PackageCard";
 
