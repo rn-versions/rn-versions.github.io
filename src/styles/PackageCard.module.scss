@@ -133,6 +133,10 @@
   font-size: 10pt;
 }
 
-.innerChartContainer {
+.invisibleChart {
+  opacity: 0
+}
+
+.visibleChart {
   @include ms-motion-fadeIn;
 }

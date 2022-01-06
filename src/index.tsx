@@ -4,11 +4,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App";
 
+import type {} from "react-dom/experimental";
+
 HistoryReader.prefetch();
 
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById("app")!).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-  document.getElementById("app")!
+  </React.StrictMode>
 );

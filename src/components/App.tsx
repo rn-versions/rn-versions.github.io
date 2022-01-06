@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useDeferredValue } from "react";
 import styles from "../styles/App.module.scss";
 import PackageCard, { VersionFilter } from "./PackageCard";
 
@@ -12,6 +12,8 @@ import {
 } from "../styles/Themes";
 import { ThemeProvider } from "@fluentui/react";
 
+import type {} from "react/experimental";
+
 const navItems: NavPivotItem<VersionFilter>[] = [
   { label: "Major", key: "major" },
   { label: "Patch", key: "patch" },
@@ -23,6 +25,8 @@ function App() {
   const [darkMode, setDarkMode] = useState(
     window.matchMedia("(prefers-color-scheme: dark)").matches
   );
+
+  const deferredVersionFilter = useDeferredValue(versionFilter);
 
   return (
     <ThemeProvider
@@ -42,7 +46,7 @@ function App() {
           {Object.keys(packages).map((pkg) => (
             <PackageCard
               identifier={pkg as PackageIdentifier}
-              versionFilter={versionFilter}
+              versionFilter={deferredVersionFilter}
               key={pkg}
               theme={darkMode ? darkTheme : whiteTheme}
               tooltipTheme={darkMode ? blackTheme : lightTheme}

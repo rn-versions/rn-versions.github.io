@@ -18,7 +18,7 @@ import type { HistoryPointCollection, HistoryPoint } from "../HistoryReader";
 import { ITheme } from "@fluentui/react";
 
 import { createPortal } from "react-dom";
-import { createLegendContent } from "./VersionLegend";
+import VersionLegend from "./VersionLegend";
 
 export type Unit = "totalDownloads" | "percentage";
 
@@ -26,9 +26,14 @@ export type VersionLabeler = (version: string) => string;
 
 export type VersionDownloadChartProps = {
   /**
+   * Class wrapping the chart
+   */
+  className?: string;
+
+  /**
    * Points to render
    */
-  history: HistoryPointCollection;
+  history?: HistoryPointCollection;
 
   /**
    * Maximum duration the graph will show, in days
@@ -77,6 +82,7 @@ export type VersionDownloadChartProps = {
 };
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
+  className,
   history,
   maxDaysShown,
   maxVersionsShown,
@@ -99,14 +105,20 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
   const dateTicks = React.useMemo(
     () =>
-      calculateDateTicks(
-        filteredHistory.points.map((p) => p.date),
-        maxTicks ?? 6
-      ),
-    [filteredHistory.points, maxTicks]
+      !filteredHistory
+        ? []
+        : calculateDateTicks(
+            filteredHistory.points.map((p) => p.date),
+            maxTicks ?? 6
+          ),
+    [filteredHistory, maxTicks]
   );
 
   const versionHues = React.useMemo(() => {
+    if (!filteredHistory) {
+      return {};
+    }
+
     const hues: Record<string, number> = {};
     let lastAvoidToken: AvoidToken | undefined;
 
@@ -117,39 +129,35 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     });
 
     return hues;
-  }, [filteredHistory.versions, versionLabeler]);
+  }, [filteredHistory, versionLabeler]);
 
   const chartAreas = React.useMemo(
     () =>
-      filteredHistory.versions
-        .map((v) => {
-          const name = versionLabeler ? versionLabeler(v) : v;
-          const hue = versionHues[name];
-          const colorVariant = theme?.isInverted ? "dark" : "light";
-          const fill = colorForHue(hue, {
-            variant: colorVariant,
-            targetLuminance: theme?.isInverted
-              ? "contrasts-light"
-              : "contrasts-dark",
-          });
-          return { name, hue, fill, dataKey: v };
-        })
-        .reverse(),
-    [filteredHistory.versions, theme?.isInverted, versionHues, versionLabeler]
+      !filteredHistory
+        ? []
+        : filteredHistory.versions
+            .map((v) => {
+              const name = versionLabeler ? versionLabeler(v) : v;
+              const hue = versionHues[name];
+              const colorVariant = theme?.isInverted ? "dark" : "light";
+              const fill = colorForHue(hue, {
+                variant: colorVariant,
+                targetLuminance: theme?.isInverted
+                  ? "contrasts-light"
+                  : "contrasts-dark",
+              });
+              return { name, hue, fill, dataKey: v };
+            })
+            .reverse(),
+    [filteredHistory, theme?.isInverted, versionHues, versionLabeler]
   );
 
-  if (filteredHistory.points.length === 0) {
-    return null;
-  }
-
-  const VersionLegend = React.memo(createLegendContent({ versionHues }));
-
   return (
-    <div>
+    <div className={className}>
       <ResponsiveContainer {...styles.responsiveContainer}>
         <AreaChart
           {...styles.areaChart}
-          data={filteredHistory.points}
+          data={filteredHistory?.points}
           reverseStackOrder
           stackOffset={unit === "percentage" ? "expand" : "none"}
         >
@@ -197,7 +205,12 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
               height={0}
               content={({ payload }) =>
                 createPortal(
-                  payload && <VersionLegend payload={payload} />,
+                  payload && (
+                    <VersionLegend
+                      payload={payload}
+                      versionHues={versionHues}
+                    />
+                  ),
                   legendElement
                 )
               }
@@ -271,11 +284,11 @@ function fromDayStart(date: number, duration: number): number {
 }
 
 function filterTopN(
-  history: HistoryPointCollection,
+  history: HistoryPointCollection | undefined,
   n: number,
   windowInDays: number
-): HistoryPointCollection {
-  if (history.points.length === 0) {
+): HistoryPointCollection | undefined {
+  if (!history || history.points.length === 0) {
     return history;
   }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, startTransition } from "react";
 import styles from "../styles/PackageCard.module.scss";
 
 import { Text, ThemeProvider, ITheme, Shimmer } from "@fluentui/react";
@@ -11,6 +11,8 @@ import { lightTheme } from "../styles/Themes";
 import useHistory from "../hooks/useHistory";
 import useVersionDownloadChart from "../hooks/useVersionDownloadChart";
 import TooltipButton from "./TooltipButton";
+
+import type {} from "react/experimental";
 
 export type VersionFilter = "major" | "patch" | "prerelease";
 
@@ -32,6 +34,16 @@ function maxDays(versionFilter: VersionFilter) {
   }
 }
 
+const ChartFallback: React.FC = () => (
+  <div className={styles.silhouette}>
+    <div className={styles.shimmerRoot}>
+      {new Array(10).fill(null).map((_, i) => (
+        <Shimmer key={i} />
+      ))}
+    </div>
+  </div>
+);
+
 const PackageCard: React.FC<PackageCardProps> = ({
   identifier,
   versionFilter,
@@ -52,8 +64,14 @@ const PackageCard: React.FC<PackageCardProps> = ({
   const history = useHistory(identifier, versionFilter);
   const packageDesc = packages[identifier];
 
-  const isDataLoaded =
-    history !== undefined && VersionDownloadChart !== undefined;
+  const [dataIsReady, setDataIsReady] = useState(false);
+  useEffect(() => {
+    if (history && !!VersionDownloadChart) {
+      startTransition(() => setDataIsReady(true));
+    }
+  });
+
+  const disabled = !dataIsReady || (history && history.points.length === 0);
 
   return (
     <CardFrame
@@ -73,36 +91,27 @@ const PackageCard: React.FC<PackageCardProps> = ({
             toggle
             content="Show as percentage"
             aria-label="Show as percentage"
-            disabled={!history || history.points.length === 0}
+            disabled={disabled}
             onRenderIcon={() => <CalculatorPercentageIcon />}
             checked={showAsPercentage}
             onClick={() => setShowAsPercentage(!showAsPercentage)}
           />
         </div>
       </div>
-
       <div className={styles.chartContainer}>
-        <div className={styles.silhouette}>
-          <div className={styles.shimmerRoot}>
-            {new Array(10).fill(null).map((_, i) => (
-              <Shimmer isDataLoaded={isDataLoaded} key={i} />
-            ))}
-          </div>
-        </div>
-
-        {isDataLoaded && (
-          <div className={styles.innerChartContainer}>
-            <VersionDownloadChart
-              history={history}
-              maxDaysShown={maxDays(versionFilter)}
-              maxVersionsShown={6}
-              maxTicks={4}
-              unit={showAsPercentage ? "percentage" : "totalDownloads"}
-              versionLabeler={packageDesc.versionLabeler}
-              theme={theme}
-              tooltipTheme={tooltipTheme}
-            />
-          </div>
+        {!dataIsReady && <ChartFallback />}
+        {VersionDownloadChart && (
+          <VersionDownloadChart
+            className={!disabled ? styles.visibleChart : styles.invisibleChart}
+            history={history}
+            maxDaysShown={maxDays(versionFilter)}
+            maxVersionsShown={6}
+            maxTicks={4}
+            unit={showAsPercentage ? "percentage" : "totalDownloads"}
+            versionLabeler={packageDesc.versionLabeler}
+            theme={theme}
+            tooltipTheme={tooltipTheme}
+          />
         )}
       </div>
     </CardFrame>
