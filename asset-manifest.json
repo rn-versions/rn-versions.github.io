@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.7dde0c79.js",
-    "@types_react-native.js": "/static/js/@types_react-native.38895267.chunk.js",
-    "react-native.js": "/static/js/react-native.16b8e11f.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.b30d4b29.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.dcd45f09.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.111d1a49.chunk.js",
+    "main.js": "/static/js/main.4848123f.js",
+    "@types_react-native.js": "/static/js/@types_react-native.2387a13c.chunk.js",
+    "react-native.js": "/static/js/react-native.f207761b.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.1588adff.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.414e412d.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.6f14d622.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.b29a37ec.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.d4733819.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.7dde0c79.js.map": "/static/js/main.7dde0c79.js.map",
+    "main.4848123f.js.map": "/static/js/main.4848123f.js.map",
     "VersionDownloadChart.b29a37ec.chunk.css.map": "/static/css/VersionDownloadChart.b29a37ec.chunk.css.map",
     "VersionDownloadChart.d4733819.chunk.js.map": "/static/js/VersionDownloadChart.d4733819.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -21,6 +21,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.7dde0c79.js"
+    "static/js/main.4848123f.js"
   ]
 }
