@@ -76,11 +76,11 @@ export const VersionTooltipContent: React.FC<
 
               return (
                 <li key={i} className={styles.versionsListItem}>
-                  <div
-                    className={styles.versionColorIndicator}
-                    style={{ backgroundColor: colorChipColor }}
-                  />
-                  <Text variant="small" className={styles.versionLabel}>
+                  <Text
+                    variant="small"
+                    className={styles.versionLabel}
+                    style={{ color: colorChipColor }}
+                  >
                     {entry.name}
                   </Text>
                   <Text variant="small" className={styles.versionCount}>
