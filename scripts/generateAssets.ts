@@ -91,6 +91,8 @@ async function generateWebpageAssets() {
       `${packageName.replace(/\//g, "_")}.json`
     );
 
+    console.log(historyAssetPath);
+
     const historyFile: AssetHistoryFile = {
       epoch,
       versions,
