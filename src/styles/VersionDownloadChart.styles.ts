@@ -61,13 +61,11 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
     strokeDasharray: "1 1",
   },
   xAxis: {
-    height: 32,
     tickLine: false,
     tickMargin: 10,
     tick: { fill: theme?.semanticColors.bodyText },
   },
   yAxis: {
-    width: 80,
     tickLine: false,
     tickMargin: 10,
     tickSize: 0,

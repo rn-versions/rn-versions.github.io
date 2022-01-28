@@ -186,7 +186,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
                 }
               : {
                   domain: ["auto", "auto"],
-                  tickFormatter: (count) => count.toLocaleString(),
+                  tickFormatter: formatDownloadCountTicks,
                 })}
           />
 
@@ -236,6 +236,18 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     </div>
   );
 };
+
+function formatDownloadCountTicks(count: number) {
+  if (!count) {
+    return "";
+  } else if (count >= 1000000) {
+    return `${(count / 1000000).toLocaleString()} m`;
+  } else if (count >= 1000) {
+    return `${(count / 1000).toLocaleString()} k`;
+  } else {
+    return count.toLocaleString();
+  }
+}
 
 function calculateDateTicks(dates: number[], maxTicks: number): number[] {
   if (maxTicks === 0) {
