@@ -111,6 +111,11 @@ export default class HistoryReader {
           /* webpackChunkName: "react-native-windows" */
           "./generated_assets/react-native-windows.json"
         );
+      case "expo":
+        return import(
+          /* webpackChunkName: "expo" */
+          "./generated_assets/expo.json"
+        );
     }
   }
 
