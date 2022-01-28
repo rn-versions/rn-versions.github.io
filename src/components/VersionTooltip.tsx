@@ -89,6 +89,16 @@ export const VersionTooltipContent: React.FC<
                 </li>
               );
             })}
+            <li key="sum" className={styles.versionsListItem}>
+              <Text variant="small" className={styles.versionLabel}>
+                Total
+              </Text>
+              <Text variant="small" className={styles.versionCount}>
+                {reversedItems
+                  .reduce((prev, curr) => prev + (curr.value || 0), 0)
+                  .toLocaleString()}
+              </Text>
+            </li>
           </ul>
         );
 
