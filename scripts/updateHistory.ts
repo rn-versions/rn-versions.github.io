@@ -192,7 +192,7 @@ async function recordVersionCounts(
       versions: counts,
     });
 
-    const timedHistoryPath = historyTimestampPath(`${pkg},json`);
+    const timedHistoryPath = historyTimestampPath(`${pkg}.json`);
     await fs.mkdir(path.dirname(timedHistoryPath), { recursive: true });
     await fs.writeFile(timedHistoryPath, JSON.stringify(counts, null, 2));
   }
