@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.e1c12bce.js",
-    "@types_react-native.js": "/static/js/@types_react-native.48ec8581.chunk.js",
-    "react-native.js": "/static/js/react-native.3489e2a2.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.a1b95963.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.e9230a9e.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.a1b500bd.chunk.js",
-    "expo.js": "/static/js/expo.226344a5.chunk.js",
+    "main.js": "/static/js/main.3ca230b6.js",
+    "@types_react-native.js": "/static/js/@types_react-native.f99f60dd.chunk.js",
+    "react-native.js": "/static/js/react-native.471c2ed7.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.7399c2ba.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.f0a674cd.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.3a813ef8.chunk.js",
+    "expo.js": "/static/js/expo.fdbdb4d7.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.b29a37ec.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.b4a01dc6.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.e1c12bce.js.map": "/static/js/main.e1c12bce.js.map",
+    "main.3ca230b6.js.map": "/static/js/main.3ca230b6.js.map",
     "VersionDownloadChart.b29a37ec.chunk.css.map": "/static/css/VersionDownloadChart.b29a37ec.chunk.css.map",
     "VersionDownloadChart.b4a01dc6.chunk.js.map": "/static/js/VersionDownloadChart.b4a01dc6.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.e1c12bce.js"
+    "static/js/main.3ca230b6.js"
   ]
 }
