@@ -142,7 +142,12 @@ function compareVersion(v1: string, v2: string): -1 | 0 | 1 {
 }
 
 function isCanaryComparable(version: string): boolean {
-  const pre = semver.prerelease(version)?.[0] as string;
+  const pre = semver.prerelease(version)?.[0];
+
+  if (typeof pre !== "string") {
+    return false;
+  }
+
   return pre.split("-").length === 3 || pre === "canary";
 }
 
