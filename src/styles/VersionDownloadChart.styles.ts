@@ -42,7 +42,7 @@ export type VersionDownloadChartStyle = (opts?: {
 
 const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
   areaChart: {
-    margin: { top: 15, right: 32, bottom: 5 },
+    margin: { top: 15, right: 28, bottom: 5 },
   },
   area: {
     isAnimationActive: false,
@@ -52,7 +52,7 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
   },
   responsiveContainer: {
     width: "100%",
-    height: 220,
+    height: 228,
   },
   grid: {
     stroke: theme?.isInverted
@@ -62,6 +62,7 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
   },
   xAxis: {
     tickLine: false,
+    tickSize: 4,
     tickMargin: 10,
     tick: { fill: theme?.semanticColors.bodyText },
   },
@@ -70,6 +71,7 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
     tickMargin: 10,
     tickSize: 0,
     tickCount: 5,
+    width: 52,
     tick: { fill: theme?.semanticColors.bodyText },
   },
   tooltip: {
