@@ -226,7 +226,9 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
               name={name}
               key={name}
               dataKey={(datapoint) =>
-                hiddenSeries.includes(dataKey)
+                hiddenSeries.includes(
+                  versionLabeler ? versionLabeler(dataKey) : dataKey
+                )
                   ? undefined
                   : datapoint.versionCounts[dataKey]
               }
