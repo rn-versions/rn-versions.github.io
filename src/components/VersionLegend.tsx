@@ -43,8 +43,8 @@ const VersionLegend: React.FC<VersionLegendProps> = ({
                   key={value}
                   className={styles.versionsListItem}
                   onClick={() =>
-                    setHiddenSeries((hiddenSeries: string[]) =>
-                      hiddenSeries.includes(value)
+                    setHiddenSeries(() =>
+                      isHidden
                         ? hiddenSeries.filter((key: string) => key !== value)
                         : hiddenSeries.concat(value)
                     )
