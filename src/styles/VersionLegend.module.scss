@@ -13,7 +13,7 @@
   flex-wrap: wrap;
 
   justify-content: left;
-  gap: 0 20px;
+  gap: 0 16px;
 
   margin: 5px 10px 0 10px;
   padding: 10px 20px;
@@ -25,6 +25,10 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .versionColorIndicator {
