@@ -24,12 +24,14 @@
   padding: 0;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
 .versionColorIndicator {
   display: inline-block;
-  width: 4px;
-  height: 1em;
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
   margin-right: 4px;
   vertical-align: middle;
 }
