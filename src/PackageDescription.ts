@@ -69,18 +69,6 @@ function isAlphaOrBeta(version: string): boolean {
   return version.includes("alpha") || version.includes("beta");
 }
 
-function alphaBetaVersionLabeler(version: string): string {
-  const major = version.split(".")![0];
-
-  if (version.includes("alpha")) {
-    return `${major}@alpha`;
-  } else if (version.includes("beta")) {
-    return `${major}@beta`;
-  }
-
-  return version;
-}
-
 const isNightly = (v: string) => semver.lt(v, "0.0.0");
 const minVersion = (v: string, min: string) =>
   semver.gte(v, `${min}.0`, {
@@ -116,7 +104,6 @@ const packagesLiteral = {
   expo: {
     friendlyName: "Expo",
     versionFilter: (v: string) => minVersion(v, "40.0") || isAlphaOrBeta(v),
-    versionLabeler: alphaBetaVersionLabeler,
   },
 };
 
