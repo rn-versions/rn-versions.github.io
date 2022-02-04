@@ -105,6 +105,12 @@ const packagesLiteral = {
     friendlyName: "Expo",
     versionFilter: (v: string) => minVersion(v, "40.0") || isAlphaOrBeta(v),
   },
+  "@office-iss/react-native-win32": {
+    friendlyName: "React Native NetUI",
+    versionFilter: (v: string) =>
+      (minVersion(v, "0.63") || isNightly(v)) && v !== "1.0.0",
+    versionLabeler: canaryVersionLabeler,
+  },
 };
 
 export const packages: Record<PackageIdentifier, PackageDescription> =
