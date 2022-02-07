@@ -116,11 +116,6 @@ export default class HistoryReader {
           /* webpackChunkName: "expo" */
           "./generated_assets/expo.json"
         );
-      case "@office-iss/react-native-win32":
-        return import(
-          /* webpackChunkName: "react-native-win32" */
-          "./generated_assets/@office-iss_react-native-win32.json"
-        );
     }
   }
 
