@@ -97,6 +97,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   const styles = styleProps({ theme, unit });
 
   const [legendElement, setLegendElement] = useState<HTMLDivElement>();
+  const [hiddenSeries, setHiddenSeries] = useState<string[]>([]);
 
   const filteredHistory = React.useMemo(
     () => filterTopN(history, maxVersionsShown ?? 5, maxDaysShown ?? 30),
@@ -209,6 +210,8 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
                     <VersionLegend
                       payload={payload}
                       versionHues={versionHues}
+                      hiddenSeries={hiddenSeries}
+                      setHiddenSeries={setHiddenSeries}
                     />
                   ),
                   legendElement
@@ -222,7 +225,13 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
               {...styles.area}
               name={name}
               key={name}
-              dataKey={(datapoint) => datapoint.versionCounts[dataKey]}
+              dataKey={(datapoint) =>
+                hiddenSeries.includes(
+                  versionLabeler ? versionLabeler(dataKey) : dataKey
+                )
+                  ? undefined
+                  : datapoint.versionCounts[dataKey]
+              }
               stackId="1"
               fill={fill}
               fillOpacity={1}
