@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.aa2a9bd2.js",
-    "@types_react-native.js": "/static/js/@types_react-native.61e84233.chunk.js",
-    "react-native.js": "/static/js/react-native.202f79f5.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.fa8a0fb8.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.2fdfc0c2.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.b9b861a1.chunk.js",
-    "expo.js": "/static/js/expo.700c639f.chunk.js",
+    "main.js": "/static/js/main.6525b4f1.js",
+    "@types_react-native.js": "/static/js/@types_react-native.fe6a116c.chunk.js",
+    "react-native.js": "/static/js/react-native.816e5b5e.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.57a01c33.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.9f99f5d0.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.2258f5c5.chunk.js",
+    "expo.js": "/static/js/expo.ee3b31c3.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.9c343b38.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.aa2a9bd2.js.map": "/static/js/main.aa2a9bd2.js.map",
+    "main.6525b4f1.js.map": "/static/js/main.6525b4f1.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.9c343b38.chunk.js.map": "/static/js/VersionDownloadChart.9c343b38.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.aa2a9bd2.js"
+    "static/js/main.6525b4f1.js"
   ]
 }
