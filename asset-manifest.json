@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.f05ecbc6.js",
-    "@types_react-native.js": "/static/js/@types_react-native.9ac98ff9.chunk.js",
-    "react-native.js": "/static/js/react-native.73c77f07.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.ee182384.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.c9686049.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.d0e1d95d.chunk.js",
-    "expo.js": "/static/js/expo.32072eb0.chunk.js",
+    "main.js": "/static/js/main.70856985.js",
+    "@types_react-native.js": "/static/js/@types_react-native.bf681225.chunk.js",
+    "react-native.js": "/static/js/react-native.0e7d30bf.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.3f645fc1.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.82d40798.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.20a22f2b.chunk.js",
+    "expo.js": "/static/js/expo.35cbc96a.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.9c343b38.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.f05ecbc6.js.map": "/static/js/main.f05ecbc6.js.map",
+    "main.70856985.js.map": "/static/js/main.70856985.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.9c343b38.chunk.js.map": "/static/js/VersionDownloadChart.9c343b38.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.f05ecbc6.js"
+    "static/js/main.70856985.js"
   ]
 }
