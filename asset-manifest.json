@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.0beaee39.js",
-    "@types_react-native.js": "/static/js/@types_react-native.c98d52f0.chunk.js",
-    "react-native.js": "/static/js/react-native.53aff94a.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.754cbf02.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.088a4c65.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.6aebfc1c.chunk.js",
-    "expo.js": "/static/js/expo.58c42e84.chunk.js",
+    "main.js": "/static/js/main.8498adf5.js",
+    "@types_react-native.js": "/static/js/@types_react-native.3f53767f.chunk.js",
+    "react-native.js": "/static/js/react-native.bba7195e.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.40f8c378.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.4e3f60fe.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.00a9f368.chunk.js",
+    "expo.js": "/static/js/expo.a3512db8.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.9c343b38.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.0beaee39.js.map": "/static/js/main.0beaee39.js.map",
+    "main.8498adf5.js.map": "/static/js/main.8498adf5.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.9c343b38.chunk.js.map": "/static/js/VersionDownloadChart.9c343b38.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.0beaee39.js"
+    "static/js/main.8498adf5.js"
   ]
 }
