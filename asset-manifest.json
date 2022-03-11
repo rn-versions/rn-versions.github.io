@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.22f4621e.js",
-    "@types_react-native.js": "/static/js/@types_react-native.27d01cad.chunk.js",
-    "react-native.js": "/static/js/react-native.07ef570d.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.96f80aa8.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.e466fdaa.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.cffa9abc.chunk.js",
-    "expo.js": "/static/js/expo.482a7c98.chunk.js",
+    "main.js": "/static/js/main.d914c91d.js",
+    "@types_react-native.js": "/static/js/@types_react-native.6058ec99.chunk.js",
+    "react-native.js": "/static/js/react-native.db8e3a18.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.77c53d25.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.b1d0fbbe.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.a6d6be59.chunk.js",
+    "expo.js": "/static/js/expo.525d4c7e.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.9c343b38.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.22f4621e.js.map": "/static/js/main.22f4621e.js.map",
+    "main.d914c91d.js.map": "/static/js/main.d914c91d.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.9c343b38.chunk.js.map": "/static/js/VersionDownloadChart.9c343b38.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.22f4621e.js"
+    "static/js/main.d914c91d.js"
   ]
 }
