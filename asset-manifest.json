@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.3136dcee.js",
-    "@types_react-native.js": "/static/js/@types_react-native.494e132c.chunk.js",
-    "react-native.js": "/static/js/react-native.f2db4502.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.70e426ef.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.da5847a8.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.023fac4c.chunk.js",
-    "expo.js": "/static/js/expo.ed0621f4.chunk.js",
+    "main.js": "/static/js/main.ed3608e9.js",
+    "@types_react-native.js": "/static/js/@types_react-native.3a30e0bd.chunk.js",
+    "react-native.js": "/static/js/react-native.7f1ab61d.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.f3eed098.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.e133cf10.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.7b53a109.chunk.js",
+    "expo.js": "/static/js/expo.06e87f8a.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.9c343b38.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.3136dcee.js.map": "/static/js/main.3136dcee.js.map",
+    "main.ed3608e9.js.map": "/static/js/main.ed3608e9.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.9c343b38.chunk.js.map": "/static/js/VersionDownloadChart.9c343b38.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.3136dcee.js"
+    "static/js/main.ed3608e9.js"
   ]
 }
