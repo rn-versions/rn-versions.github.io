@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.78da790c.js",
-    "@types_react-native.js": "/static/js/@types_react-native.8163e108.chunk.js",
-    "react-native.js": "/static/js/react-native.b36e8920.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.57c21634.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.b45c3412.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.6d5c8401.chunk.js",
-    "expo.js": "/static/js/expo.bc10c034.chunk.js",
+    "main.js": "/static/js/main.7baceaf9.js",
+    "@types_react-native.js": "/static/js/@types_react-native.a7d2819d.chunk.js",
+    "react-native.js": "/static/js/react-native.21c48455.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.152f7498.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.65322e9d.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.1c7e70cd.chunk.js",
+    "expo.js": "/static/js/expo.f0096a93.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.9c343b38.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.78da790c.js.map": "/static/js/main.78da790c.js.map",
+    "main.7baceaf9.js.map": "/static/js/main.7baceaf9.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.9c343b38.chunk.js.map": "/static/js/VersionDownloadChart.9c343b38.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.78da790c.js"
+    "static/js/main.7baceaf9.js"
   ]
 }
