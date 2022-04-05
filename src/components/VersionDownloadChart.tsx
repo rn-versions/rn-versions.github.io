@@ -46,9 +46,20 @@ export type VersionDownloadChartProps = {
   maxTicks?: number;
 
   /**
-   * Maximum separate versions show, attempting to show most popular versions.
+   * The maximum number of "popular" versions show (see below).
    */
   maxVersionsShown?: number;
+
+  /**
+   * Controls how "popular" versions are selected
+   *
+   * "all" (Default): Examine and rank all versions that exist in the time-span
+   * shown, ranking by sum of downloads/week measurements
+   *
+   * "most-recent": Select versions from the most recent polling-time, ranking
+   * by downloads/week
+   */
+  popularDuring?: "all" | "most-recent";
 
   /**
    * Whether to show the legend (defaults to true)
@@ -86,6 +97,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   history,
   maxDaysShown,
   maxVersionsShown,
+  popularDuring,
   maxTicks,
   showLegend,
   showTooltip,
@@ -100,8 +112,14 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   const [hiddenSeries, setHiddenSeries] = useState<string[]>([]);
 
   const filteredHistory = React.useMemo(
-    () => filterTopN(history, maxVersionsShown ?? 5, maxDaysShown ?? 30),
-    [history, maxDaysShown, maxVersionsShown]
+    () =>
+      filterTopN(
+        history,
+        maxVersionsShown ?? 5,
+        maxDaysShown ?? 30,
+        popularDuring
+      ),
+    [history, maxDaysShown, maxVersionsShown, popularDuring]
   );
 
   const dateTicks = React.useMemo(
@@ -307,7 +325,8 @@ function fromDayStart(date: number, duration: number): number {
 function filterTopN(
   history: HistoryPointCollection | undefined,
   n: number,
-  windowInDays: number
+  windowInDays: number,
+  popularDuring?: "all" | "most-recent"
 ): HistoryPointCollection | undefined {
   if (!history || history.points.length === 0) {
     return history;
@@ -315,21 +334,15 @@ function filterTopN(
 
   const latestDate = history.points[history.points.length - 1].date;
   const latestDay = new Date(latestDate).setHours(0, 0, 0, 0);
-
   const earliestAllowableDate = latestDay - windowInDays * 24 * 60 * 60 * 1000;
-  const versionsInWindow: { [version: string]: number | undefined } = {};
 
-  for (const point of history.points) {
-    if (point.date >= earliestAllowableDate) {
-      for (const [version, count] of Object.entries(point.versionCounts)) {
-        const existingCount = versionsInWindow[version] ?? 0;
-        versionsInWindow[version] = existingCount + count!;
-      }
-    }
-  }
+  const popularVersions =
+    popularDuring === "most-recent"
+      ? versionsInWindow(history, latestDate)
+      : versionsInWindow(history, earliestAllowableDate);
 
   const topVersions = new Set(
-    Object.entries(versionsInWindow)
+    Object.entries(popularVersions)
       .sort((a, b) => a[1]! - b[1]!)
       .slice(-n)
       .map(([version, _count]) => version)
@@ -363,6 +376,24 @@ function filterTopN(
     versions: history.versions.filter((v) => topVersions.has(v)),
     points: filteredPoints,
   };
+}
+
+function versionsInWindow(
+  history: HistoryPointCollection,
+  earliestAllowableDate: number
+): { [version: string]: number | undefined } {
+  const versions: { [version: string]: number | undefined } = {};
+
+  for (const point of history.points) {
+    if (point.date >= earliestAllowableDate) {
+      for (const [version, count] of Object.entries(point.versionCounts)) {
+        const existingCount = versions[version] ?? 0;
+        versions[version] = existingCount + count!;
+      }
+    }
+  }
+
+  return versions;
 }
 
 export default VersionDownloadChart;
