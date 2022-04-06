@@ -42,6 +42,17 @@ function maxDays(versionFilter: VersionFilter) {
   }
 }
 
+function popularDuring(versionFilter: VersionFilter): "most-recent" | "all" {
+  switch (versionFilter) {
+    case "major":
+      return "most-recent";
+    case "patch":
+      return "all";
+    case "prerelease":
+      return "all";
+  }
+}
+
 const ChartFallback: React.FC = () => (
   <div className={styles.silhouette}>
     <div className={styles.shimmerRoot}>
@@ -109,6 +120,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
             history={dataIsReady ? history : undefined}
             maxDaysShown={maxDays(versionFilter)}
             maxVersionsShown={6}
+            popularDuring={popularDuring(versionFilter)}
             maxTicks={4}
             unit={showAsPercentage ? "percentage" : "totalDownloads"}
             versionLabeler={packageDesc.versionLabeler}
