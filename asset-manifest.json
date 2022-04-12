@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.39258927.js",
-    "@types_react-native.js": "/static/js/@types_react-native.54cd9710.chunk.js",
-    "react-native.js": "/static/js/react-native.e8fbd5cc.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.913ff2dc.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.669a7595.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.98d650f5.chunk.js",
-    "expo.js": "/static/js/expo.7efa4c06.chunk.js",
+    "main.js": "/static/js/main.8cdd357b.js",
+    "@types_react-native.js": "/static/js/@types_react-native.e65b1c5e.chunk.js",
+    "react-native.js": "/static/js/react-native.9d0baad7.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.f5f1f7a3.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.46f789f5.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.bd94f065.chunk.js",
+    "expo.js": "/static/js/expo.0de626d8.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.39258927.js.map": "/static/js/main.39258927.js.map",
+    "main.8cdd357b.js.map": "/static/js/main.8cdd357b.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.39258927.js"
+    "static/js/main.8cdd357b.js"
   ]
 }
