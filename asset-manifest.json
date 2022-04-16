@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.23870324.js",
-    "@types_react-native.js": "/static/js/@types_react-native.9a4784b3.chunk.js",
-    "react-native.js": "/static/js/react-native.5ee384c0.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.e0c64fac.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.30186afa.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.81dcc3fe.chunk.js",
-    "expo.js": "/static/js/expo.31c2ad8c.chunk.js",
+    "main.js": "/static/js/main.fe4b46ab.js",
+    "@types_react-native.js": "/static/js/@types_react-native.b53bc049.chunk.js",
+    "react-native.js": "/static/js/react-native.14f2f4c4.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.5dd5aba5.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.baab47a7.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.63f91c42.chunk.js",
+    "expo.js": "/static/js/expo.529836ea.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.23870324.js.map": "/static/js/main.23870324.js.map",
+    "main.fe4b46ab.js.map": "/static/js/main.fe4b46ab.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.23870324.js"
+    "static/js/main.fe4b46ab.js"
   ]
 }
