@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.00f7e01e.js",
-    "@types_react-native.js": "/static/js/@types_react-native.2b6e190d.chunk.js",
-    "react-native.js": "/static/js/react-native.a107e6ab.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.c6ed35ac.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.b27305b8.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.b2250b37.chunk.js",
-    "expo.js": "/static/js/expo.b1fa8995.chunk.js",
+    "main.js": "/static/js/main.713d97b0.js",
+    "@types_react-native.js": "/static/js/@types_react-native.eb75edab.chunk.js",
+    "react-native.js": "/static/js/react-native.047bd7ec.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.cd50a15c.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.b15a82d3.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.d0864c0f.chunk.js",
+    "expo.js": "/static/js/expo.0a313696.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.00f7e01e.js.map": "/static/js/main.00f7e01e.js.map",
+    "main.713d97b0.js.map": "/static/js/main.713d97b0.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.00f7e01e.js"
+    "static/js/main.713d97b0.js"
   ]
 }
