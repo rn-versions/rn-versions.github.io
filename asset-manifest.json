@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.73533380.js",
-    "@types_react-native.js": "/static/js/@types_react-native.95f70d6a.chunk.js",
-    "react-native.js": "/static/js/react-native.c342a3fa.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.4f6728c0.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.dad0081e.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.39534643.chunk.js",
-    "expo.js": "/static/js/expo.4fac1af7.chunk.js",
+    "main.js": "/static/js/main.1a74e342.js",
+    "@types_react-native.js": "/static/js/@types_react-native.bfae675a.chunk.js",
+    "react-native.js": "/static/js/react-native.d9e5c7c6.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.cf8e55bf.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.02a848e5.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.512794d3.chunk.js",
+    "expo.js": "/static/js/expo.f9279a65.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.73533380.js.map": "/static/js/main.73533380.js.map",
+    "main.1a74e342.js.map": "/static/js/main.1a74e342.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.73533380.js"
+    "static/js/main.1a74e342.js"
   ]
 }
