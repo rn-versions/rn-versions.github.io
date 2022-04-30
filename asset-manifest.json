@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.569815a3.js",
-    "@types_react-native.js": "/static/js/@types_react-native.55459767.chunk.js",
-    "react-native.js": "/static/js/react-native.efa4d1ab.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.6e73b5ae.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.4ef0e8b4.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.6a7e5761.chunk.js",
-    "expo.js": "/static/js/expo.efd7909d.chunk.js",
+    "main.js": "/static/js/main.d1d41e42.js",
+    "@types_react-native.js": "/static/js/@types_react-native.0b872eff.chunk.js",
+    "react-native.js": "/static/js/react-native.94aaaf0c.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.531371e7.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.decf94cc.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.114d5433.chunk.js",
+    "expo.js": "/static/js/expo.87cd5f13.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.569815a3.js.map": "/static/js/main.569815a3.js.map",
+    "main.d1d41e42.js.map": "/static/js/main.d1d41e42.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.569815a3.js"
+    "static/js/main.d1d41e42.js"
   ]
 }
