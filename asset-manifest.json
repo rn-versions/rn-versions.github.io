@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.c7d7ddb1.js",
-    "@types_react-native.js": "/static/js/@types_react-native.f0c9ac72.chunk.js",
-    "react-native.js": "/static/js/react-native.71bd0c03.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.63cb3dd6.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.20f248a8.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.8ecdf3dc.chunk.js",
-    "expo.js": "/static/js/expo.85ea1b37.chunk.js",
+    "main.js": "/static/js/main.0bc682de.js",
+    "@types_react-native.js": "/static/js/@types_react-native.7f4d37b0.chunk.js",
+    "react-native.js": "/static/js/react-native.8735a2b8.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.2b3f787f.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.686e5642.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.7079fde7.chunk.js",
+    "expo.js": "/static/js/expo.31c497d7.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.c7d7ddb1.js.map": "/static/js/main.c7d7ddb1.js.map",
+    "main.0bc682de.js.map": "/static/js/main.0bc682de.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.c7d7ddb1.js"
+    "static/js/main.0bc682de.js"
   ]
 }
