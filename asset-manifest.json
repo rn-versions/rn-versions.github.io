@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.c6025a94.js",
-    "@types_react-native.js": "/static/js/@types_react-native.08d419fb.chunk.js",
-    "react-native.js": "/static/js/react-native.c30d55fa.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.2e77599a.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.034b0a33.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.104c0b3c.chunk.js",
-    "expo.js": "/static/js/expo.708b667d.chunk.js",
+    "main.js": "/static/js/main.f6292fb4.js",
+    "@types_react-native.js": "/static/js/@types_react-native.495c2a2d.chunk.js",
+    "react-native.js": "/static/js/react-native.055ba0a3.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.8d19c883.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.d4b89e38.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.5b4d1b15.chunk.js",
+    "expo.js": "/static/js/expo.3099b7b0.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.c6025a94.js.map": "/static/js/main.c6025a94.js.map",
+    "main.f6292fb4.js.map": "/static/js/main.f6292fb4.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.c6025a94.js"
+    "static/js/main.f6292fb4.js"
   ]
 }
