@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.18975c3c.js",
-    "@types_react-native.js": "/static/js/@types_react-native.1c29dafb.chunk.js",
-    "react-native.js": "/static/js/react-native.2a1c7d61.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.f7c38b17.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.f5690cd2.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.36d0a51a.chunk.js",
-    "expo.js": "/static/js/expo.303e12c4.chunk.js",
+    "main.js": "/static/js/main.4506513c.js",
+    "@types_react-native.js": "/static/js/@types_react-native.02f23419.chunk.js",
+    "react-native.js": "/static/js/react-native.b9a8b440.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.3891e8d4.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.ab640df9.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.4d476599.chunk.js",
+    "expo.js": "/static/js/expo.7ce58bdc.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.18975c3c.js.map": "/static/js/main.18975c3c.js.map",
+    "main.4506513c.js.map": "/static/js/main.4506513c.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.18975c3c.js"
+    "static/js/main.4506513c.js"
   ]
 }
