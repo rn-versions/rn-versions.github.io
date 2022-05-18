@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.e71d0835.js",
-    "@types_react-native.js": "/static/js/@types_react-native.0317e53a.chunk.js",
-    "react-native.js": "/static/js/react-native.3bdf5b89.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.5fead038.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.ae008369.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.f95a4799.chunk.js",
-    "expo.js": "/static/js/expo.bee6f705.chunk.js",
+    "main.js": "/static/js/main.39aca58f.js",
+    "@types_react-native.js": "/static/js/@types_react-native.a289efd3.chunk.js",
+    "react-native.js": "/static/js/react-native.1602969f.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.451634e4.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.cd9438dc.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.83baf509.chunk.js",
+    "expo.js": "/static/js/expo.dd291a84.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.e71d0835.js.map": "/static/js/main.e71d0835.js.map",
+    "main.39aca58f.js.map": "/static/js/main.39aca58f.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.e71d0835.js"
+    "static/js/main.39aca58f.js"
   ]
 }
