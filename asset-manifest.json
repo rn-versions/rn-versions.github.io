@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.b00cf90b.js",
-    "@types_react-native.js": "/static/js/@types_react-native.6c8b1b64.chunk.js",
-    "react-native.js": "/static/js/react-native.7129b471.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.e5fa67cb.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.332d1d20.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.8cd98260.chunk.js",
-    "expo.js": "/static/js/expo.ab57e690.chunk.js",
+    "main.js": "/static/js/main.1267c637.js",
+    "@types_react-native.js": "/static/js/@types_react-native.59d8b655.chunk.js",
+    "react-native.js": "/static/js/react-native.63db02f8.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.92c98f84.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.d45b810b.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.a2c6ec2b.chunk.js",
+    "expo.js": "/static/js/expo.b9735752.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.b00cf90b.js.map": "/static/js/main.b00cf90b.js.map",
+    "main.1267c637.js.map": "/static/js/main.1267c637.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.b00cf90b.js"
+    "static/js/main.1267c637.js"
   ]
 }
