@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.b1d909dc.js",
-    "@types_react-native.js": "/static/js/@types_react-native.0f82f1a6.chunk.js",
-    "react-native.js": "/static/js/react-native.4bc9f81e.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.9e312866.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.bb8f9299.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.9899cdc2.chunk.js",
-    "expo.js": "/static/js/expo.1c410a4d.chunk.js",
+    "main.js": "/static/js/main.3f193cf5.js",
+    "@types_react-native.js": "/static/js/@types_react-native.a65699ae.chunk.js",
+    "react-native.js": "/static/js/react-native.4c04d771.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.78cd9c1c.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.5cda0597.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.da0d23b1.chunk.js",
+    "expo.js": "/static/js/expo.14bc0f8c.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.b1d909dc.js.map": "/static/js/main.b1d909dc.js.map",
+    "main.3f193cf5.js.map": "/static/js/main.3f193cf5.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.b1d909dc.js"
+    "static/js/main.3f193cf5.js"
   ]
 }
