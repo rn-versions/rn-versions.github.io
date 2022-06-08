@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.c45b1612.js",
-    "@types_react-native.js": "/static/js/@types_react-native.675c4377.chunk.js",
-    "react-native.js": "/static/js/react-native.a9e2a3f5.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.ee818d69.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.cdaaf42a.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.41f8afef.chunk.js",
-    "expo.js": "/static/js/expo.0d8db12b.chunk.js",
+    "main.js": "/static/js/main.d443158d.js",
+    "@types_react-native.js": "/static/js/@types_react-native.b232b21c.chunk.js",
+    "react-native.js": "/static/js/react-native.603a943d.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.ba768d36.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.78a43546.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.f9570065.chunk.js",
+    "expo.js": "/static/js/expo.1a673954.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.c45b1612.js.map": "/static/js/main.c45b1612.js.map",
+    "main.d443158d.js.map": "/static/js/main.d443158d.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.c45b1612.js"
+    "static/js/main.d443158d.js"
   ]
 }
