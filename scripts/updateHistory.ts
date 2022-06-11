@@ -211,7 +211,10 @@ function historyPath(...subpaths: string[]) {
  * Returns a path to the currently timestamped directory in recorded history
  */
 function historyTimestampPath(...subpaths: string[]) {
-  return historyPath(scriptRunTimestamp.toDateString(), ...subpaths);
+  return historyPath(
+    scriptRunTimestamp.toISOString().replace(/:/g, "_"),
+    ...subpaths
+  );
 }
 
 /**
