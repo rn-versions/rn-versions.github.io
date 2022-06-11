@@ -34,4 +34,5 @@ import extractDownloadCounts from "./extractDownloadCounts";
   });
 
   spinner.succeed();
+  require("./generateAssets");
 })();

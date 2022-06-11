@@ -3,17 +3,9 @@ import semver from "semver";
 
 import { promises as fs } from "fs";
 
-import { PackageDescription, packages } from "../src/PackageDescription";
+import { PackageIdentifier, packages } from "../src/PackageDescription";
 
 type VersionIndex = string;
-
-/** Representation of History File JSON */
-type HistoryFile = {
-  [packageName: string]: Array<{
-    date: string;
-    versions: Record<string, number>;
-  }>;
-};
 
 /** Representation of packed asset file */
 type AssetHistoryFile = {
@@ -29,6 +21,9 @@ type AssetHistoryPoint = {
 /** Maximum number of days to include */
 const maxDaysOfHistory = 90;
 
+/** Number of downloads needed before a version is included */
+const minDownloadsRequired = 10;
+
 (async () => {
   try {
     await generateWebpageAssets();
@@ -42,64 +37,129 @@ const maxDaysOfHistory = 90;
  * Generate reduced JSON to power the webpage graph
  */
 async function generateWebpageAssets() {
-  const fullHistory: HistoryFile = require(fullHistoryPath());
-
-  for (const [packageName, counts] of Object.entries(fullHistory)) {
-    const earliestAllowableDate =
-      Date.parse(counts[0].date) - maxDaysOfHistory * 24 * 60 * 60 * 1000;
-
-    const description = (
-      packages as Record<string, PackageDescription | undefined>
-    )[packageName];
-    if (!description) {
-      continue;
-    }
-
-    const includedPoints = counts
-      .filter((p) => Date.parse(p.date) >= earliestAllowableDate)
-      .map((p) => ({ versionCounts: p.versions, date: Date.parse(p.date) }))
-      .sort((a, b) => a.date - b.date)
-      .map((p) => filterToAllowedVersions(p, description.versionFilter))
-      .filter((p) => Object.keys(p.versionCounts).length > 0);
-
-    const allVersions = new Set<string>();
-    includedPoints.forEach((p) =>
-      Object.keys(p.versionCounts).forEach((v) => allVersions.add(v))
-    );
-
-    const versions = [...allVersions].sort(compareVersion);
-    const keyedPoints: AssetHistoryPoint[] = [];
-
-    const epoch = includedPoints[0].date;
-
-    for (const point of includedPoints) {
-      const newPoint: AssetHistoryPoint = {
-        date: Math.round(point.date - epoch) / 1000,
-        versionCounts: {},
-      };
-      for (const [version, count] of Object.entries(point.versionCounts)) {
-        const key = versions.indexOf(version.toString());
-        newPoint.versionCounts[key] = count;
+  await Promise.all(
+    Object.keys(packages).map(async (packageName) => {
+      const counts = await getDownloadCounts(packageName as PackageIdentifier);
+      if (counts.length === 0) {
+        return;
       }
-      keyedPoints.push(newPoint);
-    }
 
-    const historyAssetPath = path.join(
-      __dirname,
-      "..",
-      "src/generated_assets",
-      `${packageName.replace(/\//g, "_")}.json`
-    );
+      const earliestAllowableDate =
+        Date.parse(counts[0].date) - maxDaysOfHistory * 24 * 60 * 60 * 1000;
 
-    console.log(historyAssetPath);
+      const includedPoints = counts
+        .filter((p) => Date.parse(p.date) >= earliestAllowableDate)
+        .map((p) => ({
+          versionCounts: p.downloadsCounts,
+          date: Date.parse(p.date),
+        }))
+        .sort((a, b) => a.date - b.date)
+        .map((p) =>
+          filterToAllowedVersions(
+            p,
+            packages[packageName as PackageIdentifier].versionFilter
+          )
+        )
+        .map((p) => {
+          const filteredCounts: Record<string, number> = {};
+          for (const [version, count] of Object.entries(p.versionCounts)) {
+            if (count >= minDownloadsRequired) {
+              filteredCounts[version] = count;
+            }
+          }
 
-    const historyFile: AssetHistoryFile = {
-      epoch,
-      versions,
-      points: keyedPoints,
-    };
-    await fs.writeFile(historyAssetPath, JSON.stringify(historyFile));
+          return { date: p.date, versionCounts: filteredCounts };
+        })
+        .filter((p) => Object.keys(p.versionCounts).length > 0);
+
+      const allVersions = new Set<string>();
+      includedPoints.forEach((p) =>
+        Object.keys(p.versionCounts).forEach((v) => allVersions.add(v))
+      );
+
+      const versions = [...allVersions].sort(compareVersion);
+      const keyedPoints: AssetHistoryPoint[] = [];
+
+      const epoch = includedPoints[0].date;
+
+      for (const point of includedPoints) {
+        const newPoint: AssetHistoryPoint = {
+          date: Math.round(point.date - epoch) / 1000,
+          versionCounts: {},
+        };
+        for (const [version, count] of Object.entries(point.versionCounts)) {
+          const key = versions.indexOf(version.toString());
+          newPoint.versionCounts[key] = count;
+        }
+        keyedPoints.push(newPoint);
+      }
+
+      const historyAssetPath = path.join(
+        __dirname,
+        "..",
+        "src/generated_assets",
+        `${packageName.replace(/\//g, "_")}.json`
+      );
+
+      console.log(historyAssetPath);
+
+      const historyFile: AssetHistoryFile = {
+        epoch,
+        versions,
+        points: keyedPoints,
+      };
+      await fs.writeFile(historyAssetPath, JSON.stringify(historyFile));
+    })
+  );
+}
+
+type PackageHistory = {
+  date: string;
+  downloadsCounts: Record<string, number>;
+}[];
+
+async function getDownloadCounts(
+  pkg: PackageIdentifier
+): Promise<PackageHistory> {
+  let timepoints: string[];
+
+  const pkgPath = pkg.replace("/", "_");
+  try {
+    timepoints = (await fs.readdir(historyPath(pkgPath)))
+      .filter((name) => name.endsWith(".json"))
+      .map((name) => name.slice(0, -".json".length))
+      .map((name) => name.replace(/_/g, ":"))
+      .sort()
+      .reverse();
+  } catch {
+    return [];
   }
+
+  if (timepoints.length === 0) {
+    return [];
+  }
+
+  const latest = Date.parse(timepoints[0]);
+  const earliestAllowableDate = latest - maxDaysOfHistory * 24 * 60 * 60 * 1000;
+  const allowableTimepoints = timepoints.filter(
+    (timepoint) => Date.parse(timepoint) >= earliestAllowableDate
+  );
+
+  const history: PackageHistory = [];
+  for (const timepoint of allowableTimepoints) {
+    history.push({
+      date: timepoint,
+      downloadsCounts: JSON.parse(
+        (
+          await fs.readFile(
+            historyPath(pkgPath, `${timepoint.replace(/:/g, "_")}.json`)
+          )
+        ).toString()
+      ),
+    });
+  }
+
+  return history;
 }
 
 function filterToAllowedVersions(
@@ -156,11 +216,4 @@ function isCanaryComparable(version: string): boolean {
  */
 function historyPath(...subpaths: string[]) {
   return path.join(__dirname, "..", "history", ...subpaths);
-}
-
-/**
- * Returns a path to the fully recorded history
- */
-function fullHistoryPath() {
-  return historyPath("full_download_history.json");
 }

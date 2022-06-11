@@ -17,14 +17,6 @@ import { JSDOM } from "jsdom";
 import { packages } from "../src/PackageDescription";
 import extractDownloadCounts from "./extractDownloadCounts";
 
-/** Representation of History File JSON */
-type HistoryFile = {
-  [packageName: string]: Array<{
-    date: string;
-    versions: Record<string, number>;
-  }>;
-};
-
 /** Packages to record */
 const packageNames = Object.keys(packages);
 
@@ -38,8 +30,6 @@ const axiosInstance = createAxiosInstance();
  * Main function
  */
 (async () => {
-  const packageCounts: Record<string, Record<string, number>> = {};
-
   for (const packageName of packageNames) {
     console.log(`Downloading npmjs page for ${packageName}...`);
 
@@ -60,7 +50,7 @@ const axiosInstance = createAxiosInstance();
 
     console.log("Extracting version counts...");
     try {
-      packageCounts[packageName] = extractDownloadCounts(pageDom);
+      await recordDownloadCounts(packageName, extractDownloadCounts(pageDom));
     } catch (ex) {
       console.error(chalk.red("Failed to extract version counts"));
       console.error(ex);
@@ -68,7 +58,6 @@ const axiosInstance = createAxiosInstance();
     }
   }
 
-  await recordVersionCounts(packageCounts);
   require("./generateAssets");
 })();
 
@@ -133,26 +122,17 @@ async function recordWebpage(dom: JSDOM, packageName: string) {
 }
 
 /**
- * Record download counts into history
+ * Record download counts into a file
  */
-async function recordVersionCounts(
-  packageToDownloadCounts: Record<string, Record<string, number>>
+async function recordDownloadCounts(
+  packageName: string,
+  downloadCounts: Record<string, number>
 ) {
-  const fullHistory: HistoryFile = require(fullHistoryPath());
+  const filename =
+    scriptRunTimestamp.toISOString().replace(/:/g, "_") + ".json";
 
-  for (const [pkg, counts] of Object.entries(packageToDownloadCounts)) {
-    fullHistory[pkg] ||= [];
-    fullHistory[pkg].unshift({
-      date: scriptRunTimestamp.toISOString(),
-      versions: counts,
-    });
-
-    const timedHistoryPath = historyTimestampPath(`${pkg}.json`);
-    await fs.mkdir(path.dirname(timedHistoryPath), { recursive: true });
-    await fs.writeFile(timedHistoryPath, JSON.stringify(counts, null, 2));
-  }
-
-  await fs.writeFile(fullHistoryPath(), JSON.stringify(fullHistory, null, 2));
+  const path = historyPath(packageName.replace("/", "_"), filename);
+  await fs.writeFile(path, JSON.stringify(downloadCounts, null, 2));
 }
 
 /**
@@ -170,11 +150,4 @@ function historyTimestampPath(...subpaths: string[]) {
     scriptRunTimestamp.toISOString().replace(/:/g, "_"),
     ...subpaths
   );
-}
-
-/**
- * Returns a path to the fully recorded history
- */
-function fullHistoryPath() {
-  return historyPath("full_download_history.json");
 }
