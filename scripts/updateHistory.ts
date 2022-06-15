@@ -14,11 +14,11 @@ import pretty from "pretty";
 import { promises as fs } from "fs";
 import { JSDOM } from "jsdom";
 
-import { packages } from "../src/PackageDescription";
+import { PackageIdentifier, packages } from "../src/PackageDescription";
 import extractDownloadCounts from "./extractDownloadCounts";
 
 /** Packages to record */
-const packageNames = Object.keys(packages);
+const packageNames = Object.keys(packages) as PackageIdentifier[];
 
 /** Timestamp of script start */
 const scriptRunTimestamp = new Date();
@@ -67,7 +67,7 @@ const axiosInstance = createAxiosInstance();
 function createAxiosInstance(): RateLimitedAxiosInstance {
   const axiosRetryConfig: IAxiosRetryConfig = {
     retries: 10,
-    // Expontential backoff if rate limited or network flakiness. Respect npmjs retry-after header.
+    // Exponential backoff if rate limited or network flakiness. Respect npmjs retry-after header.
     retryDelay: (retryCount, error) => {
       if (
         error.response?.status === 429 &&
@@ -114,9 +114,8 @@ async function downloadPackagePage(packageName: string): Promise<string> {
 /**
  * Record the npmjs download page into recorded history
  */
-async function recordWebpage(dom: JSDOM, packageName: string) {
-  const filePath = historyTimestampPath(`${packageName}.html`);
-
+async function recordWebpage(dom: JSDOM, packageName: PackageIdentifier) {
+  const filePath = timePointPath(packageName, ".html");
   await fs.mkdir(path.dirname(filePath), { recursive: true });
   await fs.writeFile(filePath, pretty(dom.serialize()));
 }
@@ -125,14 +124,12 @@ async function recordWebpage(dom: JSDOM, packageName: string) {
  * Record download counts into a file
  */
 async function recordDownloadCounts(
-  packageName: string,
+  packageName: PackageIdentifier,
   downloadCounts: Record<string, number>
 ) {
-  const filename =
-    scriptRunTimestamp.toISOString().replace(/:/g, "_") + ".json";
-
-  const path = historyPath(packageName.replace("/", "_"), filename);
-  await fs.writeFile(path, JSON.stringify(downloadCounts, null, 2));
+  const filePath = timePointPath(packageName, ".json");
+  await fs.mkdir(path.dirname(filePath), { recursive: true });
+  await fs.writeFile(filePath, JSON.stringify(downloadCounts, null, 2));
 }
 
 /**
@@ -143,11 +140,11 @@ function historyPath(...subpaths: string[]) {
 }
 
 /**
- * Returns a path to the currently timestamped directory in recorded history
+ * Returns a path to save a timestamped resource
  */
-function historyTimestampPath(...subpaths: string[]) {
-  return historyPath(
-    scriptRunTimestamp.toISOString().replace(/:/g, "_"),
-    ...subpaths
-  );
+function timePointPath(packageName: PackageIdentifier, extension?: string) {
+  const filename =
+    scriptRunTimestamp.toISOString().replace(/:/g, "_") + (extension ?? "");
+
+  return historyPath(packageName.replace("/", "_"), filename);
 }
