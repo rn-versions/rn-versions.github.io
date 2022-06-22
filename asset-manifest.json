@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.c9e56ef0.js",
-    "@types_react-native.js": "/static/js/@types_react-native.f05ce94f.chunk.js",
-    "react-native.js": "/static/js/react-native.1bccc8c9.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.e7e48eb8.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.7db40b27.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.f33ee059.chunk.js",
-    "expo.js": "/static/js/expo.420460f0.chunk.js",
+    "main.js": "/static/js/main.01dcb50f.js",
+    "@types_react-native.js": "/static/js/@types_react-native.46f5af22.chunk.js",
+    "react-native.js": "/static/js/react-native.d9bbdcd5.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.f84d7f5c.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.50e29c42.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.5a3e20d2.chunk.js",
+    "expo.js": "/static/js/expo.5157e81c.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.c9e56ef0.js.map": "/static/js/main.c9e56ef0.js.map",
+    "main.01dcb50f.js.map": "/static/js/main.01dcb50f.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.c9e56ef0.js"
+    "static/js/main.01dcb50f.js"
   ]
 }
