@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.a80ef717.js",
-    "@types_react-native.js": "/static/js/@types_react-native.f9184cf3.chunk.js",
-    "react-native.js": "/static/js/react-native.8849e7a6.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.e0843b50.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.0f9a16bf.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.5f5cfe4f.chunk.js",
-    "expo.js": "/static/js/expo.88fa4b2d.chunk.js",
+    "main.js": "/static/js/main.4d9f9bfb.js",
+    "@types_react-native.js": "/static/js/@types_react-native.e1e92c00.chunk.js",
+    "react-native.js": "/static/js/react-native.25cac457.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.54b37332.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.dd19a7bb.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.217dee0e.chunk.js",
+    "expo.js": "/static/js/expo.06e2772f.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.a80ef717.js.map": "/static/js/main.a80ef717.js.map",
+    "main.4d9f9bfb.js.map": "/static/js/main.4d9f9bfb.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.a80ef717.js"
+    "static/js/main.4d9f9bfb.js"
   ]
 }
