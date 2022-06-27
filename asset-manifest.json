@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.c3e42a0e.js",
-    "@types_react-native.js": "/static/js/@types_react-native.67b6a2a0.chunk.js",
-    "react-native.js": "/static/js/react-native.0cf4d72d.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.60ae0ef7.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.c7663ef3.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.00131816.chunk.js",
-    "expo.js": "/static/js/expo.5bb904d7.chunk.js",
+    "main.js": "/static/js/main.500a0b93.js",
+    "@types_react-native.js": "/static/js/@types_react-native.340f3c28.chunk.js",
+    "react-native.js": "/static/js/react-native.d2ebbefa.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.1392c895.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.ad9c2605.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.b16ef5cd.chunk.js",
+    "expo.js": "/static/js/expo.55824f1b.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.c3e42a0e.js.map": "/static/js/main.c3e42a0e.js.map",
+    "main.500a0b93.js.map": "/static/js/main.500a0b93.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.c3e42a0e.js"
+    "static/js/main.500a0b93.js"
   ]
 }
