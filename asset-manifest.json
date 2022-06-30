@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.2d9c9328.js",
-    "@types_react-native.js": "/static/js/@types_react-native.e2817f1b.chunk.js",
-    "react-native.js": "/static/js/react-native.c7443cef.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.af10f95d.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.71b89c5c.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.73cf0b75.chunk.js",
-    "expo.js": "/static/js/expo.8356ae61.chunk.js",
+    "main.js": "/static/js/main.608a5ad9.js",
+    "@types_react-native.js": "/static/js/@types_react-native.af57731a.chunk.js",
+    "react-native.js": "/static/js/react-native.a0292f72.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.ae03d03a.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.cb3acc07.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.4f5a9bf6.chunk.js",
+    "expo.js": "/static/js/expo.464c1b45.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.2d9c9328.js.map": "/static/js/main.2d9c9328.js.map",
+    "main.608a5ad9.js.map": "/static/js/main.608a5ad9.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.2d9c9328.js"
+    "static/js/main.608a5ad9.js"
   ]
 }
