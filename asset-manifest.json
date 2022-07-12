@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.091e5f19.js",
-    "@types_react-native.js": "/static/js/@types_react-native.b460a6aa.chunk.js",
-    "react-native.js": "/static/js/react-native.1d825220.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.f2ed122c.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.c5440461.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.32b0fdb5.chunk.js",
-    "expo.js": "/static/js/expo.295daa20.chunk.js",
+    "main.js": "/static/js/main.a757d0b6.js",
+    "@types_react-native.js": "/static/js/@types_react-native.ee4ecd39.chunk.js",
+    "react-native.js": "/static/js/react-native.9bf10889.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.e45da534.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.1f6c709b.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.b5efcb77.chunk.js",
+    "expo.js": "/static/js/expo.bb93cf63.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.091e5f19.js.map": "/static/js/main.091e5f19.js.map",
+    "main.a757d0b6.js.map": "/static/js/main.a757d0b6.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.091e5f19.js"
+    "static/js/main.a757d0b6.js"
   ]
 }
