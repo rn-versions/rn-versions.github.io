@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.887f779a.js",
-    "@types_react-native.js": "/static/js/@types_react-native.94f0fc9f.chunk.js",
-    "react-native.js": "/static/js/react-native.559cba2d.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.1ebbccc0.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.839a1e5d.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.b2f26004.chunk.js",
-    "expo.js": "/static/js/expo.cafe7294.chunk.js",
+    "main.js": "/static/js/main.c1280e95.js",
+    "@types_react-native.js": "/static/js/@types_react-native.8be43b4e.chunk.js",
+    "react-native.js": "/static/js/react-native.bc451d02.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.c42fd5bf.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.7b6f7f6b.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.36a46d62.chunk.js",
+    "expo.js": "/static/js/expo.1a1cdaf4.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.887f779a.js.map": "/static/js/main.887f779a.js.map",
+    "main.c1280e95.js.map": "/static/js/main.c1280e95.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.887f779a.js"
+    "static/js/main.c1280e95.js"
   ]
 }
