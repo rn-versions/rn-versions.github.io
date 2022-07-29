@@ -10,7 +10,6 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "generate-assets": "ts-node --transpile-only ./scripts/generateAssets.ts",
-    "fix-history": "ts-node --transpile-only ./scripts/fixHistory.ts",
     "update-history": "ts-node --transpile-only ./scripts/updateHistory.ts"
   },
   "dependencies": {

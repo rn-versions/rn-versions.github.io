@@ -9,13 +9,16 @@ import axiosRetry, {
 } from "axios-retry";
 import chalk from "chalk";
 import path from "path";
-import pretty from "pretty";
+import semver from "semver";
 
 import { promises as fs } from "fs";
-import { JSDOM } from "jsdom";
 
 import { PackageIdentifier, packages } from "../src/PackageDescription";
-import extractDownloadCounts from "./extractDownloadCounts";
+
+type NpmApiStats = {
+  package: string;
+  downloads: Record<string, number>;
+};
 
 /** Packages to record */
 const packageNames = Object.keys(packages) as PackageIdentifier[];
@@ -31,28 +34,30 @@ const axiosInstance = createAxiosInstance();
  */
 (async () => {
   for (const packageName of packageNames) {
-    console.log(`Downloading npmjs page for ${packageName}...`);
+    console.log(`Downloading npmjs stats for ${packageName}...`);
 
-    let pageHtml: string;
+    const escapedPackageName = packageName.replace("/", "%2f");
+
+    let statsJson: NpmApiStats;
     try {
-      pageHtml = await downloadPackagePage(packageName);
+      statsJson = await downloadVersionStats(escapedPackageName);
     } catch (ex) {
       console.error(chalk.red("Download failed"));
       console.error(ex);
       process.exit(1);
     }
 
-    console.log("Parsing page...");
-    const pageDom = new JSDOM(pageHtml, { runScripts: "dangerously" });
+    const filteredVersions = Object.fromEntries(
+      Object.entries(statsJson.downloads).filter((version) =>
+        semver.valid(version[0])
+      )
+    );
 
-    console.log("Saving page...");
-    await recordWebpage(pageDom, packageName);
-
-    console.log("Extracting version counts...");
+    console.log("Store version counts...");
     try {
-      await recordDownloadCounts(packageName, extractDownloadCounts(pageDom));
+      await recordDownloadCountsFromApi(packageName, filteredVersions);
     } catch (ex) {
-      console.error(chalk.red("Failed to extract version counts"));
+      console.error(chalk.red("Failed to store version counts"));
       console.error(ex);
       process.exit(1);
     }
@@ -95,11 +100,11 @@ function createAxiosInstance(): RateLimitedAxiosInstance {
 }
 
 /**
- * Downloads the html for the versions page of the NPM package
+ * Downloads the version stats for the NPM package
  */
-async function downloadPackagePage(packageName: string): Promise<string> {
-  const page = await axiosInstance.get<string>(
-    `https://www.npmjs.com/package/${packageName}?activeTab=versions`,
+async function downloadVersionStats(packageName: string): Promise<NpmApiStats> {
+  const page = await axiosInstance.get<NpmApiStats>(
+    `https://api.npmjs.org/versions/${packageName}/last-week`,
     {
       headers: {
         Accept: "text/html",
@@ -112,24 +117,15 @@ async function downloadPackagePage(packageName: string): Promise<string> {
 }
 
 /**
- * Record the npmjs download page into recorded history
- */
-async function recordWebpage(dom: JSDOM, packageName: PackageIdentifier) {
-  const filePath = timePointPath(packageName, ".html");
-  await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, pretty(dom.serialize()));
-}
-
-/**
  * Record download counts into a file
  */
-async function recordDownloadCounts(
+async function recordDownloadCountsFromApi(
   packageName: PackageIdentifier,
-  downloadCounts: Record<string, number>
+  downloadCountsFromApi: Record<string, number>
 ) {
   const filePath = timePointPath(packageName, ".json");
   await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, JSON.stringify(downloadCounts, null, 2));
+  await fs.writeFile(filePath, JSON.stringify(downloadCountsFromApi, null, 2));
 }
 
 /**

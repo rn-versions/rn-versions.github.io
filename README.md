@@ -15,9 +15,5 @@ Committed changes are built and pushed automatically.
 Data is updated on a daily internal via GitHub actions. Data can be manually
 updated for testing by running `yarn update-history`.
 
-Version counts and assets may be regenerated against the scraped HTML by running
-`yarn fix-history`. This can be used to retroactively fix bugs in how download
-information is parsed.
-
 Assets can be generated without modifying history data by running
 `yarn generate-assets`.
