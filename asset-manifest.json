@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.9e4f5a9c.js",
-    "@types_react-native.js": "/static/js/@types_react-native.20cdb5b2.chunk.js",
-    "react-native.js": "/static/js/react-native.2d626200.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.e88a13db.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.06928e90.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.5974b13c.chunk.js",
-    "expo.js": "/static/js/expo.c11da399.chunk.js",
+    "main.js": "/static/js/main.6895fafa.js",
+    "@types_react-native.js": "/static/js/@types_react-native.bf6300d6.chunk.js",
+    "react-native.js": "/static/js/react-native.af6def9d.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.aeed0d5b.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.c945de7a.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.2d81ca99.chunk.js",
+    "expo.js": "/static/js/expo.e267bedf.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.9e4f5a9c.js.map": "/static/js/main.9e4f5a9c.js.map",
+    "main.6895fafa.js.map": "/static/js/main.6895fafa.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.9e4f5a9c.js"
+    "static/js/main.6895fafa.js"
   ]
 }
