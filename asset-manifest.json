@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.d282485f.js",
-    "@types_react-native.js": "/static/js/@types_react-native.a28100b2.chunk.js",
-    "react-native.js": "/static/js/react-native.8f81cdc2.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.3a862d33.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.2709c6c9.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.e43281cb.chunk.js",
-    "expo.js": "/static/js/expo.f3d014bc.chunk.js",
+    "main.js": "/static/js/main.288967d1.js",
+    "@types_react-native.js": "/static/js/@types_react-native.493d84da.chunk.js",
+    "react-native.js": "/static/js/react-native.61b0d625.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.54ac94dd.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.d4f0b046.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.e7ea05b0.chunk.js",
+    "expo.js": "/static/js/expo.1d105d14.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.d282485f.js.map": "/static/js/main.d282485f.js.map",
+    "main.288967d1.js.map": "/static/js/main.288967d1.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.d282485f.js"
+    "static/js/main.288967d1.js"
   ]
 }
