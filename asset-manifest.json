@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.f24d3ac5.js",
-    "@types_react-native.js": "/static/js/@types_react-native.c91a9db2.chunk.js",
-    "react-native.js": "/static/js/react-native.58235a60.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.f14eb2c6.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.c36d8a6f.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.5b624d34.chunk.js",
-    "expo.js": "/static/js/expo.67f354f0.chunk.js",
+    "main.js": "/static/js/main.f186b9dd.js",
+    "@types_react-native.js": "/static/js/@types_react-native.613a013e.chunk.js",
+    "react-native.js": "/static/js/react-native.c081c6dd.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.1deac013.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.edb262e9.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.5d304458.chunk.js",
+    "expo.js": "/static/js/expo.aeb4f8bd.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.f24d3ac5.js.map": "/static/js/main.f24d3ac5.js.map",
+    "main.f186b9dd.js.map": "/static/js/main.f186b9dd.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.f24d3ac5.js"
+    "static/js/main.f186b9dd.js"
   ]
 }
