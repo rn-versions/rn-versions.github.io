@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.6433970a.js",
-    "@types_react-native.js": "/static/js/@types_react-native.c3c9702d.chunk.js",
-    "react-native.js": "/static/js/react-native.5ff84914.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.bf349777.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.477ef7bf.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.68707b5b.chunk.js",
-    "expo.js": "/static/js/expo.1b655980.chunk.js",
+    "main.js": "/static/js/main.70a6048b.js",
+    "@types_react-native.js": "/static/js/@types_react-native.acba5026.chunk.js",
+    "react-native.js": "/static/js/react-native.c3ce7679.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.31c761cd.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.f3748aad.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.55d01b7d.chunk.js",
+    "expo.js": "/static/js/expo.333da428.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.6433970a.js.map": "/static/js/main.6433970a.js.map",
+    "main.70a6048b.js.map": "/static/js/main.70a6048b.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.6433970a.js"
+    "static/js/main.70a6048b.js"
   ]
 }
