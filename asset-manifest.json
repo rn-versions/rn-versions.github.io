@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.91819898.js",
-    "@types_react-native.js": "/static/js/@types_react-native.bde62590.chunk.js",
-    "react-native.js": "/static/js/react-native.a315aac5.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.6a0c389c.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.44eea80c.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.e7712943.chunk.js",
-    "expo.js": "/static/js/expo.6c33c7f6.chunk.js",
+    "main.js": "/static/js/main.7d7b1a75.js",
+    "@types_react-native.js": "/static/js/@types_react-native.4fbfe29b.chunk.js",
+    "react-native.js": "/static/js/react-native.fdb5789f.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.3c86d5c5.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.94be99f8.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.b9737736.chunk.js",
+    "expo.js": "/static/js/expo.ecf547df.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.91819898.js.map": "/static/js/main.91819898.js.map",
+    "main.7d7b1a75.js.map": "/static/js/main.7d7b1a75.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.91819898.js"
+    "static/js/main.7d7b1a75.js"
   ]
 }
