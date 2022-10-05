@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.969a9d37.js",
-    "@types_react-native.js": "/static/js/@types_react-native.51a25550.chunk.js",
-    "react-native.js": "/static/js/react-native.d697e415.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.0ec04021.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.7dfdfa34.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.c3f13924.chunk.js",
-    "expo.js": "/static/js/expo.f4303d58.chunk.js",
+    "main.js": "/static/js/main.bbdae673.js",
+    "@types_react-native.js": "/static/js/@types_react-native.fddd7dc7.chunk.js",
+    "react-native.js": "/static/js/react-native.fa65ba1a.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.b181dc89.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.6b9729ef.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.2468f17e.chunk.js",
+    "expo.js": "/static/js/expo.d9f4635d.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.969a9d37.js.map": "/static/js/main.969a9d37.js.map",
+    "main.bbdae673.js.map": "/static/js/main.bbdae673.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.969a9d37.js"
+    "static/js/main.bbdae673.js"
   ]
 }
