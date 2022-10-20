@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.d0fd8ac7.js",
-    "@types_react-native.js": "/static/js/@types_react-native.55900952.chunk.js",
-    "react-native.js": "/static/js/react-native.0f5a6e98.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.e4e09509.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.4fbc1e3c.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.4e668a1c.chunk.js",
-    "expo.js": "/static/js/expo.b4c3dc51.chunk.js",
+    "main.js": "/static/js/main.1582f072.js",
+    "@types_react-native.js": "/static/js/@types_react-native.8214afe5.chunk.js",
+    "react-native.js": "/static/js/react-native.14f48329.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.972bab8d.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.6b1117d0.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.a63327cc.chunk.js",
+    "expo.js": "/static/js/expo.af70c134.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.d0fd8ac7.js.map": "/static/js/main.d0fd8ac7.js.map",
+    "main.1582f072.js.map": "/static/js/main.1582f072.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.d0fd8ac7.js"
+    "static/js/main.1582f072.js"
   ]
 }
