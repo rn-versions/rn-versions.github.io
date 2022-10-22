@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.eb50adb7.js",
-    "@types_react-native.js": "/static/js/@types_react-native.ac366297.chunk.js",
-    "react-native.js": "/static/js/react-native.26ff0838.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.911b3d02.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.08b4b09b.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.ae0f48b8.chunk.js",
-    "expo.js": "/static/js/expo.803d230d.chunk.js",
+    "main.js": "/static/js/main.a1731483.js",
+    "@types_react-native.js": "/static/js/@types_react-native.42e363a0.chunk.js",
+    "react-native.js": "/static/js/react-native.2ba76395.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.f16a2e2a.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.8849297a.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.dcb9f04f.chunk.js",
+    "expo.js": "/static/js/expo.959e5535.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.eb50adb7.js.map": "/static/js/main.eb50adb7.js.map",
+    "main.a1731483.js.map": "/static/js/main.a1731483.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.eb50adb7.js"
+    "static/js/main.a1731483.js"
   ]
 }
