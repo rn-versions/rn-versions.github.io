@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.6f013570.js",
-    "@types_react-native.js": "/static/js/@types_react-native.347da3cb.chunk.js",
-    "react-native.js": "/static/js/react-native.c83ba041.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.3c5005a5.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.e0d85264.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.a03d5d89.chunk.js",
-    "expo.js": "/static/js/expo.6a1821da.chunk.js",
+    "main.js": "/static/js/main.47e74f29.js",
+    "@types_react-native.js": "/static/js/@types_react-native.75ce7819.chunk.js",
+    "react-native.js": "/static/js/react-native.f619ddcd.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.bf068cd4.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.179dc191.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.522b7a4e.chunk.js",
+    "expo.js": "/static/js/expo.8c603c9f.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.6f013570.js.map": "/static/js/main.6f013570.js.map",
+    "main.47e74f29.js.map": "/static/js/main.47e74f29.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.6f013570.js"
+    "static/js/main.47e74f29.js"
   ]
 }
