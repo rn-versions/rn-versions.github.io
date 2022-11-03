@@ -65,10 +65,6 @@ function nightlyDateHashVersionLabeler(version: string): string {
   return version;
 }
 
-function isAlphaOrBeta(version: string): boolean {
-  return version.includes("alpha") || version.includes("beta");
-}
-
 const isNightly = (v: string) => semver.lt(v, "0.0.0");
 const minVersion = (v: string, min: string) =>
   semver.gte(v, `${min}.0`, {
@@ -103,7 +99,7 @@ const packagesLiteral = {
   },
   expo: {
     friendlyName: "Expo",
-    versionFilter: (v: string) => minVersion(v, "44.0") || isAlphaOrBeta(v),
+    versionFilter: (v: string) => minVersion(v, "44.0"),
   },
 };
 
