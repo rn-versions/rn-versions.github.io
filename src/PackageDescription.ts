@@ -74,32 +74,32 @@ const minVersion = (v: string, min: string) =>
 const packagesLiteral = {
   "react-native": {
     friendlyName: "React Native",
-    versionFilter: (v: string) => minVersion(v, "0.66") || isNightly(v),
+    versionFilter: (v: string) => minVersion(v, "0.67") || isNightly(v),
     versionLabeler: nightlyDateHashVersionLabeler,
   },
   "@types/react-native": {
     friendlyName: "DefinitelyTyped Typings",
-    versionFilter: (v: string) => minVersion(v, "0.66"),
+    versionFilter: (v: string) => minVersion(v, "0.67"),
   },
   "react-native-windows": {
     friendlyName: "React Native Windows",
     versionFilter: (v: string) =>
-      (minVersion(v, "0.66") || isNightly(v)) && v !== "1.0.0",
+      (minVersion(v, "0.67") || isNightly(v)) && v !== "1.0.0",
     versionLabeler: canaryVersionLabeler,
   },
   "react-native-macos": {
     friendlyName: "React Native macOS",
-    versionFilter: (v: string) => minVersion(v, "0.66") || isNightly(v),
+    versionFilter: (v: string) => minVersion(v, "0.67") || isNightly(v),
     versionLabeler: nightlyHashVersionLabeler,
   },
   "react-native-web": {
     friendlyName: "React Native Web",
-    versionFilter: (v: string) => minVersion(v, "0.17") || isNightly(v),
+    versionFilter: (v: string) => minVersion(v, "0.18") || isNightly(v),
     versionLabeler: nightlyHashVersionLabeler,
   },
   expo: {
     friendlyName: "Expo",
-    versionFilter: (v: string) => minVersion(v, "44.0"),
+    versionFilter: (v: string) => minVersion(v, "45.0"),
   },
 };
 
