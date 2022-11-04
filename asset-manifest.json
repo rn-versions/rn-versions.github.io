@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.bdbbae09.js",
-    "@types_react-native.js": "/static/js/@types_react-native.8c99a8f5.chunk.js",
-    "react-native.js": "/static/js/react-native.a15a0cbf.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.c387b2a3.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.8e5c483a.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.dcbb01ee.chunk.js",
-    "expo.js": "/static/js/expo.d00a03ae.chunk.js",
+    "main.js": "/static/js/main.c808ad48.js",
+    "@types_react-native.js": "/static/js/@types_react-native.aa12374c.chunk.js",
+    "react-native.js": "/static/js/react-native.60c35aa1.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.1a42dee1.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.2f266132.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.9504e94f.chunk.js",
+    "expo.js": "/static/js/expo.59b442aa.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.bdbbae09.js.map": "/static/js/main.bdbbae09.js.map",
+    "main.c808ad48.js.map": "/static/js/main.c808ad48.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.bdbbae09.js"
+    "static/js/main.c808ad48.js"
   ]
 }
