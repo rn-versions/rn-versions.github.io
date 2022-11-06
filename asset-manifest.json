@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.72cccab8.js",
-    "@types_react-native.js": "/static/js/@types_react-native.e7167510.chunk.js",
-    "react-native.js": "/static/js/react-native.b69bec80.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.7dbc3047.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.026295c5.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.5b2d0a71.chunk.js",
-    "expo.js": "/static/js/expo.8860e7c4.chunk.js",
+    "main.js": "/static/js/main.d26972cc.js",
+    "@types_react-native.js": "/static/js/@types_react-native.3c64e86f.chunk.js",
+    "react-native.js": "/static/js/react-native.a513860f.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.f6331edc.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.47d99bbf.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.47c56d09.chunk.js",
+    "expo.js": "/static/js/expo.b3122aea.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.5824c934.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/829.c0d6d64d.chunk.js": "/static/js/829.c0d6d64d.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.72cccab8.js.map": "/static/js/main.72cccab8.js.map",
+    "main.d26972cc.js.map": "/static/js/main.d26972cc.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.5824c934.chunk.js.map": "/static/js/VersionDownloadChart.5824c934.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.72cccab8.js"
+    "static/js/main.d26972cc.js"
   ]
 }
