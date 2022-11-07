@@ -16,9 +16,9 @@
     "@fluentui/react": "^8.48.1",
     "@fluentui/react-icons-mdl2": "^1.2.10",
     "random-seed": "^0.3.0",
-    "react": "^18.0.0-rc.0",
-    "react-dom": "^18.0.0-rc.0",
-    "recharts": "^2.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "recharts": "^2.1.9",
     "semver": "^7.3.5"
   },
   "browserslist": [
