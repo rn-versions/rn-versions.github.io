@@ -4,6 +4,7 @@ import semver from "semver";
 import { promises as fs } from "fs";
 
 import { PackageIdentifier, packages } from "../src/PackageDescription";
+import createAxiosInstance from "./helper/createAxiosInstance";
 
 type VersionIndex = string;
 
@@ -18,11 +19,20 @@ type AssetHistoryPoint = {
   versionCounts: Record<VersionIndex, number>;
 };
 
+/** Map of package version to an ISO timestamp of when it was published */
+type PackagePublishTimes = Record<string, string>;
+
 /** Maximum number of days to include */
 const maxDaysOfHistory = 90;
 
+/** Cutoff for how old a version can be before it is not included (needed to avoid bad data from npmjs)  */
+const maxDaysPublishedAgo = 365;
+
 /** Number of downloads needed before a version is included */
 const minDownloadsRequired = 10;
+
+/** Global HTTP Client **/
+const axiosInstance = createAxiosInstance();
 
 (async () => {
   try {
@@ -44,6 +54,8 @@ async function generateWebpageAssets() {
         return;
       }
 
+      const publishTimes = await fetchPublishTimes(packageName);
+      const latestDate = counts[0].date;
       const earliestAllowableDate =
         Date.parse(counts[0].date) - maxDaysOfHistory * 24 * 60 * 60 * 1000;
 
@@ -57,7 +69,9 @@ async function generateWebpageAssets() {
         .map((p) =>
           filterToAllowedVersions(
             p,
-            packages[packageName as PackageIdentifier].versionFilter
+            packages[packageName as PackageIdentifier].versionFilter,
+            latestDate,
+            publishTimes
           )
         )
         .map((p) => {
@@ -164,11 +178,18 @@ async function getDownloadCounts(
 
 function filterToAllowedVersions(
   point: AssetHistoryPoint,
-  versionFilter?: (version: string) => boolean
+  versionFilter: (version: string) => boolean,
+  latestDate: string,
+  publishTimes: PackagePublishTimes,
 ): AssetHistoryPoint {
   const newPoint: AssetHistoryPoint = { date: point.date, versionCounts: {} };
   const sortedVersions = Object.keys(point.versionCounts)
-    .filter(versionFilter ?? (() => true))
+    .filter((v) => {
+      if (Date.parse(latestDate) - Date.parse(publishTimes[v]) > maxDaysPublishedAgo * 24 * 60 * 60 * 1000) {
+        return false;
+      }
+      return versionFilter(v);
+    })
     .sort(compareVersion);
 
   for (const v of sortedVersions) {
@@ -216,4 +237,15 @@ function isCanaryComparable(version: string): boolean {
  */
 function historyPath(...subpaths: string[]) {
   return path.join(__dirname, "..", "history", ...subpaths);
+}
+
+/**
+ * Fetches a map of when each version of a package was published
+ */
+ async function fetchPublishTimes(packageName: string): Promise<PackagePublishTimes> {
+  const packageMetadata = await axiosInstance.get<{time: PackagePublishTimes}>(
+    `https://registry.npmjs.org/${packageName}`
+  );
+
+  return packageMetadata.data.time;
 }

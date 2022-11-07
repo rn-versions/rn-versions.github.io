@@ -1,18 +1,10 @@
-import axios from "axios";
-import rateLimit, {
-  RateLimitedAxiosInstance,
-  rateLimitOptions as RateLimitOptions,
-} from "axios-rate-limit";
-import axiosRetry, {
-  isNetworkOrIdempotentRequestError,
-  IAxiosRetryConfig,
-} from "axios-retry";
 import chalk from "chalk";
 import path from "path";
 import semver from "semver";
 
 import { promises as fs } from "fs";
 
+import createAxiosInstance from "./helper/createAxiosInstance";
 import { PackageIdentifier, packages } from "../src/PackageDescription";
 
 type NpmApiStats = {
@@ -67,39 +59,6 @@ const axiosInstance = createAxiosInstance();
 })();
 
 /**
- * Creates rate-limited HTTP client to use for fetching pages from npmjs
- */
-function createAxiosInstance(): RateLimitedAxiosInstance {
-  const axiosRetryConfig: IAxiosRetryConfig = {
-    retries: 10,
-    // Exponential backoff if rate limited or network flakiness. Respect npmjs retry-after header.
-    retryDelay: (retryCount, error) => {
-      if (
-        error.response?.status === 429 &&
-        error.response.headers["retry-after"]
-      ) {
-        return parseInt(error.response.headers["retry-after"], 10) * 1000;
-      }
-
-      return axiosRetry.exponentialDelay(retryCount);
-    },
-    retryCondition: (error) =>
-      isNetworkOrIdempotentRequestError(error) ||
-      error.response?.status === 429,
-  };
-
-  const axiosRateLimitOptions: RateLimitOptions = {
-    maxRequests: 2,
-    perMilliseconds: 1000,
-    maxRPS: 2,
-  };
-
-  const axiosClient = axios.create();
-  axiosRetry(axiosClient, axiosRetryConfig);
-  return rateLimit(axiosClient, axiosRateLimitOptions);
-}
-
-/**
  * Downloads the version stats for the NPM package
  */
 async function downloadVersionStats(packageName: string): Promise<NpmApiStats> {
@@ -108,7 +67,6 @@ async function downloadVersionStats(packageName: string): Promise<NpmApiStats> {
     {
       headers: {
         Accept: "text/html",
-        "User-Agent": "React Native Version Tracker",
       },
     }
   );
