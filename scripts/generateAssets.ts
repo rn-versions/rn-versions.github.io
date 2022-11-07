@@ -23,16 +23,15 @@ type AssetHistoryPoint = {
 type PackagePublishTimes = Record<string, string>;
 
 /** Maximum number of days to include */
-const maxDaysOfHistory = 180;
-
-/** Cutoff for how old a version can be before it is not included (needed to avoid bad data from npmjs)  */
-const maxDaysPublishedAgo = 365;
+const maxDaysOfHistory = 365;
 
 /** Number of downloads needed before a version is included */
 const minDownloadsRequired = 10;
 
 /** Global HTTP Client **/
 const axiosInstance = createAxiosInstance();
+
+const MS_IN_DAY = 24 * 60 * 60 * 1000;
 
 (async () => {
   try {
@@ -55,9 +54,10 @@ async function generateWebpageAssets() {
       }
 
       const publishTimes = await fetchPublishTimes(packageName);
-      const latestDate = counts[0].date;
+      massageForBadNpmData(counts, publishTimes);
+
       const earliestAllowableDate =
-        Date.parse(counts[0].date) - maxDaysOfHistory * 24 * 60 * 60 * 1000;
+        Date.parse(counts[0].date) - maxDaysOfHistory * MS_IN_DAY;
 
       const includedPoints = counts
         .filter((p) => Date.parse(p.date) >= earliestAllowableDate)
@@ -70,7 +70,6 @@ async function generateWebpageAssets() {
           filterToAllowedVersions(
             p,
             packages[packageName as PackageIdentifier].versionFilter,
-            publishTimes
           )
         )
         .map((p) => {
@@ -153,7 +152,7 @@ async function getDownloadCounts(
   }
 
   const latest = Date.parse(timepoints[0]);
-  const earliestAllowableDate = latest - maxDaysOfHistory * 24 * 60 * 60 * 1000;
+  const earliestAllowableDate = latest - maxDaysOfHistory * MS_IN_DAY;
   const allowableTimepoints = timepoints.filter(
     (timepoint) => Date.parse(timepoint) >= earliestAllowableDate
   );
@@ -178,16 +177,10 @@ async function getDownloadCounts(
 function filterToAllowedVersions(
   point: AssetHistoryPoint,
   versionFilter: (version: string) => boolean,
-  publishTimes: PackagePublishTimes,
 ): AssetHistoryPoint {
   const newPoint: AssetHistoryPoint = { date: point.date, versionCounts: {} };
   const sortedVersions = Object.keys(point.versionCounts)
-    .filter((v) => {
-      if (point.date - Date.parse(publishTimes[v]) > maxDaysPublishedAgo * 24 * 60 * 60 * 1000) {
-        return false;
-      }
-      return versionFilter(v);
-    })
+    .filter(versionFilter)
     .sort(compareVersion);
 
   for (const v of sortedVersions) {
@@ -246,4 +239,31 @@ function historyPath(...subpaths: string[]) {
   );
 
   return packageMetadata.data.time;
+}
+
+/**
+ * NPM counting is unreliable for the first week of a new month for packages
+ * published more than a year ago. Fake the data until the week is over in this
+ * case to avoid spikes.
+ */
+function massageForBadNpmData(history: PackageHistory, publishTimes: PackagePublishTimes): void {
+  if (history.length <= 1) {
+    return;
+  }
+
+  history.reverse();
+
+  const maxDaysPublishedAgo = 365;
+  history.forEach((point, i) => {
+    const date = Date.parse(point.date);
+    for (const [version, _count] of Object.entries(point.downloadsCounts)) {
+      if (date - Date.parse(publishTimes[version]) > maxDaysPublishedAgo * MS_IN_DAY) {
+        if (i > 0 && new Date(date).getUTCDate() <= 8) {
+          point.downloadsCounts[version] = history[i - 1]?.downloadsCounts?.[version] ?? 0;
+        }
+      }
+    }
+  });
+
+  history.reverse();
 }
