@@ -99,7 +99,7 @@ const packagesLiteral = {
   },
   expo: {
     friendlyName: "Expo",
-    versionFilter: (v: string) => minVersion(v, "44.0"),
+    versionFilter: (v: string) => minVersion(v, "45.0"),
   },
 };
 
