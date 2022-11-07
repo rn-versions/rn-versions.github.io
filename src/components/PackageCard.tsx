@@ -34,7 +34,7 @@ const VersionDownloadChart = React.lazy(() => chartImport);
 function maxDays(versionFilter: VersionFilter) {
   switch (versionFilter) {
     case "major":
-      return 84;
+      return 168;
     case "patch":
       return 28;
     case "prerelease":

@@ -23,7 +23,7 @@ type AssetHistoryPoint = {
 type PackagePublishTimes = Record<string, string>;
 
 /** Maximum number of days to include */
-const maxDaysOfHistory = 90;
+const maxDaysOfHistory = 180;
 
 /** Cutoff for how old a version can be before it is not included (needed to avoid bad data from npmjs)  */
 const maxDaysPublishedAgo = 365;
@@ -70,7 +70,6 @@ async function generateWebpageAssets() {
           filterToAllowedVersions(
             p,
             packages[packageName as PackageIdentifier].versionFilter,
-            latestDate,
             publishTimes
           )
         )
@@ -179,13 +178,12 @@ async function getDownloadCounts(
 function filterToAllowedVersions(
   point: AssetHistoryPoint,
   versionFilter: (version: string) => boolean,
-  latestDate: string,
   publishTimes: PackagePublishTimes,
 ): AssetHistoryPoint {
   const newPoint: AssetHistoryPoint = { date: point.date, versionCounts: {} };
   const sortedVersions = Object.keys(point.versionCounts)
     .filter((v) => {
-      if (Date.parse(latestDate) - Date.parse(publishTimes[v]) > maxDaysPublishedAgo * 24 * 60 * 60 * 1000) {
+      if (point.date - Date.parse(publishTimes[v]) > maxDaysPublishedAgo * 24 * 60 * 60 * 1000) {
         return false;
       }
       return versionFilter(v);
