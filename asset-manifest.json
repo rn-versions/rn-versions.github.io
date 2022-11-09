@@ -1,20 +1,21 @@
 {
   "files": {
     "main.css": "/static/css/main.5d4bba26.css",
-    "main.js": "/static/js/main.23579f31.js",
-    "@types_react-native.js": "/static/js/@types_react-native.72f696f4.chunk.js",
-    "react-native.js": "/static/js/react-native.de69b829.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.fcf51788.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.ff3ff2af.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.ac6abf23.chunk.js",
-    "expo.js": "/static/js/expo.44bb2649.chunk.js",
+    "main.js": "/static/js/main.9af42e94.js",
+    "@types_react-native.js": "/static/js/@types_react-native.6ceef144.chunk.js",
+    "react-native.js": "/static/js/react-native.0087a3fc.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.92ae6a75.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.fa1456da.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.4cfb6670.chunk.js",
+    "expo.js": "/static/js/expo.271fd478.chunk.js",
+    "react.js": "/static/js/react.6165819e.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.52da69c0.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.1c828147.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/24.c7f6aaeb.chunk.js": "/static/js/24.c7f6aaeb.chunk.js",
     "index.html": "/index.html",
     "main.5d4bba26.css.map": "/static/css/main.5d4bba26.css.map",
-    "main.23579f31.js.map": "/static/js/main.23579f31.js.map",
+    "main.9af42e94.js.map": "/static/js/main.9af42e94.js.map",
     "VersionDownloadChart.52da69c0.chunk.css.map": "/static/css/VersionDownloadChart.52da69c0.chunk.css.map",
     "VersionDownloadChart.1c828147.chunk.js.map": "/static/js/VersionDownloadChart.1c828147.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +23,6 @@
   },
   "entrypoints": [
     "static/css/main.5d4bba26.css",
-    "static/js/main.23579f31.js"
+    "static/js/main.9af42e94.js"
   ]
 }
