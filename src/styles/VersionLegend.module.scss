@@ -47,10 +47,6 @@
     padding: 10px 20px;
     margin: 5px 10px 0 10px;
   }
-
-  .versionLabel {
-    font-size: 12px;
-  }
 }
 
 @include ms-screen-md-up() {
@@ -59,7 +55,9 @@
     padding: 5px 0px 0px 0px;
     margin: 5px 10px 0 10px;
   }
+}
 
+@include ms-screen-lg-up() {
   .versionLabel {
     font-size: 10px;
   }

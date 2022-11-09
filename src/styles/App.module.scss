@@ -17,17 +17,7 @@
   align-items: flex-start;
 }
 
-$max-frame-width: 1500px;
-
-@mixin frame-constrained {
-  max-width: \min(100%, $max-frame-width);
-  margin: 0 auto;
-  box-sizing: border-box;
-}
-
 .cardContainer {
-  @include frame-constrained;
-
   width: 100%;
   display: grid;
   justify-items: center;
@@ -50,11 +40,14 @@ $max-frame-width: 1500px;
   .cardContainer {
     padding: 20px 10px;
     grid-template-columns: 1fr;
+    margin: 0 auto;
+    box-sizing: border-box;
   }
 }
 
 @include ms-screen-xl-up() {
   .cardContainer {
+    padding: 20px 40px;
     grid-template-columns: repeat(2, 1fr);
   }
 }
@@ -62,5 +55,11 @@ $max-frame-width: 1500px;
 @include ms-screen-xxl-up() {
   .cardContainer {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@include ms-screen-xxxl-up() {
+  .cardContainer {
+    grid-template-columns: repeat(4, 1fr);
   }
 }

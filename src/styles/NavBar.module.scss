@@ -40,7 +40,10 @@
 
 .navContent {
   @include navbar-items;
-  @include frame-constrained;
+
+  max-width: \max(100%, 1400px);
+  margin: 0 auto;
+  box-sizing: border-box;
   align-items: center;
 
   flex-grow: 1;
