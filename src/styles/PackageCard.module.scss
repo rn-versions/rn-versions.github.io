@@ -71,11 +71,11 @@
     display: none;
    }
 
-   .header {
+  .header {
      padding: 5px 20px;
    }
 
-   .headerText {
+  .headerText {
     text-align: start;
   }
 }
@@ -93,7 +93,11 @@
     @include header-clearance-area();
    }
 
-   .headerText {
+  .header {
+    padding: 5px 20px;
+  }
+
+  .headerText {
     text-align: center;
   }
 }
