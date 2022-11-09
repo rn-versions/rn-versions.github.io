@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.5d4bba26.css",
+    "main.css": "/static/css/main.69504680.css",
     "main.js": "/static/js/main.652c42b7.js",
     "@types_react-native.js": "/static/js/@types_react-native.6ceef144.chunk.js",
     "react-native.js": "/static/js/react-native.0087a3fc.chunk.js",
@@ -14,7 +14,7 @@
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/714.3275413e.chunk.js": "/static/js/714.3275413e.chunk.js",
     "index.html": "/index.html",
-    "main.5d4bba26.css.map": "/static/css/main.5d4bba26.css.map",
+    "main.69504680.css.map": "/static/css/main.69504680.css.map",
     "main.652c42b7.js.map": "/static/js/main.652c42b7.js.map",
     "VersionDownloadChart.52da69c0.chunk.css.map": "/static/css/VersionDownloadChart.52da69c0.chunk.css.map",
     "VersionDownloadChart.cdf445c1.chunk.js.map": "/static/js/VersionDownloadChart.cdf445c1.chunk.js.map",
@@ -22,7 +22,7 @@
     "714.3275413e.chunk.js.map": "/static/js/714.3275413e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5d4bba26.css",
+    "static/css/main.69504680.css",
     "static/js/main.652c42b7.js"
   ]
 }
