@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/static/css/main.febc019e.css",
-    "main.js": "/static/js/main.8850f06c.js",
-    "@types_react-native.js": "/static/js/@types_react-native.45e258e8.chunk.js",
-    "react-native.js": "/static/js/react-native.54ed3613.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.9261f582.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.55d68ade.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.e8922d3f.chunk.js",
-    "expo.js": "/static/js/expo.80fb7147.chunk.js",
+    "main.js": "/static/js/main.fe3adf0c.js",
+    "@types_react-native.js": "/static/js/@types_react-native.37d39d85.chunk.js",
+    "react-native.js": "/static/js/react-native.a8f2a0e5.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.e1989b0d.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.d26d059f.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.ae67e129.chunk.js",
+    "expo.js": "/static/js/expo.97380339.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.5acccfce.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.fe214f4c.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/24.c7f6aaeb.chunk.js": "/static/js/24.c7f6aaeb.chunk.js",
     "index.html": "/index.html",
     "main.febc019e.css.map": "/static/css/main.febc019e.css.map",
-    "main.8850f06c.js.map": "/static/js/main.8850f06c.js.map",
+    "main.fe3adf0c.js.map": "/static/js/main.fe3adf0c.js.map",
     "VersionDownloadChart.5acccfce.chunk.css.map": "/static/css/VersionDownloadChart.5acccfce.chunk.css.map",
     "VersionDownloadChart.fe214f4c.chunk.js.map": "/static/js/VersionDownloadChart.fe214f4c.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -22,6 +22,6 @@
   },
   "entrypoints": [
     "static/css/main.febc019e.css",
-    "static/js/main.8850f06c.js"
+    "static/js/main.fe3adf0c.js"
   ]
 }
