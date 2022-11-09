@@ -52,7 +52,7 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
   },
   responsiveContainer: {
     width: "100%",
-    height: 228,
+    height: 260,
   },
   grid: {
     stroke: theme?.isInverted

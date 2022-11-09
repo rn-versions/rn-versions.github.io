@@ -35,10 +35,8 @@ export default function generateHue(
   version: string,
   avoidToken?: AvoidToken
 ): { hue: number; avoidToken: AvoidToken } {
-  const adjacentHueThreshold = 0.4;
-  const allHueThreshold = 0.06;
-
-  const goldenRatio = 0.618033988749895;
+  const adjacentHueThreshold = 0.2;
+  const allHueThreshold = 0.05;
 
   const randomGenerator = randomSeed.create(version);
   let hue: number;
@@ -46,8 +44,6 @@ export default function generateHue(
 
   do {
     hue = randomGenerator.random();
-    hue += goldenRatio;
-    hue %= 1;
   } while (
     avoidToken &&
     --triesRemaining > 0 &&

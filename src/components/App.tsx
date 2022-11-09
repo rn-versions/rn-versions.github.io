@@ -53,6 +53,13 @@ function App() {
               key={pkg}
               theme={darkMode ? darkTheme : whiteTheme}
               tooltipTheme={darkMode ? blackTheme : lightTheme}
+              maxVersionsShown={
+                deferredVersionFilter === "major"
+                  ? 10
+                  : deferredVersionFilter === "patch"
+                  ? 12
+                  : 8
+              }
             />
           ))}
         </div>

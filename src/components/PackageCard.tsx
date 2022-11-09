@@ -22,6 +22,7 @@ export type PackageCardProps = {
   versionFilter: VersionFilter;
   theme?: ITheme;
   tooltipTheme?: ITheme;
+  maxVersionsShown?: number;
 };
 
 const chartImport = import(
@@ -47,7 +48,7 @@ function popularDuring(versionFilter: VersionFilter): "most-recent" | "all" {
     case "major":
       return "most-recent";
     case "patch":
-      return "all";
+      return "most-recent";
     case "prerelease":
       return "all";
   }
@@ -68,6 +69,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
   versionFilter,
   theme,
   tooltipTheme,
+  maxVersionsShown,
 }) => {
   const showAsPercentageKey = `PackageCard.showAsPercentage-${identifier}-${versionFilter}`;
   const [showAsPercentage, setShowAsPercentage] = usePersistentState(
@@ -119,7 +121,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
             className={!disabled ? styles.visibleChart : styles.invisibleChart}
             history={dataIsReady ? history : undefined}
             maxDaysShown={maxDays(versionFilter)}
-            maxVersionsShown={6}
+            maxVersionsShown={maxVersionsShown ?? 4}
             popularDuring={popularDuring(versionFilter)}
             maxTicks={4}
             unit={showAsPercentage ? "percentage" : "totalDownloads"}

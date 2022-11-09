@@ -25,14 +25,14 @@ $max-frame-width: 1500px;
   box-sizing: border-box;
 }
 
-.cardContainer {  
+.cardContainer {
   @include frame-constrained;
 
   width: 100%;
   display: grid;
   justify-items: center;
   justify-content: center;
-  gap: 16px;
+  gap: 10px;
 
   // recharts toolbars may transiently overflow the content area during
   // animation.
@@ -48,7 +48,7 @@ $max-frame-width: 1500px;
 
 @include ms-screen-md-up() {
   .cardContainer {
-    padding: 20px;
+    padding: 20px 10px;
     grid-template-columns: 1fr;
   }
 }

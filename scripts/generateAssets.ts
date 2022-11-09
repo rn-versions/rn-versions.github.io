@@ -69,7 +69,7 @@ async function generateWebpageAssets() {
         .map((p) =>
           filterToAllowedVersions(
             p,
-            packages[packageName as PackageIdentifier].versionFilter,
+            packages[packageName as PackageIdentifier].versionFilter
           )
         )
         .map((p) => {
@@ -176,7 +176,7 @@ async function getDownloadCounts(
 
 function filterToAllowedVersions(
   point: AssetHistoryPoint,
-  versionFilter: (version: string) => boolean,
+  versionFilter: (version: string) => boolean
 ): AssetHistoryPoint {
   const newPoint: AssetHistoryPoint = { date: point.date, versionCounts: {} };
   const sortedVersions = Object.keys(point.versionCounts)
@@ -233,10 +233,12 @@ function historyPath(...subpaths: string[]) {
 /**
  * Fetches a map of when each version of a package was published
  */
- async function fetchPublishTimes(packageName: string): Promise<PackagePublishTimes> {
-  const packageMetadata = await axiosInstance.get<{time: PackagePublishTimes}>(
-    `https://registry.npmjs.org/${packageName}`
-  );
+async function fetchPublishTimes(
+  packageName: string
+): Promise<PackagePublishTimes> {
+  const packageMetadata = await axiosInstance.get<{
+    time: PackagePublishTimes;
+  }>(`https://registry.npmjs.org/${packageName}`);
 
   return packageMetadata.data.time;
 }
@@ -246,7 +248,10 @@ function historyPath(...subpaths: string[]) {
  * published more than a year ago. Fake the data until the week is over in this
  * case to avoid spikes.
  */
-function massageForBadNpmData(history: PackageHistory, publishTimes: PackagePublishTimes): void {
+function massageForBadNpmData(
+  history: PackageHistory,
+  publishTimes: PackagePublishTimes
+): void {
   if (history.length <= 1) {
     return;
   }
@@ -256,10 +261,14 @@ function massageForBadNpmData(history: PackageHistory, publishTimes: PackagePubl
   const maxDaysPublishedAgo = 365;
   history.forEach((point, i) => {
     const date = Date.parse(point.date);
-    for (const [version, _count] of Object.entries(point.downloadsCounts)) {
-      if (date - Date.parse(publishTimes[version]) > maxDaysPublishedAgo * MS_IN_DAY) {
+    for (const version of Object.keys(point.downloadsCounts)) {
+      if (
+        date - Date.parse(publishTimes[version]) >
+        maxDaysPublishedAgo * MS_IN_DAY
+      ) {
         if (i > 0 && new Date(date).getUTCDate() <= 8) {
-          point.downloadsCounts[version] = history[i - 1]?.downloadsCounts?.[version] ?? 0;
+          point.downloadsCounts[version] =
+            history[i - 1]?.downloadsCounts?.[version] ?? 0;
         }
       }
     }

@@ -13,10 +13,6 @@
   flex-wrap: wrap;
 
   justify-content: left;
-  gap: 0 16px;
-
-  margin: 5px 10px 0 10px;
-  padding: 10px 20px;
 }
 
 .versionsListItem {
@@ -42,5 +38,29 @@
 }
 
 .versionLabel {
-  @include ms-fontWeight-semibold;
+  @include ms-fontWeight-regular;
+}
+
+@include ms-screen-sm-down() {
+  .versionsList {
+    gap: 0 16px;
+    padding: 10px 20px;
+    margin: 5px 10px 0 10px;
+  }
+
+  .versionLabel {
+    font-size: 12px;
+  }
+}
+
+@include ms-screen-md-up() {
+  .versionsList {
+    gap: 0 12px;
+    padding: 5px 0px 0px 0px;
+    margin: 5px 10px 0 10px;
+  }
+
+  .versionLabel {
+    font-size: 10px;
+  }
 }
