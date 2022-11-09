@@ -7,8 +7,6 @@
 }
 
 @mixin navbar-items {
-  padding: 0 24px;
-
   display: flex;
   flex-direction: row;
   justify-content: left;
@@ -41,7 +39,7 @@
 .navContent {
   @include navbar-items;
 
-  max-width: \max(100%, 1400px);
+  max-width: 2400px;
   margin: 0 auto;
   box-sizing: border-box;
   align-items: center;
@@ -88,9 +86,29 @@ $navItemHeight: 44px;
   width: $ms-icon-size-l !important;
 }
 
+@include ms-screen-md-down() {
+  $navWidth: 8px;
+  .navContent {
+    padding: 0 $navWidth;
+  }
+  .mobileHeaderContent {
+    padding: 0 $navWidth;
+  }
+}
+
 @include ms-screen-lg-down() {
   .gitHubTextButton {
     display: none;
+  }
+}
+
+@include ms-screen-lg-up () {
+  $navWidth: 40px;
+  .navContent {
+    padding: 0 $navWidth;
+  }
+  .mobileHeaderContent {
+    padding: 0 $navWidth;
   }
 }
 

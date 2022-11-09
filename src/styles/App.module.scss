@@ -49,17 +49,20 @@
   .cardContainer {
     padding: 20px 40px;
     grid-template-columns: repeat(2, 1fr);
+    max-width: 1200;
   }
 }
 
 @include ms-screen-xxl-up() {
   .cardContainer {
     grid-template-columns: repeat(3, 1fr);
+    max-width: q800;
   }
 }
 
 @include ms-screen-xxxl-up() {
   .cardContainer {
     grid-template-columns: repeat(4, 1fr);
+    max-width: 2400px;
   }
 }
