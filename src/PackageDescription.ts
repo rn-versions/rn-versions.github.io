@@ -101,6 +101,11 @@ const packagesLiteral = {
     friendlyName: "Expo",
     versionFilter: (v: string) => minVersion(v, "38.0"),
   },
+  react: {
+    friendlyName: "React",
+    versionFilter: (v: string) => minVersion(v, "16.0") || isNightly(v),
+    versionLabeler: nightlyHashVersionLabeler,
+  },
 };
 
 export const packages: Record<PackageIdentifier, PackageDescription> =

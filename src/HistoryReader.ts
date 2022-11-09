@@ -116,6 +116,11 @@ export default class HistoryReader {
           /* webpackChunkName: "expo" */
           "./generated_assets/expo.json"
         );
+      case "react":
+        return import(
+          /* webpackChunkName: "react" */
+          "./generated_assets/react.json"
+        );
     }
   }
 
