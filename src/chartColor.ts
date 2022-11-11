@@ -2,6 +2,7 @@ import seedRandom from "seedrandom";
 
 export type AvoidToken = {
   adjacentHue: number;
+  adjacentHue2?: number;
   allHues: number[];
 };
 
@@ -32,7 +33,8 @@ export default function generateHue(
   avoidToken?: AvoidToken
 ): { hue: number; avoidToken: AvoidToken } {
   const rand = seedRandom.xor4096(version);
-  const minAdjacentDifference = 0.15;
+  const minAdjacentDifference = 0.2;
+  const minAdjacent2Difference = 0.1;
 
   let hue = 0.0;
   let difference = 0.0;
@@ -40,8 +42,19 @@ export default function generateHue(
   if (!avoidToken) {
     hue = rand();
   } else {
-    for (let triesLeft = 500; triesLeft > 0; triesLeft--) {
-      const nextHue = rand();
+    for (let triesLeft = 10; triesLeft > 0; triesLeft--) {
+      let nextHue = rand();
+
+      while (
+        hueDifference(nextHue, avoidToken.adjacentHue) <
+          minAdjacentDifference ||
+        (avoidToken.adjacentHue2 !== undefined &&
+          hueDifference(nextHue, avoidToken.adjacentHue2) <
+            minAdjacent2Difference)
+      ) {
+        nextHue = rand();
+      }
+
       let nextHueDifference = 1.0;
 
       for (const otherHue of avoidToken.allHues) {
@@ -51,10 +64,7 @@ export default function generateHue(
         }
       }
 
-      if (
-        nextHueDifference > difference &&
-        hueDifference(nextHue, avoidToken.adjacentHue) > minAdjacentDifference
-      ) {
+      if (nextHueDifference > difference) {
         hue = nextHue;
         difference = nextHueDifference;
       }
@@ -65,6 +75,7 @@ export default function generateHue(
     hue: hue * 360,
     avoidToken: {
       adjacentHue: hue,
+      adjacentHue2: avoidToken?.adjacentHue,
       allHues: [...(avoidToken?.allHues ?? []), hue],
     },
   };
