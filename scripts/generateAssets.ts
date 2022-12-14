@@ -19,19 +19,24 @@ type AssetHistoryPoint = {
   versionCounts: Record<VersionIndex, number>;
 };
 
-/** Map of package version to an ISO timestamp of when it was published */
-type PackagePublishTimes = Record<string, string>;
-
 /** Maximum number of days to include */
 const MAX_DAYS_OF_HISTORY = 365;
 
 /** Number of downloads needed before a version is included */
 const MIN_DOWNLOADS_REQUIRED = 10;
 
+/** milliseconds in a day */
+const MS_IN_DAY = 24 * 60 * 60 * 1000;
+
+/** Date ranges to exclude from the output */
+const BAD_DATE_RANGES = [
+  // A flat amount added to every download count creates an incorrect spike in
+  // nightly usage
+  ["2022-10-30Z", "2022-11-17"],
+];
+
 /** Global HTTP Client **/
 const axiosInstance = createAxiosInstance();
-
-const MS_IN_DAY = 24 * 60 * 60 * 1000;
 
 (async () => {
   try {
@@ -48,7 +53,11 @@ const MS_IN_DAY = 24 * 60 * 60 * 1000;
 async function generateWebpageAssets() {
   await Promise.all(
     Object.keys(packages).map(async (packageName) => {
-      const counts = await getDownloadCounts(packageName as PackageIdentifier, MAX_DAYS_OF_HISTORY);
+      const unfilteredCounts = await getDownloadCounts(
+        packageName as PackageIdentifier,
+        MAX_DAYS_OF_HISTORY
+      );
+      const counts = filterBadDateRanges(unfilteredCounts);
       if (counts.length === 0) {
         return;
       }
@@ -118,7 +127,7 @@ async function generateWebpageAssets() {
 
 async function getDownloadCounts(
   pkg: PackageIdentifier,
-  maxDaysOfHistory: number,
+  maxDaysOfHistory: number
 ): Promise<AssetHistoryPoint[]> {
   let timepoints: string[];
 
@@ -128,7 +137,7 @@ async function getDownloadCounts(
       .filter((name) => name.endsWith(".json"))
       .map((name) => name.slice(0, -".json".length))
       .map((name) => name.replace(/_/g, ":"))
-      .sort((a, b) => Date.parse(a) - Date.parse(b))
+      .sort((a, b) => Date.parse(a) - Date.parse(b));
   } catch {
     return [];
   }
@@ -221,12 +230,19 @@ function historyPath(...subpaths: string[]) {
  */
 async function fetchPublishTimes(
   packageName: string
-): Promise<PackagePublishTimes> {
+): Promise<Record<string, number>> {
   const packageMetadata = await axiosInstance.get<{
-    time: PackagePublishTimes;
+    time: Record<string, string>;
   }>(`https://registry.npmjs.org/${packageName}`);
 
-  return packageMetadata.data.time;
+  const times: Record<string, string> = packageMetadata.data.time;
+
+  const parsedTimes: Record<string, number> = {};
+  for (const [version, time] of Object.entries(times)) {
+    parsedTimes[version] = Date.parse(time);
+  }
+
+  return parsedTimes;
 }
 
 /**
@@ -236,7 +252,7 @@ async function fetchPublishTimes(
  */
 function flattenEarlyMonthSpikes(
   history: AssetHistoryPoint[],
-  publishTimes: PackagePublishTimes
+  publishTimes: Record<string, number>
 ): void {
   if (history.length <= 1) {
     return;
@@ -246,7 +262,7 @@ function flattenEarlyMonthSpikes(
   history.forEach((point, i) => {
     for (const version of Object.keys(point.versionCounts)) {
       if (
-        point.date - Date.parse(publishTimes[version]) >
+        point.date - publishTimes[version] >
         maxDaysPublishedAgo * MS_IN_DAY
       ) {
         if (i > 0 && new Date(point.date).getUTCDate() <= 8) {
@@ -256,4 +272,19 @@ function flattenEarlyMonthSpikes(
       }
     }
   });
+}
+
+/**
+ * Removes sampling points falling within known bad-dates
+ */
+function filterBadDateRanges(
+  history: AssetHistoryPoint[]
+): AssetHistoryPoint[] {
+  const badDateRanges = BAD_DATE_RANGES.map((range) => range.map(Date.parse));
+  return history.filter(
+    (point) =>
+      !badDateRanges.some(
+        (range) => point.date >= range[0] && point.date < range[1]
+      )
+  );
 }
