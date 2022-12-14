@@ -23,10 +23,10 @@ type AssetHistoryPoint = {
 type PackagePublishTimes = Record<string, string>;
 
 /** Maximum number of days to include */
-const maxDaysOfHistory = 365;
+const MAX_DAYS_OF_HISTORY = 365;
 
 /** Number of downloads needed before a version is included */
-const minDownloadsRequired = 10;
+const MIN_DOWNLOADS_REQUIRED = 10;
 
 /** Global HTTP Client **/
 const axiosInstance = createAxiosInstance();
@@ -48,24 +48,15 @@ const MS_IN_DAY = 24 * 60 * 60 * 1000;
 async function generateWebpageAssets() {
   await Promise.all(
     Object.keys(packages).map(async (packageName) => {
-      const counts = await getDownloadCounts(packageName as PackageIdentifier);
+      const counts = await getDownloadCounts(packageName as PackageIdentifier, MAX_DAYS_OF_HISTORY);
       if (counts.length === 0) {
         return;
       }
 
       const publishTimes = await fetchPublishTimes(packageName);
-      massageForBadNpmData(counts, publishTimes);
-
-      const earliestAllowableDate =
-        Date.parse(counts[0].date) - maxDaysOfHistory * MS_IN_DAY;
+      flattenEarlyMonthSpikes(counts, publishTimes);
 
       const includedPoints = counts
-        .filter((p) => Date.parse(p.date) >= earliestAllowableDate)
-        .map((p) => ({
-          versionCounts: p.downloadsCounts,
-          date: Date.parse(p.date),
-        }))
-        .sort((a, b) => a.date - b.date)
         .map((p) =>
           filterToAllowedVersions(
             p,
@@ -75,7 +66,7 @@ async function generateWebpageAssets() {
         .map((p) => {
           const filteredCounts: Record<string, number> = {};
           for (const [version, count] of Object.entries(p.versionCounts)) {
-            if (count >= minDownloadsRequired) {
+            if (count >= MIN_DOWNLOADS_REQUIRED) {
               filteredCounts[version] = count;
             }
           }
@@ -125,14 +116,10 @@ async function generateWebpageAssets() {
   );
 }
 
-type PackageHistory = {
-  date: string;
-  downloadsCounts: Record<string, number>;
-}[];
-
 async function getDownloadCounts(
-  pkg: PackageIdentifier
-): Promise<PackageHistory> {
+  pkg: PackageIdentifier,
+  maxDaysOfHistory: number,
+): Promise<AssetHistoryPoint[]> {
   let timepoints: string[];
 
   const pkgPath = pkg.replace("/", "_");
@@ -141,8 +128,7 @@ async function getDownloadCounts(
       .filter((name) => name.endsWith(".json"))
       .map((name) => name.slice(0, -".json".length))
       .map((name) => name.replace(/_/g, ":"))
-      .sort()
-      .reverse();
+      .sort((a, b) => Date.parse(a) - Date.parse(b))
   } catch {
     return [];
   }
@@ -151,17 +137,17 @@ async function getDownloadCounts(
     return [];
   }
 
-  const latest = Date.parse(timepoints[0]);
-  const earliestAllowableDate = latest - maxDaysOfHistory * MS_IN_DAY;
+  const latestDate = Date.parse(timepoints[timepoints.length - 1]);
+  const earliestDate = latestDate - maxDaysOfHistory * MS_IN_DAY;
   const allowableTimepoints = timepoints.filter(
-    (timepoint) => Date.parse(timepoint) >= earliestAllowableDate
+    (timepoint) => Date.parse(timepoint) >= earliestDate
   );
 
-  const history: PackageHistory = [];
+  const history: AssetHistoryPoint[] = [];
   for (const timepoint of allowableTimepoints) {
     history.push({
-      date: timepoint,
-      downloadsCounts: JSON.parse(
+      date: Date.parse(timepoint),
+      versionCounts: JSON.parse(
         (
           await fs.readFile(
             historyPath(pkgPath, `${timepoint.replace(/:/g, "_")}.json`)
@@ -245,34 +231,29 @@ async function fetchPublishTimes(
 
 /**
  * NPM counting is unreliable for the first week of a new month for packages
- * published more than a year ago. Fake the data until the week is over in this
- * case to avoid spikes.
+ * published more than a year ago. Flatten the data until the week is over to
+ * skip counting new packages until we know the data is reliable again.
  */
-function massageForBadNpmData(
-  history: PackageHistory,
+function flattenEarlyMonthSpikes(
+  history: AssetHistoryPoint[],
   publishTimes: PackagePublishTimes
 ): void {
   if (history.length <= 1) {
     return;
   }
 
-  history.reverse();
-
   const maxDaysPublishedAgo = 365;
   history.forEach((point, i) => {
-    const date = Date.parse(point.date);
-    for (const version of Object.keys(point.downloadsCounts)) {
+    for (const version of Object.keys(point.versionCounts)) {
       if (
-        date - Date.parse(publishTimes[version]) >
+        point.date - Date.parse(publishTimes[version]) >
         maxDaysPublishedAgo * MS_IN_DAY
       ) {
-        if (i > 0 && new Date(date).getUTCDate() <= 8) {
-          point.downloadsCounts[version] =
-            history[i - 1]?.downloadsCounts?.[version] ?? 0;
+        if (i > 0 && new Date(point.date).getUTCDate() <= 8) {
+          point.versionCounts[version] =
+            history[i - 1]?.versionCounts?.[version] ?? 0;
         }
       }
     }
   });
-
-  history.reverse();
 }
