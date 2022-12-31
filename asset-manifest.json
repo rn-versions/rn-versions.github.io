@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/static/css/main.9c2756b0.css",
-    "main.js": "/static/js/main.0376aa59.js",
-    "@types_react-native.js": "/static/js/@types_react-native.3cf9a8b9.chunk.js",
-    "react-native.js": "/static/js/react-native.09fc839d.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.f5fb3e70.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.a20b68a3.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.485c33fa.chunk.js",
-    "expo.js": "/static/js/expo.5a9543e0.chunk.js",
-    "react.js": "/static/js/react.1ff7bf1c.chunk.js",
+    "main.js": "/static/js/main.007e3964.js",
+    "@types_react-native.js": "/static/js/@types_react-native.981678aa.chunk.js",
+    "react-native.js": "/static/js/react-native.8f819f23.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.3779985d.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.eace696b.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.57ac98c9.chunk.js",
+    "expo.js": "/static/js/expo.bdc04d6e.chunk.js",
+    "react.js": "/static/js/react.09254ead.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.a4264139.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.1c9e9f75.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/714.3275413e.chunk.js": "/static/js/714.3275413e.chunk.js",
     "index.html": "/index.html",
     "main.9c2756b0.css.map": "/static/css/main.9c2756b0.css.map",
-    "main.0376aa59.js.map": "/static/js/main.0376aa59.js.map",
+    "main.007e3964.js.map": "/static/js/main.007e3964.js.map",
     "VersionDownloadChart.a4264139.chunk.css.map": "/static/css/VersionDownloadChart.a4264139.chunk.css.map",
     "VersionDownloadChart.1c9e9f75.chunk.js.map": "/static/js/VersionDownloadChart.1c9e9f75.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -23,6 +23,6 @@
   },
   "entrypoints": [
     "static/css/main.9c2756b0.css",
-    "static/js/main.0376aa59.js"
+    "static/js/main.007e3964.js"
   ]
 }
