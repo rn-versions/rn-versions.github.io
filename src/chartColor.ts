@@ -33,7 +33,7 @@ export default function generateHue(
   avoidToken?: AvoidToken
 ): { hue: number; avoidToken: AvoidToken } {
   const rand = seedRandom.xor4096(version);
-  const minAdjacentDifference = 0.2;
+  const minAdjacentDifference = 0.1;
   const minAdjacent2Difference = 0.1;
 
   let hue = 0.0;
