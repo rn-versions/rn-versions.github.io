@@ -87,6 +87,10 @@ const packagesLiteral = {
       (minVersion(v, "0.63") || isNightly(v)) && v !== "1.0.0",
     versionLabeler: canaryVersionLabeler,
   },
+  "react-native-tvos": {
+    friendlyName: "React Native TV",
+    versionFilter: (v: string) => minVersion(v, "0.66.3-0"),
+  },
   "react-native-macos": {
     friendlyName: "React Native macOS",
     versionFilter: (v: string) => minVersion(v, "0.63") || isNightly(v),

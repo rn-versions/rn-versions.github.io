@@ -101,6 +101,11 @@ export default class HistoryReader {
           /* webpackChunkName: "react-native-macos" */
           "./generated_assets/react-native-macos.json"
         );
+      case "react-native-tvos":
+        return import(
+          /* webpackChunkName: "react-native-tvos" */
+          "./generated_assets/react-native-tvos.json"
+        );
       case "react-native-web":
         return import(
           /* webpackChunkName: "react-native-web" */
