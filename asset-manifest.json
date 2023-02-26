@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/static/css/main.9c2756b0.css",
-    "main.js": "/static/js/main.f13251ac.js",
-    "@types_react-native.js": "/static/js/@types_react-native.fd084622.chunk.js",
-    "react-native.js": "/static/js/react-native.d1f43f84.chunk.js",
-    "react-native-macos.js": "/static/js/react-native-macos.b691a583.chunk.js",
-    "react-native-tvos.js": "/static/js/react-native-tvos.d6fba035.chunk.js",
-    "react-native-web.js": "/static/js/react-native-web.ca975ffe.chunk.js",
-    "react-native-windows.js": "/static/js/react-native-windows.52391ef7.chunk.js",
-    "expo.js": "/static/js/expo.b9da5e54.chunk.js",
-    "react.js": "/static/js/react.666d362c.chunk.js",
+    "main.js": "/static/js/main.d2e41f70.js",
+    "@types_react-native.js": "/static/js/@types_react-native.99155924.chunk.js",
+    "react-native.js": "/static/js/react-native.7e7e4ef7.chunk.js",
+    "react-native-macos.js": "/static/js/react-native-macos.ca7fc93f.chunk.js",
+    "react-native-tvos.js": "/static/js/react-native-tvos.9c1e5e0a.chunk.js",
+    "react-native-web.js": "/static/js/react-native-web.4e9fe8f6.chunk.js",
+    "react-native-windows.js": "/static/js/react-native-windows.6daf7b8f.chunk.js",
+    "expo.js": "/static/js/expo.3d4e429c.chunk.js",
+    "react.js": "/static/js/react.a7f5e320.chunk.js",
     "VersionDownloadChart.css": "/static/css/VersionDownloadChart.a4264139.chunk.css",
     "VersionDownloadChart.js": "/static/js/VersionDownloadChart.3487b604.chunk.js",
     "Tooltip.js": "/static/js/Tooltip.26c5e232.chunk.js",
     "static/js/714.3275413e.chunk.js": "/static/js/714.3275413e.chunk.js",
     "index.html": "/index.html",
     "main.9c2756b0.css.map": "/static/css/main.9c2756b0.css.map",
-    "main.f13251ac.js.map": "/static/js/main.f13251ac.js.map",
+    "main.d2e41f70.js.map": "/static/js/main.d2e41f70.js.map",
     "VersionDownloadChart.a4264139.chunk.css.map": "/static/css/VersionDownloadChart.a4264139.chunk.css.map",
     "VersionDownloadChart.3487b604.chunk.js.map": "/static/js/VersionDownloadChart.3487b604.chunk.js.map",
     "Tooltip.26c5e232.chunk.js.map": "/static/js/Tooltip.26c5e232.chunk.js.map",
@@ -24,6 +24,6 @@
   },
   "entrypoints": [
     "static/css/main.9c2756b0.css",
-    "static/js/main.f13251ac.js"
+    "static/js/main.d2e41f70.js"
   ]
 }
