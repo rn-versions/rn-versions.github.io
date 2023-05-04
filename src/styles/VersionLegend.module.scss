@@ -30,8 +30,6 @@
 
 .versionColorIndicator {
   display: inline-block;
-  width: 8px;
-  height: 8px;
   border-radius: 100%;
   margin-right: 4px;
   vertical-align: middle;
@@ -42,6 +40,11 @@
 }
 
 @include ms-screen-sm-down() {
+  .versionColorIndicator {
+    width: 10px;
+    height: 10px;
+  }
+
   .versionsList {
     gap: 0 16px;
     padding: 10px 20px;
@@ -50,14 +53,17 @@
 }
 
 @include ms-screen-md-up() {
+  .versionColorIndicator {
+    width: 6px;
+    height: 6px;
+  }
+
   .versionsList {
-    gap: 0 12px;
+    gap: 0 8px;
     padding: 5px 0px 0px 0px;
     margin: 5px 10px 0 10px;
   }
-}
 
-@include ms-screen-lg-up() {
   .versionLabel {
     font-size: 10px;
   }

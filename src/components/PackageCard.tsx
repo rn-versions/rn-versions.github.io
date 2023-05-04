@@ -35,7 +35,7 @@ const VersionDownloadChart = React.lazy(() => chartImport);
 function maxDays(versionFilter: VersionFilter) {
   switch (versionFilter) {
     case "major":
-      return 168;
+      return 365;
     case "patch":
       return 28;
     case "prerelease":
@@ -123,7 +123,6 @@ const PackageCard: React.FC<PackageCardProps> = ({
             maxDaysShown={maxDays(versionFilter)}
             maxVersionsShown={maxVersionsShown ?? 4}
             popularDuring={popularDuring(versionFilter)}
-            maxTicks={4}
             unit={showAsPercentage ? "percentage" : "totalDownloads"}
             versionLabeler={packageDesc.versionLabeler}
             theme={theme}

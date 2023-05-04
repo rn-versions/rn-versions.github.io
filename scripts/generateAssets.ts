@@ -20,7 +20,7 @@ type AssetHistoryPoint = {
 };
 
 /** Maximum number of days to include */
-const MAX_DAYS_OF_HISTORY = 365;
+const MAX_DAYS_OF_HISTORY = 375;
 
 /** Number of downloads needed before a version is included */
 const MIN_DOWNLOADS_REQUIRED = 10;

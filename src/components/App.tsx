@@ -55,9 +55,9 @@ function App() {
               tooltipTheme={darkMode ? blackTheme : lightTheme}
               maxVersionsShown={
                 deferredVersionFilter === "major"
-                  ? 10
-                  : deferredVersionFilter === "patch"
                   ? 12
+                  : deferredVersionFilter === "patch"
+                  ? 10
                   : 8
               }
             />

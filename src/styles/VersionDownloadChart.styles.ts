@@ -45,6 +45,7 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
     margin: { top: 15, right: 28, bottom: 5 },
   },
   area: {
+    type: "basis",
     isAnimationActive: false,
     stroke: theme?.isInverted
       ? theme.palette.whiteTranslucent40
@@ -62,8 +63,6 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
   },
   xAxis: {
     tickLine: false,
-    tickSize: 4,
-    tickMargin: 10,
     tick: { fill: theme?.semanticColors.bodyText },
   },
   yAxis: {
@@ -71,7 +70,7 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
     tickMargin: 10,
     tickSize: 0,
     tickCount: 5,
-    width: 52,
+    width: 56,
     tick: { fill: theme?.semanticColors.bodyText },
   },
   tooltip: {

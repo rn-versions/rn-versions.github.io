@@ -41,11 +41,6 @@ export type VersionDownloadChartProps = {
   maxDaysShown?: number;
 
   /**
-   * Maximum total ticks to show for dates/times
-   */
-  maxTicks?: number;
-
-  /**
    * The maximum number of "popular" versions show (see below).
    */
   maxVersionsShown?: number;
@@ -98,7 +93,6 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   maxDaysShown,
   maxVersionsShown,
   popularDuring,
-  maxTicks,
   showLegend,
   showTooltip,
   unit,
@@ -120,17 +114,6 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
         popularDuring
       ),
     [history, maxDaysShown, maxVersionsShown, popularDuring]
-  );
-
-  const dateTicks = React.useMemo(
-    () =>
-      !filteredHistory
-        ? []
-        : calculateDateTicks(
-            filteredHistory.points.map((p) => p.date),
-            maxTicks ?? 6
-          ),
-    [filteredHistory, maxTicks]
   );
 
   const versionHues = React.useMemo(() => {
@@ -182,6 +165,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
         >
           <XAxis
             {...styles.xAxis}
+            interval={(history?.points.length ?? 0) / 4}
             dataKey="date"
             type="number"
             scale="time"
@@ -192,8 +176,6 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
                 day: "numeric",
               })
             }
-            interval={0}
-            ticks={dateTicks}
           />
           <YAxis
             {...styles.yAxis}
@@ -274,52 +256,6 @@ function formatDownloadCountTicks(count: number) {
   } else {
     return count.toLocaleString();
   }
-}
-
-function calculateDateTicks(dates: number[], maxTicks: number): number[] {
-  if (maxTicks === 0) {
-    return [];
-  }
-
-  const first = dates[0];
-  const last = dates[dates.length - 1];
-
-  if (maxTicks === 1) {
-    return [first];
-  }
-
-  if (maxTicks === 2) {
-    return [first, last];
-  }
-
-  const dataDuration = last - first;
-  const dayDuration = 24 * 60 * 60 * 1000;
-  const weekDuration = 7 * dayDuration;
-
-  const maxInteriorTicks = maxTicks - 1;
-  let tickInterval = weekDuration;
-  while (Math.floor(dataDuration / tickInterval) > maxInteriorTicks) {
-    tickInterval *= 2;
-  }
-
-  const ticks = new Set([first]);
-  let nextTick = fromDayStart(first, tickInterval);
-
-  for (const date of dates) {
-    if (date >= nextTick) {
-      ticks.add(date);
-      nextTick = fromDayStart(date, tickInterval);
-    }
-  }
-
-  return [...ticks];
-}
-
-function fromDayStart(date: number, duration: number): number {
-  const dayStart = new Date(date);
-  dayStart.setHours(0, 0, 0, 0);
-
-  return dayStart.getTime() + duration;
 }
 
 function filterTopN(
