@@ -25,11 +25,7 @@ export type PackageCardProps = {
   maxVersionsShown?: number;
 };
 
-const chartImport = import(
-  /* webpackChunkName: "VersionDownloadChart" */
-  /* webpackPreload: true */
-  "../components/VersionDownloadChart"
-);
+const chartImport = import("../components/VersionDownloadChart");
 const VersionDownloadChart = React.lazy(() => chartImport);
 
 function maxDays(versionFilter: VersionFilter) {

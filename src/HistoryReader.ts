@@ -87,45 +87,21 @@ export default class HistoryReader {
   ): Promise<HistoryFile> {
     switch (packageIdentifier) {
       case "@types/react-native":
-        return import(
-          /* webpackChunkName: "@types_react-native" */
-          "./generated_assets/@types_react-native.json"
-        );
+        return import("./generated_assets/@types_react-native.json");
       case "react-native":
-        return import(
-          /* webpackChunkName: "react-native" */
-          "./generated_assets/react-native.json"
-        );
+        return import("./generated_assets/react-native.json");
       case "react-native-macos":
-        return import(
-          /* webpackChunkName: "react-native-macos" */
-          "./generated_assets/react-native-macos.json"
-        );
+        return import("./generated_assets/react-native-macos.json");
       case "react-native-tvos":
-        return import(
-          /* webpackChunkName: "react-native-tvos" */
-          "./generated_assets/react-native-tvos.json"
-        );
+        return import("./generated_assets/react-native-tvos.json");
       case "react-native-web":
-        return import(
-          /* webpackChunkName: "react-native-web" */
-          "./generated_assets/react-native-web.json"
-        );
+        return import("./generated_assets/react-native-web.json");
       case "react-native-windows":
-        return import(
-          /* webpackChunkName: "react-native-windows" */
-          "./generated_assets/react-native-windows.json"
-        );
+        return import("./generated_assets/react-native-windows.json");
       case "expo":
-        return import(
-          /* webpackChunkName: "expo" */
-          "./generated_assets/expo.json"
-        );
+        return import("./generated_assets/expo.json");
       case "react":
-        return import(
-          /* webpackChunkName: "react" */
-          "./generated_assets/react.json"
-        );
+        return import("./generated_assets/react.json");
     }
   }
 

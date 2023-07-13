@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "generate-assets": "ts-node --transpile-only ./scripts/generateAssets.ts",
@@ -59,9 +59,9 @@
     "ora": "^5.0.0",
     "prettier": "^2.0.0",
     "pretty": "^2.0.0",
-    "react-scripts": "^5.0.0",
     "sass": "^1.45.2",
     "ts-node": "^10.3.0",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "vite": "^4.4.0"
   }
 }
