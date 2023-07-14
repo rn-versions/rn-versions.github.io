@@ -66,10 +66,7 @@ function nightlyDateHashVersionLabeler(version: string): string {
 }
 
 const isNightly = (v: string) => semver.lt(v, "0.0.0");
-const minVersion = (v: string, min: string) =>
-  semver.gte(v, `${min}.0`, {
-    includePrerelease: true,
-  });
+const minVersion = (v: string, min: string) => semver.gte(v, `${min}.0`);
 
 const packagesLiteral = {
   "react-native": {
