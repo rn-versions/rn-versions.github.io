@@ -12,7 +12,6 @@ import {
 } from "../styles/Themes";
 import { ThemeProvider } from "@fluentui/react";
 
-import type {} from "react/experimental";
 import usePersistentState from "../hooks/usePersistentState";
 import useSearchParamsState from "../hooks/useSearchParamsState";
 

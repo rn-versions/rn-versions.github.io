@@ -11,7 +11,6 @@ import { lightTheme } from "../styles/Themes";
 import useHistory from "../hooks/useHistory";
 import TooltipButton from "./TooltipButton";
 
-import type {} from "react/experimental";
 import React from "react";
 import usePersistentState from "../hooks/usePersistentState";
 
