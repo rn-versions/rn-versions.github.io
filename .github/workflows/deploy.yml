@@ -8,19 +8,32 @@ on:
 
 jobs:
   build-and-deploy:
+    name: Build and Deploy
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://rn-versions.github.io/
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: "18"
 
-      - run: yarn install
-      - run: yarn build
+      - name: Enable Corepack
+        run: corepack enable
 
-      - uses: JamesIves/github-pages-deploy-action@4.1.5
+      - name: Install dependencies
+        run: yarn --immutable
+
+      - name: Run build
+        run: yarn build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: build
