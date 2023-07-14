@@ -4,11 +4,7 @@ import type { ITooltipHostProps, IButtonProps } from "@fluentui/react";
 
 import { IconButton } from "@fluentui/react";
 
-const tooltipImport = import(
-  /* webpackChunkName: "Tooltip" */
-  /* webpackPreload: true */
-  "@fluentui/react/lib/components/Tooltip"
-);
+const tooltipImport = import("@fluentui/react/lib/components/Tooltip");
 
 const TooltipHost = React.lazy(async () => ({
   default: (await tooltipImport).TooltipHost,
