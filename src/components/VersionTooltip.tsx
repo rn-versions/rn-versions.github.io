@@ -8,6 +8,18 @@ import { colorForHue } from "../chartColor";
 
 type DateTooltipProps = TooltipProps<number, number>;
 
+const formatPercentage = new Intl.NumberFormat("en-US", {
+  style: "percent",
+  maximumFractionDigits: 2,
+  minimumFractionDigits: 2,
+}).format;
+
+const formatRoundedPercentage = new Intl.NumberFormat("en-US", {
+  style: "percent",
+  maximumFractionDigits: 0,
+  minimumFractionDigits: 0,
+}).format;
+
 function formatCount(
   count: number,
   entry: Payload<number, number>,
@@ -19,12 +31,12 @@ function formatCount(
 
   const totalCount = Object.values(versionCounts).reduce((a, b) => a + b, 0);
 
-  const pct = ((count as number) / totalCount) * 100;
+  const pct = count / totalCount;
 
   if (measurementTransform === "percentage") {
-    return `${Math.round(pct * 100) / 100}%`;
+    return formatPercentage(pct);
   } else {
-    return `${count.toLocaleString()} (${Math.round(pct)}%)`;
+    return `${count.toLocaleString()} (${formatRoundedPercentage(pct)})`;
   }
 }
 
