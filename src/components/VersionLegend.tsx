@@ -38,33 +38,37 @@ const VersionLegend: React.FC<VersionLegendProps> = ({
                   )
                 : color!;
 
+              function toggleHiddenSeries() {
+                setHiddenSeries(() =>
+                  isHidden
+                    ? hiddenSeries.filter((key: string) => key !== value)
+                    : hiddenSeries.concat(value)
+                );
+              }
+
               return (
-                <li
-                  key={value}
-                  className={styles.versionsListItem}
-                  onClick={() =>
-                    setHiddenSeries(() =>
-                      isHidden
-                        ? hiddenSeries.filter((key: string) => key !== value)
-                        : hiddenSeries.concat(value)
-                    )
-                  }
-                >
-                  <div
-                    className={styles.versionColorIndicator}
-                    style={{ backgroundColor: colorChipColor }}
-                  />
-                  <Text
-                    variant="small"
-                    className={styles.versionLabel}
-                    style={
-                      isHidden
-                        ? { color: theme?.semanticColors.buttonTextDisabled }
-                        : {}
-                    }
+                <li key={value} className={styles.versionsListItem}>
+                  <button
+                    className={styles.versionButton}
+                    onClick={toggleHiddenSeries}
+                    type="button"
                   >
-                    {value}
-                  </Text>
+                    <div
+                      className={styles.versionColorIndicator}
+                      style={{ backgroundColor: colorChipColor }}
+                    />
+                    <Text
+                      variant="small"
+                      className={styles.versionLabel}
+                      style={
+                        isHidden
+                          ? { color: theme?.semanticColors.buttonTextDisabled }
+                          : {}
+                      }
+                    >
+                      {value}
+                    </Text>
+                  </button>
                 </li>
               );
             })}
