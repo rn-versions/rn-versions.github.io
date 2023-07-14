@@ -25,7 +25,6 @@
   height: 100%;
   width: 100%;
   padding: 0 40px;
-
 }
 
 .shimmerRoot {
@@ -52,7 +51,6 @@
   justify-content: flex-start;
 }
 
-
 @mixin header-clearance-area {
   flex-grow: 1;
   flex-basis: 100px;
@@ -69,11 +67,11 @@
 
   .headerLeft {
     display: none;
-   }
+  }
 
   .header {
-     padding: 5px 20px;
-   }
+    padding: 5px 20px;
+  }
 
   .headerText {
     text-align: start;
@@ -91,7 +89,7 @@
 
   .headerLeft {
     @include header-clearance-area();
-   }
+  }
 
   .header {
     padding: 5px 20px;
@@ -138,7 +136,7 @@
 }
 
 .invisibleChart {
-  opacity: 0
+  opacity: 0;
 }
 
 .visibleChart {
