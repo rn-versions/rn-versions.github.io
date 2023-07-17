@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-right: 24px
+  margin-right: 24px;
 }
 
 .nav {
@@ -102,7 +102,7 @@ $navItemHeight: 44px;
   }
 }
 
-@include ms-screen-lg-up () {
+@include ms-screen-lg-up() {
   $navWidth: 40px;
   .navContent {
     padding: 0 $navWidth;
