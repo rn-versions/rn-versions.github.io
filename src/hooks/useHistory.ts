@@ -7,17 +7,17 @@ export default function useHistory(
   identifier: PackageIdentifier,
   versionFilter: VersionFilter
 ): HistoryPointCollection | undefined {
-  const [hisoryReaderRequests, setHistoryReaderRequests] = useState<
+  const [historyReaderRequests, setHistoryReaderRequests] = useState<
     Partial<Record<PackageIdentifier, Promise<HistoryReader>>>
   >({});
-  const [hisoryReaders, setHistoryReaders] = useState<
+  const [historyReaders, setHistoryReaders] = useState<
     Partial<Record<PackageIdentifier, HistoryReader>>
   >({});
 
   useEffect(() => {
-    if (!hisoryReaderRequests[identifier]) {
+    if (!historyReaderRequests[identifier]) {
       const req = HistoryReader.get(identifier).then((reader) => {
-        setHistoryReaders({ ...hisoryReaders, [identifier]: reader });
+        setHistoryReaders({ ...historyReaders, [identifier]: reader });
         return reader;
       });
 
@@ -26,9 +26,9 @@ export default function useHistory(
         [identifier]: req,
       });
     }
-  }, [hisoryReaderRequests, identifier, hisoryReaders]);
+  }, [historyReaderRequests, identifier, historyReaders]);
 
   return useMemo(() => {
-    return hisoryReaders[identifier]?.getDatePoints(versionFilter);
-  }, [hisoryReaders, identifier, versionFilter]);
+    return historyReaders[identifier]?.getDatePoints(versionFilter);
+  }, [historyReaders, identifier, versionFilter]);
 }
