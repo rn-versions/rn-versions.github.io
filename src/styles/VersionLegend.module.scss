@@ -16,12 +16,20 @@
 }
 
 .versionsListItem {
-  height: 1.5em;
-  padding: 0;
+  display: block;
+}
+
+.versionButton {
   display: flex;
   align-items: center;
+  height: 1.5em;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
   cursor: pointer;
   user-select: none;
+  font: inherit;
 
   &:hover {
     opacity: 0.8;
