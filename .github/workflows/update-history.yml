@@ -1,34 +1,53 @@
 name: Update Version History
+
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '0 3 * * *' #  3AM UTC (8PM PST)
+    - cron: "0 3 * * *" # 3AM UTC (8PM PST)
+
 jobs:
- update-history:
+  update-history:
+    name: Update Version History
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://rn-versions.github.io/
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: "18"
 
-      - run: yarn install
+      - name: Enable Corepack
+        run: corepack enable
 
-      - run: yarn update-history
-        continue-on-error: true        
+      - name: Install dependencies
+        run: yarn --immutable
 
-      - run: git config --global user.email "92769335+rn-versions@users.noreply.github.com"
-      - run: git config --global user.name "History Update Workflow"
+      - name: Update Version History
+        run: yarn update-history
+        continue-on-error: true
 
-      - run: git add --all
-      - run: git commit -m "Update Version History"
-      - run: git push
+      - name: Configure Git
+        run: |
+          git config --global user.email "92769335+rn-versions@users.noreply.github.com"
+          git config --global user.name "History Update Workflow"
 
-      - run: yarn build
+      - name: Commit and push
+        run: |
+          git add --all
+          git commit -m "Update Version History"
+          git push
 
-      - uses: JamesIves/github-pages-deploy-action@4.1.5
+      - name: Run build
+        run: yarn build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: build
