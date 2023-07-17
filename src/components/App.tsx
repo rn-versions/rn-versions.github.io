@@ -1,4 +1,4 @@
-import { useDeferredValue, useState } from "react";
+import { useDeferredValue } from "react";
 import styles from "../styles/App.module.scss";
 import PackageCard, { VersionFilter } from "./PackageCard";
 
@@ -14,6 +14,7 @@ import { ThemeProvider } from "@fluentui/react";
 
 import type {} from "react/experimental";
 import usePersistentState from "../hooks/usePersistentState";
+import useSearchParamsState from "../hooks/useSearchParamsState";
 
 const navItems: NavPivotItem<VersionFilter>[] = [
   { label: "Major", key: "major" },
@@ -22,7 +23,10 @@ const navItems: NavPivotItem<VersionFilter>[] = [
 ];
 
 function App() {
-  const [versionFilter, setVersionFilter] = useState<VersionFilter>("major");
+  const [versionFilter, setVersionFilter] = useSearchParamsState<VersionFilter>(
+    "versionFilter",
+    "major"
+  );
   const [darkMode, setDarkMode] = usePersistentState(
     "App.darkMode",
     window.matchMedia("(prefers-color-scheme: dark)").matches
