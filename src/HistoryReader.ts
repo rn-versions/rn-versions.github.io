@@ -7,14 +7,18 @@ export type HistoryPointCollection = {
 };
 
 type HistoryFile = {
-  epoch: number;
   versions: string[];
-  points: HistoryPoint[];
+  points: RawHistoryPoint[];
+};
+
+type RawHistoryPoint = {
+  date: number;
+  versionCounts: Record<string, number | undefined> | number[];
 };
 
 export type HistoryPoint = {
   date: number;
-  versionCounts: { [version: string]: number | undefined };
+  versionCounts: Record<string, number | undefined>;
 };
 
 type FlattenedPoint = { date: number; version: string; count: number };
@@ -41,16 +45,26 @@ export default class HistoryReader {
 
     for (const filePoint of historyFile.points) {
       const historyPoint: HistoryPoint = {
-        date: historyFile.epoch + filePoint.date * 1000,
+        date: filePoint.date * 1000,
         versionCounts: {},
       };
 
-      for (const [versionIndex, count] of Object.entries(
-        filePoint.versionCounts
-      )) {
-        historyPoint.versionCounts[
-          historyFile.versions[parseInt(versionIndex, 10)]
-        ] = count;
+      if (Array.isArray(filePoint.versionCounts)) {
+        for (const [versionIndex, count] of filePoint.versionCounts.entries()) {
+          const versionName = historyFile.versions[versionIndex];
+
+          if (count !== -1) {
+            historyPoint.versionCounts[versionName] = count;
+          }
+        }
+      } else {
+        for (const [versionIndex, count] of Object.entries(
+          filePoint.versionCounts
+        )) {
+          const versionName = historyFile.versions[parseInt(versionIndex, 10)];
+
+          historyPoint.versionCounts[versionName] = count;
+        }
       }
 
       history.points.push(historyPoint);
