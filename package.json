@@ -12,7 +12,9 @@
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "generate-assets": "ts-node --transpile-only ./scripts/generateAssets.ts",
-    "update-history": "ts-node --transpile-only ./scripts/updateHistory.ts"
+    "update-history": "ts-node --transpile-only ./scripts/updateHistory.ts",
+    "tsc": "tsc --noEmit",
+    "test": "yarn lint && yarn prettier && yarn tsc"
   },
   "dependencies": {
     "@fluentui/react": "^8.48.1",
