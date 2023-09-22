@@ -37,6 +37,8 @@ jobs:
 
       - name: Install dependencies
         run: yarn --immutable
+        env:
+          HUSKY: 0
 
       - name: Update Version History
         run: yarn update-history

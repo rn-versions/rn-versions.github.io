@@ -34,6 +34,8 @@ jobs:
 
       - name: Install dependencies
         run: yarn --immutable
+        env:
+          HUSKY: 0
 
       - name: Run tests
         run: yarn lint
@@ -66,6 +68,8 @@ jobs:
 
       - name: Install dependencies
         run: yarn --immutable
+        env:
+          HUSKY: 0
 
       - name: Prettier
         run: yarn prettier
@@ -98,6 +102,8 @@ jobs:
 
       - name: Install dependencies
         run: yarn --immutable
+        env:
+          HUSKY: 0
 
       - name: Run type checking
         run: yarn tsc
