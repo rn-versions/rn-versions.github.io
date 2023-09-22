@@ -736,10 +736,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^12.0.0":
-  version: 12.20.41
-  resolution: "@types/node@npm:12.20.41"
-  checksum: ff90d10f9831e86abf1f17581a70a81e5b6c3be97ec0b02972e6c3201fd19a40f6b230d4346ef7aaf023f24fef07a2131aeb68773ef3b14c3a17da8fbe05e439
+"@types/node@npm:^18.0.0":
+  version: 18.17.18
+  resolution: "@types/node@npm:18.17.18"
+  checksum: 59cbd906363d37017fe9ba0c08c1446e440d4d977459609c5f90b8fb7eb41f273ce8af30c5a5b5d599d7de934c1b3702bc9fc27caf8d2270e5cdb659c5232991
   languageName: node
   linkType: hard
 
@@ -4017,7 +4017,7 @@ __metadata:
   dependencies:
     "@fluentui/react": ^8.110.0
     "@fluentui/react-icons-mdl2": ^1.3.47
-    "@types/node": ^12.0.0
+    "@types/node": ^18.0.0
     "@types/react": ^18.0.0
     "@types/react-dom": ^18.0.0
     "@types/seedrandom": ^3.0.2
