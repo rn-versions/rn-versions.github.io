@@ -1,12 +1,8 @@
 module.exports = {
-  extends: ["react-app", "prettier"],
+  extends: ["react-app"],
   ignorePatterns: ["/build"],
   env: {
     node: true,
-  },
-  plugins: ["prettier"],
-  rules: {
-    "prettier/prettier": "error",
   },
   overrides: [
     {
