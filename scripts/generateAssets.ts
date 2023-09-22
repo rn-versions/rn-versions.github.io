@@ -95,10 +95,13 @@ async function generateWebpageAssets() {
       );
 
       const versions = [...allVersions].sort(compareVersion);
-      const keyedPoints: (AssetHistoryPointAsObject  | AssetHistoryPointAsArray)[] = [];
+      const keyedPoints: (
+        | AssetHistoryPointAsObject
+        | AssetHistoryPointAsArray
+      )[] = [];
 
       for (const point of includedPoints) {
-        const newPoint: AssetHistoryPointAsObject  = {
+        const newPoint: AssetHistoryPointAsObject = {
           date: Math.round(point.date / 1000),
           versionCounts: {},
         };
@@ -112,8 +115,10 @@ async function generateWebpageAssets() {
          * to store versionCounts as an array instead.
          */
         const before = JSON.stringify(point.versionCounts);
-        const optimizedVersionCounts = Array.from<number>({ length: versions.length })
-          .map((_, i) => newPoint.versionCounts[i] ?? -1);
+        const optimizedVersionCounts = Array.from<number>({
+          length: versions.length,
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        }).map((_, i) => newPoint.versionCounts[i] ?? -1);
         const after = JSON.stringify(optimizedVersionCounts);
 
         if (after.length < before.length) {
@@ -149,7 +154,7 @@ async function generateWebpageAssets() {
 async function getDownloadCounts(
   pkg: PackageIdentifier,
   maxDaysOfHistory: number
-): Promise<AssetHistoryPointAsObject []> {
+): Promise<AssetHistoryPointAsObject[]> {
   let timepoints: string[];
 
   const pkgPath = pkg.replace("/", "_");
@@ -173,7 +178,7 @@ async function getDownloadCounts(
     (timepoint) => Date.parse(timepoint) >= earliestDate
   );
 
-  const history: AssetHistoryPointAsObject [] = [];
+  const history: AssetHistoryPointAsObject[] = [];
   for (const timepoint of allowableTimepoints) {
     history.push({
       date: Date.parse(timepoint),
@@ -191,10 +196,13 @@ async function getDownloadCounts(
 }
 
 function filterToAllowedVersions(
-  point: AssetHistoryPointAsObject ,
+  point: AssetHistoryPointAsObject,
   versionFilter: (version: string) => boolean
-): AssetHistoryPointAsObject  {
-  const newPoint: AssetHistoryPointAsObject  = { date: point.date, versionCounts: {} };
+): AssetHistoryPointAsObject {
+  const newPoint: AssetHistoryPointAsObject = {
+    date: point.date,
+    versionCounts: {},
+  };
   const sortedVersions = Object.keys(point.versionCounts)
     .filter(versionFilter)
     .sort(compareVersion);
@@ -272,7 +280,7 @@ async function fetchPublishTimes(
  * skip counting new packages until we know the data is reliable again.
  */
 function flattenEarlyMonthSpikes(
-  history: AssetHistoryPointAsObject [],
+  history: AssetHistoryPointAsObject[],
   publishTimes: Record<string, number>
 ): void {
   if (history.length <= 1) {
@@ -299,8 +307,8 @@ function flattenEarlyMonthSpikes(
  * Removes sampling points falling within known bad-dates
  */
 function filterBadDateRanges(
-  history: AssetHistoryPointAsObject []
-): AssetHistoryPointAsObject [] {
+  history: AssetHistoryPointAsObject[]
+): AssetHistoryPointAsObject[] {
   const badDateRanges = BAD_DATE_RANGES.map((range) => range.map(Date.parse));
   return history.filter(
     (point) =>
