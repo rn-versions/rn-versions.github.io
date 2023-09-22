@@ -130,9 +130,10 @@ const PackageCard: React.FC<PackageCardProps> = ({
 };
 
 const CardFrame: React.FC<{
-  theme: ITheme;
+  children: React.ReactNode;
   disabled: boolean;
-}> = ({ theme, disabled, children }) => {
+  theme: ITheme;
+}> = ({ children, disabled, theme }) => {
   return (
     <ThemeProvider
       className={
