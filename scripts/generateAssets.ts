@@ -3,8 +3,11 @@ import semver from "semver";
 
 import { promises as fs } from "fs";
 
-import { PackageIdentifier, packages } from "../src/PackageDescription";
-import createAxiosInstance from "./helper/createAxiosInstance";
+import createAxiosInstance from "./helper/createAxiosInstance.js";
+import { PackageIdentifier, packages } from "../src/PackageDescription.js";
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 type VersionIndex = string;
 
