@@ -17,6 +17,11 @@
   @include ms-depth-4;
 }
 
+.cardFrame:hover,
+.cardFrame:focus-within {
+  z-index: 1;
+}
+
 .silhouette {
   position: absolute;
   box-sizing: border-box;
