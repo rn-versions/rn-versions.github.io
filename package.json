@@ -13,6 +13,7 @@
     "postinstall": "husky install",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
+    "fetch-wayback-machine-history": "node --loader=ts-node/esm ./scripts/fetchWaybackMachineHistory.js",
     "generate-assets": "node --loader=ts-node/esm ./scripts/generateAssets.js",
     "update-history": "node --loader=ts-node/esm ./scripts/updateHistory.js",
     "tsc": "tsc --noEmit",
