@@ -41,6 +41,8 @@ const BAD_DATE_RANGES = [
   // A flat amount added to every download count creates an incorrect spike in
   // nightly usage
   ["2022-10-30Z", "2022-11-17"],
+  // NPM underreported downloads for a week
+  ["2023-09-16Z", "2023-09-23"],
 ];
 
 /** Global HTTP Client **/
