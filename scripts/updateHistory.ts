@@ -58,7 +58,7 @@ const axiosInstance = createAxiosInstance();
     }
   }
 
-  require("./generateAssets");
+  await import("./generateAssets.js");
 })();
 
 /**
