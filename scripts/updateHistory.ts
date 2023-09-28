@@ -7,9 +7,6 @@ import { promises as fs } from "fs";
 import createAxiosInstance from "./helper/createAxiosInstance.js";
 import { PackageIdentifier, packages } from "../src/PackageDescription.js";
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
-const __dirname = decodeURI(path.dirname(new URL(import.meta.url).pathname));
-
 type NpmApiStats = {
   package: string;
   downloads: Record<string, number>;
@@ -93,7 +90,7 @@ async function recordDownloadCountsFromApi(
  * Returns a path to the root of recorded history
  */
 function historyPath(...subpaths: string[]) {
-  return path.join(__dirname, "..", "history", ...subpaths);
+  return path.join("history", ...subpaths);
 }
 
 /**
