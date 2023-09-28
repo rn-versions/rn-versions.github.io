@@ -100,7 +100,8 @@ const packagesLiteral = {
   },
   expo: {
     friendlyName: "Expo",
-    versionFilter: (v: string) => minVersion(v, "38.0"),
+    versionFilter: (v: string) =>
+      v !== "0.1.0pre" && v !== "0.1.0pre2" && minVersion(v, "38.0"),
   },
   react: {
     friendlyName: "React",
