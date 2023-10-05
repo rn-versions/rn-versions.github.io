@@ -121,6 +121,13 @@ async function generateWebpageAssets() {
           length: versions.length,
           // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
         }).map((_, i) => newPoint.versionCounts[i] ?? -1);
+        // Trim trailing -1s
+        while (
+          optimizedVersionCounts.length > 0 &&
+          optimizedVersionCounts[optimizedVersionCounts.length - 1] === -1
+        ) {
+          optimizedVersionCounts.pop();
+        }
         const after = JSON.stringify(optimizedVersionCounts);
 
         if (after.length < before.length) {
