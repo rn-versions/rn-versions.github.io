@@ -44,8 +44,9 @@ export default class HistoryReader {
     };
 
     for (const filePoint of historyFile.points) {
+      const msInDay = 1000 * 60 * 60 * 24;
       const historyPoint: HistoryPoint = {
-        date: filePoint.date * 1000,
+        date: filePoint.date * msInDay,
         versionCounts: {},
       };
 

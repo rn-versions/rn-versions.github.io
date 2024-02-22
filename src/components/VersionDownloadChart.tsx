@@ -160,6 +160,20 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
     [filteredHistory, theme?.isInverted, versionHues, versionLabeler]
   );
 
+  const lastDateIndex = (filteredHistory?.points.length ?? 0) - 1;
+  const firstDate = filteredHistory?.points[0]?.date;
+  const lastDate = filteredHistory?.points[lastDateIndex]?.date;
+
+  const msInDay = 1000 * 60 * 60 * 24;
+  const ticks: number[] = [];
+  for (
+    let date = firstDate ?? 0;
+    date <= (lastDate ?? 0);
+    date += msInDay * (tickInterval ?? 7)
+  ) {
+    ticks.push(date);
+  }
+
   return (
     <div className={className}>
       <ResponsiveContainer {...styles.responsiveContainer}>
@@ -171,7 +185,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
         >
           <XAxis
             {...styles.xAxis}
-            interval={tickInterval}
+            ticks={ticks}
             dataKey="date"
             type="number"
             scale="time"

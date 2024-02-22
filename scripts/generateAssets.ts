@@ -104,13 +104,12 @@ async function generateWebpageAssets() {
 
       const lastDate = 0;
       for (const point of includedPoints) {
-        const msInDay = 1000 * 60 * 60 * 24;
-        if (point.date < lastDate + msInDay) {
+        if (point.date < lastDate + MS_IN_DAY) {
           continue;
         }
 
         const newPoint: AssetHistoryPointAsObject = {
-          date: Math.round(point.date / 1000),
+          date: Math.round(point.date / MS_IN_DAY),
           versionCounts: {},
         };
         for (const [version, count] of Object.entries(point.versionCounts)) {
