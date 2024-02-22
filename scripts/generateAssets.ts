@@ -28,7 +28,7 @@ type AssetHistoryPointAsArray = {
 const MAX_DAYS_OF_HISTORY = 375;
 
 /** Number of downloads needed before a version is included */
-const MIN_DOWNLOADS_REQUIRED = 10;
+const MIN_DOWNLOADS_REQUIRED = 100;
 
 /** milliseconds in a day */
 const MS_IN_DAY = 24 * 60 * 60 * 1000;
@@ -102,7 +102,13 @@ async function generateWebpageAssets() {
         | AssetHistoryPointAsArray
       )[] = [];
 
+      const lastDate = 0;
       for (const point of includedPoints) {
+        const msInDay = 1000 * 60 * 60 * 24;
+        if (point.date < lastDate + msInDay) {
+          continue;
+        }
+
         const newPoint: AssetHistoryPointAsObject = {
           date: Math.round(point.date / 1000),
           versionCounts: {},

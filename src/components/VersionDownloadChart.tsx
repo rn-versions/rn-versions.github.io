@@ -41,6 +41,11 @@ export type VersionDownloadChartProps = {
   maxDaysShown?: number;
 
   /**
+   * The number of days between ticks
+   */
+  tickInterval?: number;
+
+  /**
    * The maximum number of "popular" versions show (see below).
    */
   maxVersionsShown?: number;
@@ -97,6 +102,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   showTooltip,
   unit,
   versionLabeler,
+  tickInterval,
   theme,
   tooltipTheme,
 }) => {
@@ -165,7 +171,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
         >
           <XAxis
             {...styles.xAxis}
-            interval={(history?.points.length ?? 0) / 4}
+            interval={tickInterval}
             dataKey="date"
             type="number"
             scale="time"

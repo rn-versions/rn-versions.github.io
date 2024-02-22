@@ -38,6 +38,17 @@ function maxDays(versionFilter: VersionFilter) {
   }
 }
 
+function tickInterval(versionFilter: VersionFilter) {
+  switch (versionFilter) {
+    case "major":
+      return 60;
+    case "patch":
+      return 7;
+    case "prerelease":
+      return 7;
+  }
+}
+
 function popularDuring(versionFilter: VersionFilter): "most-recent" | "all" {
   switch (versionFilter) {
     case "major":
@@ -116,6 +127,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
             className={!disabled ? styles.visibleChart : styles.invisibleChart}
             history={dataIsReady ? history : undefined}
             maxDaysShown={maxDays(versionFilter)}
+            tickInterval={tickInterval(versionFilter) - 1}
             maxVersionsShown={maxVersionsShown ?? 4}
             popularDuring={popularDuring(versionFilter)}
             unit={showAsPercentage ? "percentage" : "totalDownloads"}

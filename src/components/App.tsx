@@ -33,6 +33,10 @@ function App() {
 
   const deferredVersionFilter = useDeferredValue(versionFilter);
 
+  const packagesByWeight = (Object.keys(packages) as PackageIdentifier[]).sort(
+    (a, b) => packages[b].popularity - packages[a].popularity
+  );
+
   return (
     <ThemeProvider
       theme={darkMode ? blackTheme : lightTheme}
@@ -49,9 +53,9 @@ function App() {
 
       <div className={styles.contentContainer}>
         <div className={styles.cardContainer}>
-          {Object.keys(packages).map((pkg) => (
+          {packagesByWeight.map((pkg) => (
             <PackageCard
-              identifier={pkg as PackageIdentifier}
+              identifier={pkg}
               versionFilter={deferredVersionFilter}
               key={pkg}
               theme={darkMode ? darkTheme : whiteTheme}

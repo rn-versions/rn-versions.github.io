@@ -100,8 +100,6 @@ export default class HistoryReader {
     packageIdentifier: PackageIdentifier
   ): Promise<HistoryFile> {
     switch (packageIdentifier) {
-      case "@types/react-native":
-        return import("./generated_assets/@types_react-native.json");
       case "react-native":
         return import("./generated_assets/react-native.json");
       case "react-native-macos":
@@ -209,6 +207,15 @@ export default class HistoryReader {
 
         if (!pointFound) {
           versionPoints.push({ date: point.date, count: point.count });
+        }
+      }
+
+      const dates = new Set(points.map((p) => p.date));
+      for (const date of dates) {
+        for (const version of versions) {
+          if (!pointsByMappedVersion[version]!.some((p) => p.date === date)) {
+            pointsByMappedVersion[version]!.push({ date, count: 0 });
+          }
         }
       }
 
