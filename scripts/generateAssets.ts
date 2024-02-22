@@ -38,8 +38,11 @@ const BAD_DATE_RANGES = [
   // A flat amount added to every download count creates an incorrect spike in
   // nightly usage
   ["2022-10-30Z", "2022-11-17"],
-  // NPM underreported downloads for a week
-  ["2023-09-16Z", "2023-09-23"],
+  // NPM underreported downloads
+  ["2023-09-16Z", "2023-09-27"],
+  ["2023-11-04Z", "2023-11-11"],
+  ["2024-02-07", "2024-02-10"],
+  ["2024-02-14Z", "2024-02-17"],
 ];
 
 /** Global HTTP Client **/
@@ -104,10 +107,6 @@ async function generateWebpageAssets() {
 
       const lastDate = 0;
       for (const point of includedPoints) {
-        if (point.date < lastDate + MS_IN_DAY) {
-          continue;
-        }
-
         const newPoint: AssetHistoryPointAsObject = {
           date: Math.round(point.date / MS_IN_DAY),
           versionCounts: {},
