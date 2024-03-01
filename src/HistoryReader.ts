@@ -111,6 +111,10 @@ export default class HistoryReader {
         return import("./generated_assets/react-native-web.json");
       case "react-native-windows":
         return import("./generated_assets/react-native-windows.json");
+      case "@callstack/react-native-visionos":
+        return import(
+          "./generated_assets/@callstack_react-native-visionos.json"
+        );
       case "expo":
         return import("./generated_assets/expo.json");
       case "react":

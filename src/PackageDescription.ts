@@ -76,6 +76,11 @@ const packagesLiteral = {
     versionFilter: (v: string) => minVersion(v, "17.0") || isNightly(v),
     versionLabeler: (v: string) => (v === "0.0" ? "experimental" : v),
   },
+  "@callstack/react-native-visionos": {
+    friendlyName: "React Native visionOS",
+    popularity: 2_100,
+    versionFilter: (v: string) => minVersion(v, "0.73"),
+  },
 };
 
 export const packages: Record<PackageIdentifier, PackageDescription> =
