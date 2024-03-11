@@ -1,0 +1,1 @@
+const s=["0.73.6","0.73.7"],o=[{date:19784,versionCounts:[112]},{date:19785,versionCounts:[131]},{date:19786,versionCounts:[145]},{date:19787,versionCounts:[145]},{date:19788,versionCounts:[118]},{date:19789,versionCounts:[107]},{date:19792,versionCounts:[-1,172]},{date:19793,versionCounts:[-1,202]}],t={versions:s,points:o};export{t as default,o as points,s as versions};
