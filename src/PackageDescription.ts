@@ -81,6 +81,11 @@ const packagesLiteral = {
     popularity: 2_100,
     versionFilter: (v: string) => minVersion(v, "0.73"),
   },
+  "yoga-layout": {
+    friendlyName: "Yoga Layout",
+    popularity: 130_000,
+    versionFilter: () => true,
+  },
 };
 
 export const packages: Record<PackageIdentifier, PackageDescription> =

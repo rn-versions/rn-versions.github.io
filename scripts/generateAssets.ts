@@ -105,7 +105,6 @@ async function generateWebpageAssets() {
         | AssetHistoryPointAsArray
       )[] = [];
 
-      const lastDate = 0;
       for (const point of includedPoints) {
         const newPoint: AssetHistoryPointAsObject = {
           date: Math.round(point.date / MS_IN_DAY),

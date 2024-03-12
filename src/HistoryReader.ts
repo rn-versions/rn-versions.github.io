@@ -119,6 +119,8 @@ export default class HistoryReader {
         return import("./generated_assets/expo.json");
       case "react":
         return import("./generated_assets/react.json");
+      case "yoga-layout":
+        return import("./generated_assets/yoga-layout.json");
     }
   }
 
