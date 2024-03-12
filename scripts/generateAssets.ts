@@ -110,6 +110,11 @@ async function generateWebpageAssets() {
           date: Math.round(point.date / MS_IN_DAY),
           versionCounts: {},
         };
+
+        if (keyedPoints[keyedPoints.length - 1]?.date == newPoint.date) {
+          keyedPoints.pop();
+        }
+
         for (const [version, count] of Object.entries(point.versionCounts)) {
           const key = versions.indexOf(version.toString());
           newPoint.versionCounts[key] = count;
