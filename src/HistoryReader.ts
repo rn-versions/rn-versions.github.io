@@ -119,6 +119,10 @@ export default class HistoryReader {
         return import("./generated_assets/expo.json");
       case "react":
         return import("./generated_assets/react.json");
+      case "react-dom":
+        return import("./generated_assets/react-dom.json");
+      case "babel-plugin-react-compiler":
+        return import("./generated_assets/babel-plugin-react-compiler.json");
       case "yoga-layout":
         return import("./generated_assets/yoga-layout.json");
     }
