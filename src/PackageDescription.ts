@@ -72,8 +72,20 @@ const packagesLiteral = {
   },
   react: {
     friendlyName: "React",
-    popularity: 17_840_000,
-    versionFilter: (v: string) => minVersion(v, "17.0") || isNightly(v),
+    popularity: 38_000_000,
+    versionFilter: (v: string) => minVersion(v, "15.0") || isNightly(v),
+    versionLabeler: (v: string) => (v === "0.0" ? "experimental" : v),
+  },
+  "react-dom": {
+    friendlyName: "React DOM",
+    popularity: 36_800_000,
+    versionFilter: (v: string) => minVersion(v, "15.0") || isNightly(v),
+    versionLabeler: (v: string) => (v === "0.0" ? "experimental" : v),
+  },
+  "babel-plugin-react-compiler": {
+    friendlyName: "React Compiler",
+    popularity: 630_000,
+    versionFilter: (v: string) => minVersion(v, "18.0") || isNightly(v),
     versionLabeler: (v: string) => (v === "0.0" ? "experimental" : v),
   },
   "@callstack/react-native-visionos": {
