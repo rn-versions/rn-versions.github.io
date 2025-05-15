@@ -38,10 +38,10 @@ function maxDays(versionFilter: VersionFilter) {
   }
 }
 
-function tickInterval(versionFilter: VersionFilter) {
+function tickInterval(versionFilter: VersionFilter): "month" | number {
   switch (versionFilter) {
     case "major":
-      return 60;
+      return "month";
     case "patch":
       return 7;
     case "prerelease":

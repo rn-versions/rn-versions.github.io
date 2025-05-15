@@ -41,9 +41,9 @@ export type VersionDownloadChartProps = {
   maxDaysShown?: number;
 
   /**
-   * The number of days between ticks
+   * The number of days between ticks. Or "month" for ticks at the start of each month.
    */
-  tickInterval?: number;
+  tickInterval?: number | "month";
 
   /**
    * The maximum number of "popular" versions show (see below).
@@ -102,7 +102,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   showTooltip,
   unit,
   versionLabeler,
-  tickInterval,
+  tickInterval = 7,
   theme,
   tooltipTheme,
 }) => {
@@ -164,14 +164,28 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   const firstDate = filteredHistory?.points[0]?.date;
   const lastDate = filteredHistory?.points[lastDateIndex]?.date;
 
-  const msInDay = 1000 * 60 * 60 * 24;
   const ticks: number[] = [];
-  for (
-    let date = firstDate ?? 0;
-    date <= (lastDate ?? 0);
-    date += msInDay * (tickInterval ?? 7)
-  ) {
-    ticks.push(date);
+  if (tickInterval === "month") {
+    if (firstDate && lastDate) {
+      const currentDate = new Date(firstDate);
+      currentDate.setMonth(currentDate.getMonth() + 1);
+      currentDate.setDate(1);
+      currentDate.setHours(0, 0, 0, 0);
+
+      while (+currentDate <= lastDate) {
+        ticks.push(currentDate.getTime());
+        currentDate.setMonth(currentDate.getMonth() + 1);
+      }
+    }
+  } else {
+    const msInDay = 1000 * 60 * 60 * 24;
+    for (
+      let date = firstDate ?? 0;
+      date <= (lastDate ?? 0);
+      date += msInDay * tickInterval
+    ) {
+      ticks.push(date);
+    }
   }
 
   return (
@@ -191,10 +205,18 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
             scale="time"
             domain={["dataMin", "dataMax"]}
             tickFormatter={(unixTime) =>
-              new Date(unixTime).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-              })
+              new Date(unixTime).toLocaleDateString(
+                "en-US",
+                tickInterval === "month"
+                  ? {
+                      month: "short",
+                      year: "numeric",
+                    }
+                  : {
+                      month: "short",
+                      day: "numeric",
+                    }
+              )
             }
           />
           <YAxis
