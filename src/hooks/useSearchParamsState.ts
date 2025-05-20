@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-export default function useSearchParamsState<T extends string>(
+export default function useSearchParamsState<T extends string | null>(
   storageKey: string,
   defaultValue: T
 ) {
@@ -13,7 +13,11 @@ export default function useSearchParamsState<T extends string>(
   const setAndPersistState = useCallback(
     (newState: T) => {
       const url = new URL(window.location.href);
-      url.searchParams.set(storageKey, newState);
+      if (newState === null) {
+        url.searchParams.delete(storageKey);
+      } else {
+        url.searchParams.set(storageKey, newState);
+      }
       window.history.replaceState({}, "", url.href);
       setState(newState);
     },
