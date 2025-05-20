@@ -1,9 +1,12 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "lib": ["esnext"],
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "target": "esnext"
-  }
+    "target": "esnext",
+    "verbatimModuleSyntax": true
+  },
+  "exclude": []
 }

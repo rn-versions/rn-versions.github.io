@@ -1,11 +1,11 @@
 import axios from "axios";
 import rateLimit, {
-  RateLimitedAxiosInstance,
-  rateLimitOptions as RateLimitOptions,
+  type RateLimitedAxiosInstance,
+  type rateLimitOptions as RateLimitOptions,
 } from "axios-rate-limit";
 import axiosRetry, {
   isNetworkOrIdempotentRequestError,
-  IAxiosRetryConfig,
+  type IAxiosRetryConfig,
 } from "axios-retry";
 
 /**
