@@ -3,13 +3,18 @@ import styles from "../styles/PackageCard.module.scss";
 
 import { Text, ThemeProvider, ITheme, Shimmer } from "@fluentui/react";
 
-import { CalculatorPercentageIcon } from "@fluentui/react-icons-mdl2";
+import {
+  CalculatorPercentageIcon,
+  FullScreenIcon,
+} from "@fluentui/react-icons-mdl2";
 
 import { PackageIdentifier, packages } from "../PackageDescription";
 
 import { lightTheme } from "../styles/Themes";
-import useHistory from "../hooks/useHistory";
 import TooltipButton from "./TooltipButton";
+
+import useHistory from "../hooks/useHistory";
+import useSearchParamsState from "../hooks/useSearchParamsState";
 
 import React from "react";
 import usePersistentState from "../hooks/usePersistentState";
@@ -82,6 +87,19 @@ const PackageCard: React.FC<PackageCardProps> = ({
     showAsPercentageKey,
     false
   );
+  const [fullScreenKey, setFullScreenKey] = useSearchParamsState<string | null>(
+    "fullScreen",
+    null
+  );
+  const fullScreen = fullScreenKey === identifier;
+
+  const setFullScreen = (value: boolean) => {
+    if (value) {
+      setFullScreenKey(identifier);
+    } else {
+      setFullScreenKey(null);
+    }
+  };
 
   const history = useHistory(identifier, versionFilter);
   const packageDesc = packages[identifier];
@@ -99,6 +117,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
     <CardFrame
       theme={theme ?? lightTheme}
       disabled={history?.points.length === 0}
+      fullScreen={fullScreen}
     >
       <div className={styles.header}>
         <div className={styles.headerLeft} />
@@ -110,13 +129,22 @@ const PackageCard: React.FC<PackageCardProps> = ({
         </div>
         <div className={styles.headerControls}>
           <TooltipButton
-            toggle
-            content="Show as percentage"
             aria-label="Show as percentage"
-            disabled={disabled}
-            onRenderIcon={() => <CalculatorPercentageIcon />}
             checked={showAsPercentage}
+            content="Show as percentage"
+            disabled={disabled}
             onClick={() => setShowAsPercentage(!showAsPercentage)}
+            onRenderIcon={() => <CalculatorPercentageIcon />}
+            toggle
+          />
+          <TooltipButton
+            aria-label="Show full screen"
+            checked={fullScreen}
+            content="Show full screen"
+            disabled={disabled}
+            onClick={() => setFullScreen(!fullScreen)}
+            onRenderIcon={() => <FullScreenIcon />}
+            toggle
           />
         </div>
       </div>
@@ -125,15 +153,16 @@ const PackageCard: React.FC<PackageCardProps> = ({
           {!dataIsReady && <ChartFallback />}
           <VersionDownloadChart
             className={!disabled ? styles.visibleChart : styles.invisibleChart}
+            fullScreen={fullScreen}
             history={dataIsReady ? history : undefined}
             maxDaysShown={maxDays(versionFilter)}
-            tickInterval={tickInterval(versionFilter)}
             maxVersionsShown={maxVersionsShown ?? 4}
             popularDuring={popularDuring(versionFilter)}
+            theme={theme}
+            tickInterval={tickInterval(versionFilter)}
+            tooltipTheme={tooltipTheme}
             unit={showAsPercentage ? "percentage" : "totalDownloads"}
             versionLabeler={packageDesc.versionLabeler}
-            theme={theme}
-            tooltipTheme={tooltipTheme}
           />
         </Suspense>
       </div>
@@ -144,15 +173,14 @@ const PackageCard: React.FC<PackageCardProps> = ({
 const CardFrame: React.FC<{
   children: React.ReactNode;
   disabled: boolean;
+  fullScreen?: boolean;
   theme: ITheme;
-}> = ({ children, disabled, theme }) => {
+}> = ({ children, disabled, fullScreen, theme }) => {
   return (
     <ThemeProvider
-      className={
-        disabled
-          ? `${styles.cardFrame} ${styles.disabledCardFrame}`
-          : styles.cardFrame
-      }
+      className={`${styles.cardFrame} ${
+        disabled ? styles.disabledCardFrame : ""
+      } ${fullScreen ? styles.fullScreenCardFrame : ""}`}
       theme={theme}
     >
       <div
