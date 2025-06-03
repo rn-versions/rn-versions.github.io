@@ -110,6 +110,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
   const [legendElement, setLegendElement] = useState<HTMLDivElement>();
   const [hiddenSeries, setHiddenSeries] = useState<string[]>([]);
+  const [hoveredVersion, setHoveredVersion] = useState<string | null>(null);
 
   const filteredHistory = React.useMemo(
     () =>
@@ -240,6 +241,7 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
                 versionHues,
                 unit,
                 theme: tooltipTheme,
+                hoveredVersion,
               })}
             />
           )}
@@ -277,6 +279,9 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
               stackId="1"
               fill={fill}
               fillOpacity={1}
+              onMouseEnter={() => {
+                setHoveredVersion(name);
+              }}
             />
           ))}
 
