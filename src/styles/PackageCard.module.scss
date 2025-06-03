@@ -22,6 +22,22 @@
   z-index: 1;
 }
 
+.disabledCardFrame {
+  opacity: 0.6;
+}
+
+.fullScreenCardFrame {
+  max-width: unset;
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+}
+
+.fullScreenCardFrame:hover,
+.fullScreenCardFrame:focus-within {
+  z-index: 10000;
+}
+
 .silhouette {
   position: absolute;
   box-sizing: border-box;
@@ -45,7 +61,6 @@
 }
 
 .disabledContentWrapper {
-  opacity: 0.6;
 }
 
 .cardContent {
@@ -129,6 +144,8 @@
 }
 
 .chartContainer {
+  max-height: 100%;
+  overflow: hidden;
   flex-grow: 1;
 
   display: flex;
@@ -146,4 +163,5 @@
 
 .visibleChart {
   @include ms-motion-fadeIn;
+  height: 100%;
 }
