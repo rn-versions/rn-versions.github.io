@@ -13,10 +13,10 @@ module.exports = {
       files: ["*.ts", "*.tsx"],
       excludedFiles: ["*.d.ts"],
       parser: "@typescript-eslint/parser",
-      plugins: ["@typescript-eslint/eslint-plugin"],
       parserOptions: {
-        project: "./tsconfig.json",
+        project: ["./tsconfig.json", "./scripts/tsconfig.json"],
       },
+      plugins: ["@typescript-eslint/eslint-plugin"],
       rules: {
         "@typescript-eslint/await-thenable": "error",
         "@typescript-eslint/ban-tslint-comment": "error",
