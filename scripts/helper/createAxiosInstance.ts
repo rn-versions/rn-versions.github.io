@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios, { type AxiosStatic } from "axios";
 import rateLimit, {
-  RateLimitedAxiosInstance,
-  rateLimitOptions as RateLimitOptions,
+  type RateLimitedAxiosInstance,
+  type rateLimitOptions as RateLimitOptions,
 } from "axios-rate-limit";
 import axiosRetry, {
   isNetworkOrIdempotentRequestError,
-  IAxiosRetryConfig,
+  type IAxiosRetryConfig,
 } from "axios-retry";
 
 /**
@@ -36,11 +36,17 @@ export default function createAxiosInstance(): RateLimitedAxiosInstance {
     maxRPS: 2,
   };
 
-  const axiosClient = axios.create();
+  // @FIXME: Legacy version of axios does not play well with verbatim types
+  const axiosClient = (axios as unknown as AxiosStatic).create();
 
   axiosClient.defaults.headers.common["User-Agent"] =
     "React Native Version Tracker";
 
   axiosRetry(axiosClient, axiosRetryConfig);
-  return rateLimit(axiosClient, axiosRateLimitOptions);
+
+  // @FIXME: Legacy version of axios-rate-limit does not play well with verbatim types
+  return (rateLimit as unknown as typeof import("axios-rate-limit").default)(
+    axiosClient,
+    axiosRateLimitOptions
+  );
 }
