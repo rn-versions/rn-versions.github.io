@@ -31,6 +31,11 @@ export type VersionDownloadChartProps = {
   className?: string;
 
   /**
+   * Whether to show the chart in full screen
+   */
+  fullScreen?: boolean;
+
+  /**
    * Points to render
    */
   history?: HistoryPointCollection;
@@ -94,17 +99,18 @@ export type VersionDownloadChartProps = {
 
 const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
   className,
+  fullScreen,
   history,
   maxDaysShown,
   maxVersionsShown,
   popularDuring,
   showLegend,
   showTooltip,
+  theme,
+  tickInterval = 7,
+  tooltipTheme,
   unit,
   versionLabeler,
-  tickInterval = 7,
-  theme,
-  tooltipTheme,
 }) => {
   const styles = styleProps({ theme, unit });
 
@@ -190,7 +196,11 @@ const VersionDownloadChart: React.FC<VersionDownloadChartProps> = ({
 
   return (
     <div className={className}>
-      <ResponsiveContainer {...styles.responsiveContainer}>
+      <ResponsiveContainer
+        {...styles[
+          fullScreen ? "responsiveContainerFullScreen" : "responsiveContainer"
+        ]}
+      >
         <AreaChart
           {...styles.areaChart}
           data={filteredHistory?.points}
