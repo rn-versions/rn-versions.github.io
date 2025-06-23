@@ -14,5 +14,5 @@
     "strictNullChecks": true,
     "target": "esnext"
   },
-  "exclude": ["build"]
+  "exclude": ["build", "scripts"]
 }
