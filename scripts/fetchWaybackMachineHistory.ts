@@ -2,8 +2,8 @@ import path from "path";
 
 import { promises as fs } from "fs";
 
-import createAxiosInstance from "./helper/createAxiosInstance.js";
-import { PackageIdentifier, packages } from "../src/PackageDescription.js";
+import createAxiosInstance from "./helper/createAxiosInstance.ts";
+import { packages, type PackageIdentifier } from "../src/PackageDescription.ts";
 
 type WaybackMachineStats = {
   archived_snapshots?: {

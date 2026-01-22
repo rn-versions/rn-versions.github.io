@@ -13,10 +13,10 @@
     "postinstall": "husky install",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "fetch-wayback-machine-history": "node --loader=ts-node/esm ./scripts/fetchWaybackMachineHistory.js",
-    "generate-assets": "node --loader=ts-node/esm ./scripts/generateAssets.js",
-    "update-history": "node --loader=ts-node/esm ./scripts/updateHistory.js",
-    "tsc": "tsc --noEmit",
+    "fetch-wayback-machine-history": "node ./scripts/fetchWaybackMachineHistory.ts",
+    "generate-assets": "node ./scripts/generateAssets.ts",
+    "update-history": "node ./scripts/updateHistory.ts",
+    "tsc": "tsc --noEmit && cd ./scripts && tsc --noEmit",
     "test": "yarn lint && yarn prettier && yarn tsc"
   },
   "dependencies": {
@@ -59,8 +59,7 @@
     "lint-staged": "^14.0.0",
     "prettier": "^2.0.0",
     "sass": "^1.45.2",
-    "ts-node": "^10.9.0",
-    "typescript": "^4.1.2",
+    "typescript": "^5.8.3",
     "vite": "^4.4.0"
   },
   "packageManager": "yarn@4.0.0"
