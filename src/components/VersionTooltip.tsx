@@ -59,11 +59,12 @@ export type VersionProps = {
   versionHues: Record<string, number>;
   unit?: Unit;
   theme?: ITheme;
+  hoveredVersion?: string | null;
 };
 
 export const VersionTooltipContent: React.FC<
   VersionProps & DateTooltipProps
-> = ({ label, payload, unit, versionHues, theme }) => {
+> = ({ label, payload, unit, versionHues, theme, hoveredVersion }) => {
   const reversedItems = [...(payload ?? [])];
   reversedItems.reverse();
 
@@ -91,11 +92,22 @@ export const VersionTooltipContent: React.FC<
                   <Text
                     variant="small"
                     className={styles.versionLabel}
-                    style={{ color: colorChipColor }}
+                    style={{
+                      color: colorChipColor,
+                      fontWeight:
+                        hoveredVersion === entry.name ? "bold" : "normal",
+                    }}
                   >
                     {entry.name}
                   </Text>
-                  <Text variant="small" className={styles.versionCount}>
+                  <Text
+                    variant="small"
+                    className={styles.versionCount}
+                    style={{
+                      fontWeight:
+                        hoveredVersion === entry.name ? "bold" : "normal",
+                    }}
+                  >
                     {formattedValue}
                   </Text>
                 </li>
