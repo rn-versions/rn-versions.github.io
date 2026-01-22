@@ -34,6 +34,7 @@ export type VersionDownloadChartStyle = (opts?: {
   };
   area: Pick<AreaProps, AnimationProps | DimensionProps>;
   responsiveContainer: Pick<ResponsiveContainerProps, DimensionProps>;
+  responsiveContainerFullScreen: Pick<ResponsiveContainerProps, DimensionProps>;
   grid: Pick<CartesianGridProps, DimensionProps | StrokeProps>;
   xAxis: Pick<XAxisProps, DimensionProps | PaddingProps | TickProps>;
   yAxis: Pick<YAxisProps, DimensionProps | PaddingProps | TickProps>;
@@ -54,6 +55,10 @@ const styles: VersionDownloadChartStyle = ({ theme, unit } = {}) => ({
   responsiveContainer: {
     width: "100%",
     height: 260,
+  },
+  responsiveContainerFullScreen: {
+    width: "100%",
+    height: "100%",
   },
   grid: {
     stroke: theme?.isInverted
