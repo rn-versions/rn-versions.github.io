@@ -13,9 +13,9 @@
     "postinstall": "husky install",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "fetch-wayback-machine-history": "node --experimental-strip-types ./scripts/fetchWaybackMachineHistory.ts",
-    "generate-assets": "node --experimental-strip-types ./scripts/generateAssets.ts",
-    "update-history": "node --experimental-strip-types ./scripts/updateHistory.ts",
+    "fetch-wayback-machine-history": "node ./scripts/fetchWaybackMachineHistory.ts",
+    "generate-assets": "node ./scripts/generateAssets.ts",
+    "update-history": "node ./scripts/updateHistory.ts",
     "tsc": "tsc --noEmit && cd ./scripts && tsc --noEmit",
     "test": "yarn lint && yarn prettier && yarn tsc"
   },
